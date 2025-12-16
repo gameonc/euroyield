@@ -1,0 +1,154 @@
+@import "tailwindcss";
+
+/* ========================================
+   EUROYIELD PREMIUM DESIGN SYSTEM
+   Bespoke Financial Aesthetic
+======================================== */
+
+@theme {
+  /* Core Colors */
+  --color-background: hsl(220 35% 97%);
+  /* Slight blue tint, not stark white */
+  --color-foreground: hsl(230 40% 15%);
+
+  /* Card & Surfaces - Warm/Human feel in light mode */
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(230 40% 15%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(230 40% 15%);
+
+  /* Primary - "Euro Blue" meets "Teal" */
+  --color-primary: hsl(173 80% 35%);
+  --color-primary-foreground: hsl(0 0% 100%);
+
+  /* Secondary */
+  --color-secondary: hsl(220 20% 92%);
+  --color-secondary-foreground: hsl(220 40% 20%);
+
+  /* Muted */
+  --color-muted: hsl(220 20% 94%);
+  --color-muted-foreground: hsl(220 15% 45%);
+
+  /* Accent */
+  --color-accent: hsl(220 20% 92%);
+  --color-accent-foreground: hsl(220 40% 20%);
+
+  /* Destructive */
+  --color-destructive: hsl(350 80% 55%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  /* Borders - Subtle */
+  --color-border: hsl(220 15% 90%);
+  --color-input: hsl(220 15% 90%);
+  --color-ring: hsl(173 80% 35%);
+
+  /* Radius - Tighter for financial look */
+  --radius: 0.35rem;
+  /* Tighter radius = more professional/table-like */
+
+  /* Fonts */
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Dark mode - The "Terminal" Look */
+.dark {
+  /* Deep Void Navy - Not Black, Not Gray */
+  --color-background: hsl(230 25% 6%);
+  --color-foreground: hsl(220 20% 90%);
+
+  /* Surfaces - Slightly Lighter Navy */
+  --color-card: hsl(230 25% 8.5%);
+  --color-card-foreground: hsl(220 20% 90%);
+  --color-popover: hsl(230 25% 8.5%);
+  --color-popover-foreground: hsl(220 20% 90%);
+
+  /* Primary - Glowing Emerald */
+  --color-primary: hsl(160 85% 45%);
+  --color-primary-foreground: hsl(230 40% 5%);
+
+  /* Secondary - Surface Highlight */
+  --color-secondary: hsl(230 20% 13%);
+  --color-secondary-foreground: hsl(220 20% 90%);
+
+  /* Muted */
+  --color-muted: hsl(230 20% 12%);
+  --color-muted-foreground: hsl(230 15% 50%);
+
+  /* Accent */
+  --color-accent: hsl(230 25% 15%);
+  --color-accent-foreground: hsl(220 20% 95%);
+
+  /* Destructive */
+  --color-destructive: hsl(350 90% 65%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  /* Borders - Very Subtle */
+  --color-border: hsl(230 20% 12%);
+  --color-input: hsl(230 20% 12%);
+  --color-ring: hsl(160 85% 45%);
+}
+
+/* Base styles */
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    /* Subtle noise texture for "film grain" feel */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  }
+
+  /* Use Outfit for headings */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+    /* Tighter layout for headings */
+  }
+}
+
+/* Financial Data Typography */
+.tabular-nums {
+  font-family: var(--font-sans);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+/* ========================================
+   CUSTOM UTILITIES
+======================================== */
+
+.bg-dot-pattern {
+  background-image: radial-gradient(hsl(var(--muted-foreground)/0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.dark .bg-dot-pattern {
+  background-image: radial-gradient(hsl(var(--muted-foreground)/0.05) 1px, transparent 1px);
+}
+
+/* Glassmorphism - Refined */
+.glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Container */
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 1200px;
+}

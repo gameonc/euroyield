@@ -1,0 +1,77 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0b"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg3)"/>
+
+  <!-- Shield icon -->
+  <g transform="translate(540, 100)">
+    <path d="M60,0 L120,30 L120,80 C120,130 90,170 60,190 C30,170 0,130 0,80 L0,30 Z" fill="#8b5cf6" opacity="0.2"/>
+    <path d="M60,0 L120,30 L120,80 C120,130 90,170 60,190 C30,170 0,130 0,80 L0,30 Z" stroke="#8b5cf6" stroke-width="3" fill="none"/>
+    <path d="M40,95 L55,110 L85,75" stroke="#8b5cf6" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Risk tag badges floating -->
+  <g transform="translate(200, 180)">
+    <!-- Low Risk -->
+    <rect x="0" y="0" width="140" height="44" rx="22" fill="#22c55e" opacity="0.15"/>
+    <rect x="0" y="0" width="140" height="44" rx="22" stroke="#22c55e" stroke-width="2" fill="none"/>
+    <circle cx="26" cy="22" r="8" fill="#22c55e"/>
+    <text x="80" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#22c55e" text-anchor="middle">Low Risk</text>
+  </g>
+
+  <g transform="translate(150, 250)">
+    <!-- Audited -->
+    <rect x="0" y="0" width="120" height="40" rx="20" fill="#3b82f6" opacity="0.15"/>
+    <rect x="0" y="0" width="120" height="40" rx="20" stroke="#3b82f6" stroke-width="2" fill="none"/>
+    <text x="60" y="26" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#3b82f6" text-anchor="middle">Audited</text>
+  </g>
+
+  <g transform="translate(860, 180)">
+    <!-- Medium Risk -->
+    <rect x="0" y="0" width="160" height="44" rx="22" fill="#f59e0b" opacity="0.15"/>
+    <rect x="0" y="0" width="160" height="44" rx="22" stroke="#f59e0b" stroke-width="2" fill="none"/>
+    <circle cx="26" cy="22" r="8" fill="#f59e0b"/>
+    <text x="95" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">Medium Risk</text>
+  </g>
+
+  <g transform="translate(900, 250)">
+    <!-- High TVL -->
+    <rect x="0" y="0" width="110" height="40" rx="20" fill="#14b8a6" opacity="0.15"/>
+    <rect x="0" y="0" width="110" height="40" rx="20" stroke="#14b8a6" stroke-width="2" fill="none"/>
+    <text x="55" y="26" font-family="system-ui, sans-serif" font-size="13" font-weight="600" fill="#14b8a6" text-anchor="middle">High TVL</text>
+  </g>
+
+  <g transform="translate(100, 320)">
+    <!-- Battle-tested -->
+    <rect x="0" y="0" width="150" height="40" rx="20" fill="#22c55e" opacity="0.1"/>
+    <rect x="0" y="0" width="150" height="40" rx="20" stroke="#22c55e" stroke-width="1" fill="none"/>
+    <text x="75" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#22c55e" text-anchor="middle">Battle-tested</text>
+  </g>
+
+  <g transform="translate(950, 320)">
+    <!-- Newer -->
+    <rect x="0" y="0" width="100" height="40" rx="20" fill="#ef4444" opacity="0.1"/>
+    <rect x="0" y="0" width="100" height="40" rx="20" stroke="#ef4444" stroke-width="1" fill="none"/>
+    <text x="50" y="26" font-family="system-ui, sans-serif" font-size="12" font-weight="500" fill="#ef4444" text-anchor="middle">Newer</text>
+  </g>
+
+  <!-- Title -->
+  <text x="600" y="430" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">Understanding DeFi Risk Tags</text>
+  <text x="600" y="480" font-family="system-ui, sans-serif" font-size="24" fill="#a1a1aa" text-anchor="middle">A Guide to Our Rating System</text>
+
+  <!-- Category badge -->
+  <rect x="530" y="505" width="140" height="36" rx="18" fill="#22c55e" opacity="0.2"/>
+  <rect x="530" y="505" width="140" height="36" rx="18" stroke="#22c55e" stroke-width="1" fill="none"/>
+  <text x="600" y="529" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#22c55e" text-anchor="middle">TUTORIALS</text>
+
+  <!-- Logo -->
+  <rect x="40" y="560" width="32" height="32" rx="4" fill="white"/>
+  <text x="56" y="584" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0a0a0b" text-anchor="middle">€</text>
+  <text x="90" y="582" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="white">EuroYield</text>
+</svg>

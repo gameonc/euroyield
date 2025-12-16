@@ -1,0 +1,75 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgMain" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0b"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accentMain" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#14b8a6"/>
+      <stop offset="100%" style="stop-color:#0d9488"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bgMain)"/>
+
+  <!-- Grid pattern -->
+  <g opacity="0.03">
+    <line x1="0" y1="0" x2="0" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="120" y1="0" x2="120" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="240" y1="0" x2="240" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="360" y1="0" x2="360" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="480" y1="0" x2="480" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="600" y1="0" x2="600" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="720" y1="0" x2="720" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="840" y1="0" x2="840" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="960" y1="0" x2="960" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="1080" y1="0" x2="1080" y2="630" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="63" x2="1200" y2="63" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="126" x2="1200" y2="126" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="189" x2="1200" y2="189" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="252" x2="1200" y2="252" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="315" x2="1200" y2="315" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="378" x2="1200" y2="378" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="441" x2="1200" y2="441" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="504" x2="1200" y2="504" stroke="white" stroke-width="1"/>
+    <line x1="0" y1="567" x2="1200" y2="567" stroke="white" stroke-width="1"/>
+  </g>
+
+  <!-- Large euro symbol background -->
+  <text x="900" y="400" font-family="system-ui, sans-serif" font-size="400" font-weight="bold" fill="#14b8a6" opacity="0.05">€</text>
+
+  <!-- Logo and branding -->
+  <g transform="translate(100, 200)">
+    <rect x="0" y="0" width="80" height="80" rx="12" fill="white"/>
+    <text x="40" y="58" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="#0a0a0b" text-anchor="middle">€</text>
+  </g>
+
+  <!-- Title -->
+  <text x="100" y="340" font-family="system-ui, sans-serif" font-size="72" font-weight="bold" fill="white">EuroYield</text>
+
+  <!-- Tagline -->
+  <text x="100" y="400" font-family="system-ui, sans-serif" font-size="32" fill="#a1a1aa">Euro Stablecoin Yield Intelligence</text>
+
+  <!-- Feature highlights -->
+  <g transform="translate(100, 450)">
+    <rect x="0" y="0" width="180" height="44" rx="22" fill="#14b8a6" opacity="0.15"/>
+    <rect x="0" y="0" width="180" height="44" rx="22" stroke="#14b8a6" stroke-width="1" fill="none"/>
+    <text x="90" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#14b8a6" text-anchor="middle">Real-time APYs</text>
+  </g>
+
+  <g transform="translate(200, 450)">
+    <rect x="0" y="0" width="150" height="44" rx="22" fill="#14b8a6" opacity="0.15"/>
+    <rect x="0" y="0" width="150" height="44" rx="22" stroke="#14b8a6" stroke-width="1" fill="none"/>
+    <text x="75" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#14b8a6" text-anchor="middle">Risk Tags</text>
+  </g>
+
+  <g transform="translate(370, 450)">
+    <rect x="0" y="0" width="160" height="44" rx="22" fill="#14b8a6" opacity="0.15"/>
+    <rect x="0" y="0" width="160" height="44" rx="22" stroke="#14b8a6" stroke-width="1" fill="none"/>
+    <text x="80" y="28" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#14b8a6" text-anchor="middle">Multi-Chain</text>
+  </g>
+
+  <!-- URL -->
+  <text x="100" y="570" font-family="system-ui, sans-serif" font-size="20" fill="#71717a">euroyield.app</text>
+</svg>

@@ -1,0 +1,155 @@
+---
+title: "Understanding DeFi Risk Tags: A Guide to Our Rating System"
+description: "Learn how EuroYield evaluates and categorizes DeFi protocol risks. Our transparent risk tagging system helps you make informed decisions."
+date: "2024-12-05"
+author: "EuroYield Team"
+category: "Tutorials"
+tags: ["risk", "safety", "tutorial", "ratings"]
+image: "/blog/risk-tags.svg"
+---
+
+One of EuroYield's core features is our risk tagging system. Unlike yield aggregators that only show APY, we believe understanding risk is equally important. Here's how our system works.
+
+## Why Risk Tags Matter
+
+<Callout type="warning">
+In DeFi, higher yields almost always mean higher risks. A 20% APY might look attractive until you understand you're exposed to smart contract bugs, oracle manipulation, or liquidity crises.
+</Callout>
+
+Our risk tags help you quickly assess:
+- How battle-tested is this protocol?
+- What's the audit status?
+- How concentrated is the risk?
+- What could go wrong?
+
+## Our Risk Categories
+
+### Protocol Risk
+
+This measures the inherent risk of the DeFi protocol itself.
+
+| Tag | Meaning | Examples |
+|-----|---------|----------|
+| **Battle-Tested** | 2+ years live, no major exploits | Aave, Compound, Curve |
+| **Established** | 1+ years, minor incidents only | Morpho, Angle |
+| **Newer** | Less than 1 year live | Emerging protocols |
+| **Experimental** | Novel mechanisms, limited track record | New yield strategies |
+
+<Callout type="info">
+Battle-tested doesn't mean risk-free. Even established protocols can have vulnerabilities. It means they've survived longer without major issues.
+</Callout>
+
+### Audit Status
+
+Smart contract audits are crucial for security assessment.
+
+| Tag | Meaning |
+|-----|---------|
+| **Multi-Audit** | Audited by 3+ reputable firms |
+| **Audited** | Audited by 1-2 reputable firms |
+| **Partial** | Some contracts audited, others pending |
+| **Unaudited** | No professional audit completed |
+
+### TVL Tier
+
+Total Value Locked indicates liquidity and trust.
+
+| Tag | TVL Range | Implication |
+|-----|-----------|-------------|
+| **Whale** | $100M+ | High liquidity, institutional trust |
+| **Large** | $10M-$100M | Good liquidity, established presence |
+| **Medium** | $1M-$10M | Moderate liquidity |
+| **Small** | Under $1M | Lower liquidity, higher slippage risk |
+
+### Asset Risk
+
+This evaluates the underlying stablecoin risk.
+
+| Tag | Meaning |
+|-----|---------|
+| **Fiat-Backed** | Centralized stablecoin with bank reserves (EURC, EURS) |
+| **Crypto-Backed** | Decentralized, collateralized by crypto (eEUR) |
+| **Algorithmic** | Maintains peg through algorithms (highest risk) |
+
+## How We Calculate Composite Risk
+
+Each yield opportunity on EuroYield gets a composite risk score:
+
+```
+Composite Risk = Protocol Risk + Audit Status + TVL Tier + Asset Risk
+```
+
+This gives you an at-a-glance assessment:
+
+<YieldTable
+  data={[
+    { protocol: "Low Risk", apy: "Green badge", tvl: "Safest options" },
+    { protocol: "Medium Risk", apy: "Yellow badge", tvl: "Balanced risk/reward" },
+    { protocol: "High Risk", apy: "Red badge", tvl: "Higher yields, higher risk" }
+  ]}
+/>
+
+## Reading Risk Tags in Practice
+
+Let's look at a real example:
+
+**Aave V3 EURC on Ethereum**
+- Protocol: Battle-Tested
+- Audit: Multi-Audit (OpenZeppelin, Trail of Bits, others)
+- TVL: Whale ($45M+)
+- Asset: Fiat-Backed (EURC by Circle)
+- **Composite: Low Risk**
+
+**Newer Protocol X with eEUR**
+- Protocol: Newer
+- Audit: Audited (1 firm)
+- TVL: Medium ($5M)
+- Asset: Crypto-Backed
+- **Composite: Medium-High Risk**
+
+<Callout type="tip">
+We recommend starting with Low Risk options if you're new to DeFi. As you gain experience, you can explore higher-risk opportunities for better yields.
+</Callout>
+
+## What Risk Tags Don't Cover
+
+Our system has limitations:
+
+1. **Market Risk** - We don't predict price movements
+2. **Regulatory Risk** - Future regulation could impact any protocol
+3. **Oracle Risk** - Complex to quantify across protocols
+4. **Governance Risk** - Protocol changes through governance
+
+<Callout type="warning">
+Risk tags are informational tools, not guarantees. Always do your own research and never invest more than you can afford to lose.
+</Callout>
+
+## Using Risk Tags for Portfolio Construction
+
+Here's a sample approach to building a Euro yield portfolio:
+
+| Allocation | Risk Level | Example |
+|------------|------------|---------|
+| 60% | Low Risk | Aave EURC |
+| 30% | Medium Risk | Curve 3EUR |
+| 10% | Higher Risk | Newer opportunities |
+
+This balances yield optimization with risk management.
+
+## Our Commitment to Transparency
+
+We update risk tags when:
+- New audits are completed
+- Exploits or incidents occur
+- TVL significantly changes
+- Protocol upgrades happen
+
+All our risk assessments are based on publicly available information. We don't receive payment from protocols for favorable ratings.
+
+## Start Exploring
+
+Ready to find yields that match your risk tolerance? [Visit our dashboard](/) and use the risk filters to find opportunities that suit your investment style.
+
+---
+
+*Risk assessments are subjective and provided for informational purposes only. This is not financial advice.*

@@ -1,0 +1,57 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a0b"/>
+      <stop offset="100%" style="stop-color:#1a1a2e"/>
+    </linearGradient>
+    <linearGradient id="accent2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#22c55e"/>
+      <stop offset="100%" style="stop-color:#16a34a"/>
+    </linearGradient>
+    <linearGradient id="chart" x1="0%" y1="100%" x2="0%" y2="0%">
+      <stop offset="0%" style="stop-color:#22c55e" stop-opacity="0"/>
+      <stop offset="100%" style="stop-color:#22c55e" stop-opacity="0.3"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+
+  <!-- Chart visualization -->
+  <g transform="translate(100, 150)">
+    <!-- Chart area fill -->
+    <path d="M0,200 L100,180 L200,150 L300,160 L400,120 L500,100 L600,80 L700,60 L800,40 L900,30 L1000,20 L1000,200 Z" fill="url(#chart)"/>
+    <!-- Chart line -->
+    <path d="M0,200 L100,180 L200,150 L300,160 L400,120 L500,100 L600,80 L700,60 L800,40 L900,30 L1000,20" stroke="#22c55e" stroke-width="3" fill="none"/>
+    <!-- Data points -->
+    <circle cx="200" cy="150" r="6" fill="#22c55e"/>
+    <circle cx="400" cy="120" r="6" fill="#22c55e"/>
+    <circle cx="600" cy="80" r="6" fill="#22c55e"/>
+    <circle cx="800" cy="40" r="6" fill="#22c55e"/>
+    <circle cx="1000" cy="20" r="8" fill="#22c55e"/>
+  </g>
+
+  <!-- APY indicators -->
+  <rect x="850" y="100" width="120" height="50" rx="8" fill="#22c55e" opacity="0.15"/>
+  <text x="910" y="133" font-family="system-ui, sans-serif" font-size="24" font-weight="bold" fill="#22c55e" text-anchor="middle">7.4%</text>
+
+  <rect x="720" y="160" width="100" height="40" rx="6" fill="#22c55e" opacity="0.1"/>
+  <text x="770" y="187" font-family="system-ui, sans-serif" font-size="18" font-weight="600" fill="#22c55e" text-anchor="middle">5.1%</text>
+
+  <rect x="590" y="200" width="90" height="36" rx="6" fill="#22c55e" opacity="0.08"/>
+  <text x="635" y="224" font-family="system-ui, sans-serif" font-size="16" font-weight="600" fill="#22c55e" text-anchor="middle">4.2%</text>
+
+  <!-- Title -->
+  <text x="600" y="430" font-family="system-ui, sans-serif" font-size="48" font-weight="bold" fill="white" text-anchor="middle">Top 5 Euro DeFi Yields</text>
+  <text x="600" y="480" font-family="system-ui, sans-serif" font-size="24" fill="#a1a1aa" text-anchor="middle">December 2024 Analysis</text>
+
+  <!-- Category badge -->
+  <rect x="545" y="505" width="110" height="36" rx="18" fill="#f59e0b" opacity="0.2"/>
+  <rect x="545" y="505" width="110" height="36" rx="18" stroke="#f59e0b" stroke-width="1" fill="none"/>
+  <text x="600" y="529" font-family="system-ui, sans-serif" font-size="14" font-weight="600" fill="#f59e0b" text-anchor="middle">NEWS</text>
+
+  <!-- Logo -->
+  <rect x="40" y="560" width="32" height="32" rx="4" fill="white"/>
+  <text x="56" y="584" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="#0a0a0b" text-anchor="middle">€</text>
+  <text x="90" y="582" font-family="system-ui, sans-serif" font-size="18" font-weight="bold" fill="white">EuroYield</text>
+</svg>
