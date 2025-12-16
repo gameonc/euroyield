@@ -12,17 +12,17 @@ export function Footer() {
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary">
                                 <Euro className="h-4 w-4 text-primary-foreground" />
                             </div>
-                            <span className="text-lg font-bold">EuroYield</span>
+                            <span className="text-lg font-bold">Rendite</span>
                         </Link>
                         <p className="text-sm text-muted-foreground mb-4">
                             Euro stablecoin yield analytics.
                         </p>
                         <div className="flex gap-3">
-                            <a href="https://twitter.com/euroyield" target="_blank" rel="noopener noreferrer"
+                            <a href="https://twitter.com/renditefi" target="_blank" rel="noopener noreferrer"
                                 className="text-muted-foreground hover:text-foreground transition-colors">
                                 <Twitter className="h-5 w-5" />
                             </a>
-                            <a href="mailto:hello@euroyield.com"
+                            <a href="mailto:hello@rendite.fi"
                                 className="text-muted-foreground hover:text-foreground transition-colors">
                                 <Mail className="h-5 w-5" />
                             </a>
@@ -68,7 +68,7 @@ export function Footer() {
                         <div className="text-sm text-muted-foreground">
                             <p className="font-medium text-foreground mb-1">Security First</p>
                             <p>
-                                EuroYield is read-only. We never request transaction signing,
+                                Rendite is read-only. We never request transaction signing,
                                 token approvals, or access to your funds.
                             </p>
                         </div>
@@ -77,7 +77,7 @@ export function Footer() {
 
                 {/* Bottom Bar */}
                 <div className="border-t mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground">
-                    <p>© {new Date().getFullYear()} EuroYield.</p>
+                    <p>© {new Date().getFullYear()} Rendite.</p>
                     <p className="text-center sm:text-right">
                         Not financial advice. Smart contracts carry risk.
                     </p>

@@ -1,7 +1,7 @@
-# Data Model — EuroYield
+# Data Model — Rendite
 
 ## Overview
-This document describes the database schema for EuroYield. The system uses Supabase (PostgreSQL) as the primary data store.
+This document describes the database schema for Rendite. The system uses Supabase (PostgreSQL) as the primary data store.
 
 ## Entity Relationship Diagram
 

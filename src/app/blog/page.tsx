@@ -4,10 +4,10 @@ import { getBlogPosts, type BlogCategory } from '@/lib/blog'
 import { Calendar, Clock, ArrowRight, Tag } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Blog | EuroYield — Euro DeFi Insights',
+  title: 'Blog | Rendite — Euro DeFi Insights',
   description: 'Learn about Euro stablecoins, DeFi yields, risk management, and strategies for maximizing your EUR returns in decentralized finance.',
   openGraph: {
-    title: 'EuroYield Blog — Euro DeFi Insights',
+    title: 'Rendite Blog — Euro DeFi Insights',
     description: 'Learn about Euro stablecoins, DeFi yields, and strategies for maximizing your EUR returns.',
     type: 'website',
   },

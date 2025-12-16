@@ -1,4 +1,4 @@
-/** Core type definitions for EuroYield */
+/** Core type definitions for Rendite */
 
 /** Supported Euro stablecoins */
 export type EuroStablecoin = "EURC" | "EURS" | "eEUR" | "agEUR" | "cEUR"

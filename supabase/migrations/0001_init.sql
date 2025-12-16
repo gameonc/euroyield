@@ -1,4 +1,4 @@
--- EuroYield Database Schema
+-- Rendite Database Schema
 -- Version: 1.0
 -- Description: Initial schema for Euro stablecoin yield dashboard
 

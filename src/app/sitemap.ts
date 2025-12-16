@@ -2,7 +2,7 @@ import type { MetadataRoute } from 'next'
 import { getBlogPosts } from '@/lib/blog'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://euroyield.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendite.fi'
 
   // Static pages
   const staticPages: MetadataRoute.Sitemap = [

@@ -20,13 +20,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = await getBlogPost(slug)
 
   if (!post) {
-    return { title: 'Post Not Found | EuroYield' }
+    return { title: 'Post Not Found | Rendite' }
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://euroyield.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendite.fi'
 
   return {
-    title: `${post.title} | EuroYield Blog`,
+    title: `${post.title} | Rendite Blog`,
     description: post.description,
     authors: [{ name: post.author }],
     openGraph: {
@@ -55,7 +55,7 @@ export default async function BlogPostPage({ params }: Props) {
   }
 
   const relatedPosts = await getRelatedPosts(slug, 3)
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://euroyield.app'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendite.fi'
   const postUrl = `${baseUrl}/blog/${slug}`
 
   return (

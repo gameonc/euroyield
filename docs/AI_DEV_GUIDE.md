@@ -1,4 +1,4 @@
-# AI Dev Guide — EuroYield
+# AI Dev Guide — Rendite
 
 ## Golden rule
 No code is written until:

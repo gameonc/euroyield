@@ -1,4 +1,4 @@
-# Build Log — EuroYield
+# Build Log — Rendite
 
 This file tracks implementation progress for AI handoff.
 

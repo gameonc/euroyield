@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // WalletConnect compatibility
+  webpack: (config) => {
+    config.externals.push('pino-pretty', 'encoding');
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    return config;
+  },
 
   async headers() {
     const cspHeader = `

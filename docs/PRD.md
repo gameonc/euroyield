@@ -1,4 +1,4 @@
-# PRD — EuroYield (Euro Stablecoin Yield Dashboard)
+# PRD — Rendite (Euro Stablecoin Yield Dashboard)
 Owner: Lac  
 Status: Approved for build  
 Version: 1.1

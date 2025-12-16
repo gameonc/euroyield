@@ -23,13 +23,13 @@ const outfit = Outfit({
   display: "swap",
 })
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://euroyield.app'
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rendite.fi'
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: 'EuroYield — Euro Stablecoin Yield Intelligence',
-    template: '%s | EuroYield',
+    default: 'Rendite — European DeFi Intelligence',
+    template: '%s | Rendite',
   },
   description:
     'Discover, compare, and monitor EUR stablecoin yields across DeFi. Track EURC, EURS, and eEUR rates on Aave, Compound, Curve, and more. Non-custodial analytics with clear risk tags.',
@@ -47,15 +47,15 @@ export const metadata: Metadata = {
     'Aave Euro',
     'Curve Euro',
   ],
-  authors: [{ name: 'EuroYield Team' }],
-  creator: 'EuroYield',
-  publisher: 'EuroYield',
+  authors: [{ name: 'Rendite Team' }],
+  creator: 'Rendite',
+  publisher: 'Rendite',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     url: baseUrl,
-    siteName: 'EuroYield',
-    title: 'EuroYield — Euro Stablecoin Yield Intelligence',
+    siteName: 'Rendite',
+    title: 'Rendite — European DeFi Intelligence',
     description:
       'Discover and compare Euro stablecoin yields across top DeFi protocols. Track EURC, EURS, and eEUR rates with real-time analytics.',
     images: [
@@ -63,17 +63,17 @@ export const metadata: Metadata = {
         url: '/og-image.svg',
         width: 1200,
         height: 630,
-        alt: 'EuroYield - Euro Stablecoin Yield Dashboard',
+        alt: 'Rendite - European DeFi Intelligence',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'EuroYield — Euro Stablecoin Yield Intelligence',
+    title: 'Rendite — European DeFi Intelligence',
     description:
       'Discover and compare Euro stablecoin yields across top DeFi protocols. Real-time analytics for EURC, EURS, and eEUR.',
     images: ['/og-image.svg'],
-    creator: '@euroyield',
+    creator: '@renditefi',
   },
   robots: {
     index: true,
@@ -108,8 +108,8 @@ export default function RootLayout({
           {`{
             "@context": "https://schema.org",
             "@type": "WebApplication",
-            "name": "EuroYield",
-            "description": "Euro stablecoin yield intelligence dashboard for DeFi",
+            "name": "Rendite",
+            "description": "European DeFi intelligence dashboard",
             "url": "${baseUrl}",
             "applicationCategory": "FinanceApplication",
             "operatingSystem": "Web",
@@ -120,7 +120,7 @@ export default function RootLayout({
             },
             "creator": {
               "@type": "Organization",
-              "name": "EuroYield",
+              "name": "Rendite",
               "url": "${baseUrl}"
             }
           }`}

@@ -1,4 +1,4 @@
--- EuroYield Seed Data
+-- Rendite Seed Data
 -- Populate initial protocols and pools for development
 
 -- ============================================

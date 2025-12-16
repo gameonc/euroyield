@@ -38,7 +38,7 @@ export function Header() {
                         €
                     </div>
                     <span className="font-bold text-lg tracking-tight group-hover:opacity-80 transition-opacity">
-                        EuroYield
+                        Rendite
                     </span>
                     <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-muted text-muted-foreground">
                         BETA

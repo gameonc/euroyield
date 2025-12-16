@@ -1,4 +1,4 @@
-# Architecture — EuroYield
+# Architecture — Rendite
 
 ## Core design
 - Next.js app (App Router) serves UI + internal API routes

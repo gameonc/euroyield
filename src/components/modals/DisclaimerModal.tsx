@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { ShieldAlert, ExternalLink } from "lucide-react"
 
-const DISCLAIMER_KEY = "euroyield_disclaimer_accepted"
+const DISCLAIMER_KEY = "rendite_disclaimer_accepted"
 
 export function DisclaimerModal() {
     const [open, setOpen] = useState(false)
@@ -46,7 +46,7 @@ export function DisclaimerModal() {
                     </div>
                     <DialogDescription className="text-left space-y-3 pt-2">
                         <p>
-                            <strong>EuroYield is an analytics and aggregation tool only.</strong>
+                            <strong>Rendite is an analytics and aggregation tool only.</strong>
                         </p>
                         <p>
                             We do not provide financial, investment, or tax advice. The yield data,

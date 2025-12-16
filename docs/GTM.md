@@ -1,4 +1,4 @@
-# GTM — EuroYield (Go-To-Launch)
+# GTM — Rendite (Go-To-Launch)
 
 ## Positioning (the wedge)
 “Euro stablecoin yield discovery and monitoring — clean, compliant-minded, non-custodial.”

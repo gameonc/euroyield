@@ -18,7 +18,7 @@ const config = createConfig({
     connectors: [
         injected(),
         walletConnect({ projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID || 'c045b85a36324fa30462058308801ce4' }), // Using a public demo ID if null
-        coinbaseWallet({ appName: 'EuroYield' }),
+        coinbaseWallet({ appName: 'Rendite' }),
     ],
 })
 
