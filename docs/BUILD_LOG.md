@@ -4,6 +4,35 @@ This file tracks implementation progress for AI handoff.
 
 ---
 
+## Session: 2024-12-16 — Rebrand to Rendite
+
+**Completed by:** Claude (Opus 4.5)
+
+### What Was Done
+
+1.  **Full Rebranding to "Rendite"**
+    *   Renamed application from "EuroYield" to "Rendite".
+    *   Updated taglines to "European DeFi Intelligence".
+    *   Updated metadata (title, description), OpenGraph tags, and JSON-LD schema in `layout.tsx`.
+    *   Updated `package.json` name to `rendite`.
+
+2.  **UI Updates**
+    *   **Header:** New "Rendite" text logo.
+    *   **Footer:** Updated brand, Twitter (`@renditefi`), email (`hello@rendite.fi`), and legal text.
+    *   **Disclaimer:** Updated modal text and `localStorage` key (`rendite_disclaimer_accepted`) to force re-acceptance.
+    *   **Wallet:** Updated Coinbase Wallet app name identifier.
+
+3.  **SEO & Content**
+    *   Updated `sitemap.ts` and `robots.ts` with new fallback domain `https://rendite.fi`.
+    *   Updated all blog post content and metadata (authors, titles).
+    *   Updated all documentation files (`PRD`, `ARCHITECTURE`, `DATA_MODEL`, etc.).
+
+4.  **Bug Fixes**
+    *   Downgraded `@supabase/supabase-js` to v2.47.10 to resolve a build error with Next.js Turbopack.
+    *   Verified page load and component rendering.
+
+---
+
 ## Session: 2024-12-14 — Supabase Integration
 
 **Completed by:** Claude (Opus 4.5)
