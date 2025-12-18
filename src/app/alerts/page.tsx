@@ -1,3 +1,5 @@
+"use client"
+
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -35,7 +37,7 @@ export default function AlertsPage() {
                                 Configure real-time notifications for yield thresholds and protocol risks.
                             </p>
                         </div>
-                        <Button className="gap-2 w-fit h-10 px-6 rounded-lg">
+                        <Button className="gap-2 w-fit h-10 px-6 rounded-lg" onClick={() => alert("Alert configuration is coming in the next release.")}>
                             <Plus className="h-4 w-4" />
                             New Alert
                         </Button>

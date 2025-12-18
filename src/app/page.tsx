@@ -122,8 +122,8 @@ export default async function HomePage() {
                     Rates are verified against multiple sources and filtered for accuracy.
                   </p>
                   <div className="pt-2 border-t flex flex-col gap-2">
-                    <a href="#" className="flex items-center justify-between text-xs text-muted-foreground hover:text-foreground transition-colors group">
-                      Learn More
+                    <a href="https://defillama.com/yields" target="_blank" rel="noopener noreferrer" className="flex items-center justify-between text-xs text-muted-foreground hover:text-foreground transition-colors group">
+                      Verified Source (DeFiLlama)
                       <ArrowRight className="h-3 w-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                     </a>
                   </div>

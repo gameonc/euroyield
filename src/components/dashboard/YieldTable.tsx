@@ -78,6 +78,22 @@ export function YieldTable({ data }: YieldTableProps) {
         return `€${(tvl / 1000).toFixed(0)}K`
     }
 
+    const handleExport = () => {
+        const headers = ["Protocol,Pool,Chain,Asset,APY,TVL"];
+        const rows = sortedYields.map(item =>
+            `${item.protocol_name},${item.pool_name},${item.chain},${item.stablecoin},${item.apy},${item.tvl}`
+        );
+
+        const csvContent = "data:text/csv;charset=utf-8," + [headers, ...rows].join("\n");
+        const encodedUri = encodeURI(csvContent);
+        const link = document.createElement("a");
+        link.setAttribute("href", encodedUri);
+        link.setAttribute("download", `rendite_yields_${new Date().toISOString().split('T')[0]}.csv`);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+
     return (
         <div className="rounded-lg border bg-card/50 backdrop-blur-sm overflow-hidden">
             {/* Header / Filter Bar */}
@@ -107,7 +123,7 @@ export function YieldTable({ data }: YieldTableProps) {
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="sm" className="h-7 text-xs font-medium text-muted-foreground" onClick={() => alert("Exporting data to CSV...")}>
+                    <Button variant="ghost" size="sm" className="h-7 text-xs font-medium text-muted-foreground" onClick={handleExport}>
                         <Download className="h-3.5 w-3.5 mr-1.5" />
                         Export
                     </Button>
@@ -211,8 +227,15 @@ export function YieldTable({ data }: YieldTableProps) {
                                         <Button size="icon" variant="ghost" className="h-7 w-7" title="Report Issue" onClick={() => alert("Reporting logic coming soon")}>
                                             <Flag className="h-3.5 w-3.5 text-muted-foreground hover:text-red-400 transition-colors" />
                                         </Button>
-                                        <Button size="icon" variant="ghost" className="h-7 w-7">
-                                            <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                                        <Button size="icon" variant="ghost" className="h-7 w-7" asChild>
+                                            <a
+                                                href={pool.protocol_url || "#"}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className={cn(!pool.protocol_url && "pointer-events-none opacity-50")}
+                                            >
+                                                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                                            </a>
                                         </Button>
                                     </div>
                                 </td>

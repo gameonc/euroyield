@@ -214,6 +214,7 @@ export interface LatestYield {
     protocol_name: string
     protocol_slug: string
     is_audited: boolean
+    protocol_url: string | null
 }
 
 // ============================================
