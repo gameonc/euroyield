@@ -20,22 +20,32 @@ const iconMap: Record<string, React.ElementType> = {
     new_protocol: Clock,
 }
 
+const descriptionMap: Record<string, string> = {
+    audited: "Smart contracts have been audited by security firms to verify safety.",
+    unaudited: "Contracts have NOT been audited. Proceed with caution.",
+    high_tvl: "High liquidity (>€1M) allows for easy entry and exit.",
+    low_tvl: "Low liquidity (<€1M). Watch out for slippage.",
+    established: "Protocol has a proven track record of security and stability.",
+    new_protocol: "New protocol (<180 days). Risk of undiscovered bugs.",
+}
+
 export function RiskBadge({ tag }: RiskBadgeProps) {
     const Icon = iconMap[tag.type] || Info
+    const description = descriptionMap[tag.type] || tag.description || "Risk factor details unavailable."
 
     return (
         <Tooltip>
             <TooltipTrigger asChild>
                 <Badge
                     variant={tag.isPositive ? "success" : "warning"}
-                    className="cursor-help gap-1"
+                    className="cursor-help gap-1 pointer-events-auto"
                 >
                     <Icon className="h-3 w-3" />
                     {tag.label}
                 </Badge>
             </TooltipTrigger>
-            <TooltipContent className="max-w-xs">
-                <p>{tag.description}</p>
+            <TooltipContent className="max-w-xs bg-popover text-popover-foreground border-border shadow-xl">
+                <p className="text-xs leading-relaxed">{description}</p>
             </TooltipContent>
         </Tooltip>
     )
