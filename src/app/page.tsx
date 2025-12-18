@@ -38,24 +38,24 @@ export default async function HomePage() {
             <div className="space-y-8">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border bg-background/50 backdrop-blur-sm text-xs font-medium text-muted-foreground">
                 <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                Tracking {displayData.length}+ Euro Pools
+                Tracking {displayData.length > 0 ? displayData.length : '15+'} Euro Pools • Updated every 6h
               </div>
 
               <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-foreground leading-[0.95]">
-                Stop leaving yield <br />
+                Compare Euro <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-br from-foreground to-foreground/60">
-                  on the table.
+                  Stablecoin Yields.
                 </span>
               </h1>
 
               <p className="text-xl text-muted-foreground max-w-lg font-light leading-relaxed">
-                Compare Euro stablecoin yields across DeFi protocols. Updated continuously.
+                The only dashboard built specifically for Euro stablecoin yields. Not USD. Not everything. Just Euros — done right.
               </p>
 
               <div className="flex flex-wrap gap-4 pt-2">
                 <Button asChild size="lg" className="h-12 px-6 text-base rounded-lg bg-foreground text-background hover:bg-foreground/90 transition-all font-medium">
                   <a href="#yields">
-                    Compare Rates
+                    Find Best Rates
                     <ArrowDown className="ml-2 h-4 w-4" />
                   </a>
                 </Button>
@@ -63,13 +63,13 @@ export default async function HomePage() {
 
               <div className="flex items-center gap-6 pt-4 text-xs font-medium text-muted-foreground/80 lowercase tracking-wide">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="h-3.5 w-3.5" /> non-custodial
+                  <Shield className="h-3.5 w-3.5" /> no signup required
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Zap className="h-3.5 w-3.5" /> real-time
+                  <Zap className="h-3.5 w-3.5" /> no fees
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5" /> read-only
+                  <Lock className="h-3.5 w-3.5" /> just data
                 </span>
               </div>
             </div>
