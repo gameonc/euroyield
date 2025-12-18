@@ -202,3 +202,37 @@ const supabaseAdmin = createClient(
 )
 // Bypasses RLS - use for ingestion jobs
 ```
+
+---
+
+## Session: 2024-12-18 — Automated Sync & Newsletter
+
+**Completed by:** Antigravity
+
+### Status: ✅ MVP Feature Complete
+
+Fully automated the backend data engine, implemented the newsletter lead generation system, and added live yield trend indicators.
+
+### 1. Automated Yield Sync
+- **GitHub Actions**: Created `.github/workflows/sync-yields.yml` to run the ingestion script every 6 hours.
+- **Fixes**: Aligned CI environment (Node 22, npm 11) with local lockfile to resolve version mismatch issues.
+- **Secrets**: Mapped `NEXT_PUBLIC_SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` to GitHub Secrets.
+- **Verification**: Workflow is verified running and syncing data to Supabase.
+
+### 2. Newsletter System
+- **Database**: Created `subscribers` table (Migration `0004_newsletter.sql`).
+- **API**: built `POST /api/subscribe` endpoint with Zod validation and Supabase Admin upsert.
+- **UI**: Added `NewsletterForm` component with real-time feedback.
+- **Integration**: Replaced generic footer CTA with a high-conversion email signup form.
+
+### 3. Yield Delta Indicators
+- **Database**: Updated `latest_yields` view (Migration `0005_yield_delta.sql`) to calculate APY changes using `LEAD()` window functions on historical data.
+- **UI**: Updated `YieldTable` to display green/red trend arrows (e.g. `+0.12%`) next to the APY.
+
+### Technical Stack Updates
+- **Node Version**: Updated `package.json` engines to `>=20` and `.nvmrc` to `22`.
+- **Database**: Added 2 new migration files.
+
+### Next Steps
+1. **Deploy**: Push to Vercel production.
+2. **Email Sending**: Connect Resend API to actually send welcome emails (infrastructure is ready).
