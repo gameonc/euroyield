@@ -12,7 +12,9 @@ import {
     ChevronUp,
     Filter,
     Flag,
-    Download
+    Download,
+    TrendingUp,
+    TrendingDown
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -180,9 +182,21 @@ export function YieldTable({ data }: YieldTableProps) {
                                     </div>
                                 </td>
                                 <td className="px-4 py-3 text-right">
-                                    <span className={`font-mono font-medium ${pool.apy > 5 ? 'text-emerald-500' : 'text-foreground'}`}>
-                                        {pool.apy.toFixed(2)}%
-                                    </span>
+                                    <div className="flex flex-col items-end">
+                                        <span className={`font-mono font-medium ${pool.apy > 5 ? 'text-emerald-500' : 'text-foreground'}`}>
+                                            {pool.apy.toFixed(2)}%
+                                        </span>
+                                        {pool.apy_delta !== null && pool.apy_delta !== 0 && (
+                                            <div className={`flex items-center text-[10px] ${pool.apy_delta > 0 ? 'text-emerald-500' : 'text-red-500'}`}>
+                                                {pool.apy_delta > 0 ? (
+                                                    <TrendingUp className="h-2.5 w-2.5 mr-0.5" />
+                                                ) : (
+                                                    <TrendingDown className="h-2.5 w-2.5 mr-0.5" />
+                                                )}
+                                                {Math.abs(pool.apy_delta).toFixed(2)}%
+                                            </div>
+                                        )}
+                                    </div>
                                 </td>
                                 <td className="px-4 py-3 text-right">
                                     <span className="font-mono text-muted-foreground">

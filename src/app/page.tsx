@@ -4,6 +4,7 @@ import { YieldTable } from "@/components/dashboard/YieldTable"
 import { YieldCalculator } from "@/components/dashboard/YieldCalculator"
 import { BestYieldToday } from "@/components/dashboard/BestYieldToday"
 import { Button } from "@/components/ui/button"
+import { NewsletterForm } from "@/components/forms/NewsletterForm"
 import {
   ArrowRight,
   Shield,
@@ -16,10 +17,14 @@ export const revalidate = 300 // Revalidate every 5 minutes
 
 export default async function HomePage() {
   const supabase = await createClient()
-  const { data: yields } = await supabase
+  const { data: yields, error } = await supabase
     .from("latest_yields")
     .select("*")
     .order("apy", { ascending: false })
+
+  if (error) {
+    console.error("Failed to fetch yields:", error.message)
+  }
 
   const displayData: LatestYield[] = yields || []
   const maxApy = displayData.length > 0 ? Math.max(...displayData.map(y => y.apy)) : 5.24
@@ -129,15 +134,16 @@ export default async function HomePage() {
         </section>
 
         {/* Footer CTA */}
-        <section className="py-20 border-t items-center text-center space-y-6">
-          <h2 className="text-3xl font-bold tracking-tight">Ready to optimize?</h2>
-          <p className="text-muted-foreground max-w-[600px] mx-auto">
-            Track your Euro yield positions in one place.
-          </p>
-          <Button variant="default" size="lg" className="rounded-lg px-8">
-            Connect Wallet
-          </Button>
-          <p className="text-xs text-muted-foreground pt-4">No commitment. Read-only access.</p>
+        <section className="py-20 border-t flex flex-col items-center text-center space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-bold tracking-tight">Stay ahead of the market.</h2>
+            <p className="text-muted-foreground max-w-[600px] mx-auto">
+              Get weekly Euro DeFi yield reports delivered to your inbox. <br />
+              No noise, just signal.
+            </p>
+          </div>
+
+          <NewsletterForm />
         </section>
       </div>
     </div>

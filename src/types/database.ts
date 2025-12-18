@@ -48,6 +48,11 @@ export type Database = {
                 Insert: Omit<IngestionLog, 'id'> & { id?: string }
                 Update: Partial<Omit<IngestionLog, 'id'>>
             }
+            subscribers: {
+                Row: Subscriber
+                Insert: Omit<Subscriber, 'id' | 'created_at' | 'updated_at'>
+                Update: Partial<Omit<Subscriber, 'id'>>
+            }
         }
         Views: {
             latest_yields: {
@@ -181,6 +186,15 @@ export interface IngestionLog {
     completed_at: string | null
 }
 
+export interface Subscriber {
+    id: string
+    email: string
+    is_active: boolean
+    created_at: string
+    updated_at: string
+    source: string | null
+}
+
 // ============================================
 // VIEW TYPES
 // ============================================
@@ -189,6 +203,7 @@ export interface LatestYield {
     id: string
     pool_id: string
     apy: number
+    apy_delta: number | null
     tvl: number
     timestamp: string
     source: string

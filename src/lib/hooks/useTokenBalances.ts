@@ -1,7 +1,7 @@
 
 import { useReadContracts } from "wagmi"
-import { erc20Abi, formatUnits } from "viem"
-import { EURO_TOKENS, TokenConfig } from "../constants"
+import { erc20Abi, formatUnits, type Address } from "viem"
+import { EURO_TOKENS } from "../constants"
 import { useAccount } from "wagmi"
 
 export interface TokenBalance {
@@ -13,11 +13,19 @@ export interface TokenBalance {
     tokenAddress: string
 }
 
+interface BalanceOfContractCall {
+    address: Address
+    abi: typeof erc20Abi
+    functionName: 'balanceOf'
+    args: readonly [Address]
+    chainId: number
+}
+
 export function useTokenBalances() {
     const { address } = useAccount()
 
     // 1. Construct the contract calls
-    const contracts: any[] = []
+    const contracts: BalanceOfContractCall[] = []
 
     EURO_TOKENS.forEach(token => {
         Object.entries(token.addresses).forEach(([chainIdStr, tokenAddress]) => {
@@ -26,7 +34,7 @@ export function useTokenBalances() {
                 address: tokenAddress,
                 abi: erc20Abi,
                 functionName: 'balanceOf',
-                args: [address],
+                args: [address as Address],
                 chainId: chainId
             })
         })
