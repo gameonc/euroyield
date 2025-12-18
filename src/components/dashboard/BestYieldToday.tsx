@@ -68,9 +68,11 @@ export function BestYieldToday({ data }: BestYieldTodayProps) {
                 ))}
 
                 <div className="p-3">
-                    <Button variant="ghost" className="w-full text-xs h-8 text-muted-foreground hover:text-foreground">
-                        View all stablecoin pools
-                        <ArrowRight className="ml-2 h-3 w-3" />
+                    <Button variant="ghost" className="w-full text-xs h-8 text-muted-foreground hover:text-foreground" asChild>
+                        <a href="#yields">
+                            View all stablecoin pools
+                            <ArrowRight className="ml-2 h-3 w-3" />
+                        </a>
                     </Button>
                 </div>
             </CardContent>
