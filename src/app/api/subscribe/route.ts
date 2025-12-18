@@ -38,6 +38,30 @@ export async function POST(request: Request) {
             );
         }
 
+        // Fetch top yields for welcome email
+        const { data: yields } = await supabaseAdmin
+            .from('latest_yields')
+            .select('protocol_name, apy, chain')
+            .order('apy', { ascending: false })
+            .limit(3);
+
+        if (yields) {
+            // We don't await this to keep the response fast, or we can await if we want to ensure it sent.
+            // Awaiting is safer for now to catch config errors in logs.
+            await import('@/lib/email').then(({ sendWeeklyReport }) =>
+                sendWeeklyReport({
+                    to: email,
+                    weekRange: "Welcome Edition",
+                    topYields: yields.map((y: any) => ({
+                        protocol: y.protocol_name,
+                        apy: y.apy,
+                        chain: y.chain
+                    })),
+                    marketSummary: "Welcome to the inner circle. Here are the top performing Euro stablecoin yields available right now."
+                })
+            );
+        }
+
         return NextResponse.json({
             success: true,
             message: 'Successfully subscribed to Rendite Intelligence',
