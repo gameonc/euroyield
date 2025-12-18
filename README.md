@@ -1,22 +1,24 @@
-# EuroYield — Euro Stablecoin Yield Intelligence (Non-Custodial)
+# Rendite — European DeFi Intelligence
 
-EuroYield is a non-custodial analytics + alerting product that helps users discover, compare, and monitor **EUR-denominated stablecoin yield** across DeFi protocols (and later CeFi), with simple, defensible risk tags (e.g., Audited / High TVL / New Protocol).
+**Rendite** is a non-custodial analytics and alerting platform that helps users discover, compare, and monitor **EUR-denominated stablecoin yields** across DeFi protocols. We provide simple, defensible risk tags (e.g., Audited / High TVL / New Protocol) instead of opaque scores.
+
+🌐 **[rendite.fi](https://rendite.fi)**
 
 ## ✨ Features
 
 - **Institutional-Grade UI**: Bespoke "Financial Terminal" design system with deep navy palette and monospace data fonts.
-- **Real-Time Data**: Live yield tracking for Euro stablecoins (EURC, EURS, agEUR, etc.).
+- **Real-Time Data**: Live yield tracking for Euro stablecoins (EURC, EURS, agEUR, etc.) via DeFiLlama.
 - **Security First**: Non-custodial, read-only analytics. No token approvals required.
 - **Risk Intelligence**: Clear risk tags (Audited, TVL, Maturity) instead of opaque scores.
 - **Supabase Backend**: Robust database schema with Row Level Security (RLS).
-- **Pro Alerts**: Email and Telegram notifications for yield changes.
+- **Pro Alerts**: Email and Telegram notifications for yield changes (coming soon).
 
-## Why this exists
+## Why This Exists
 Euro stablecoin holders currently have to manually check multiple dashboards and spreadsheets to compare APY, TVL, protocol maturity, and basic safety signals. Existing tools are either:
-- broad “everything dashboards” (hard to trust / noisy), or
-- issuer/platform-specific (shows only their own yield).
+- Broad "everything dashboards" (hard to trust / noisy), or
+- Issuer/platform-specific (shows only their own yield).
 
-EuroYield is focused: **EUR stablecoins + clean UX + actionability**.
+Rendite is focused: **EUR stablecoins + clean UX + actionability**.
 
 ## Product principles
 - Non-custodial (read-only wallet insights; no funds held)
