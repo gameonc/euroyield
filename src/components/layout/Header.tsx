@@ -41,12 +41,7 @@ export function Header() {
             <div className="container flex h-14 items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group mr-6">
-                    <div className="bg-foreground text-background font-bold h-6 w-6 flex items-center justify-center rounded-sm text-xs">
-                        €
-                    </div>
-                    <span className="font-bold text-lg tracking-tight group-hover:opacity-80 transition-opacity">
-                        Rendite
-                    </span>
+                    <Logo size="sm" className="group-hover:opacity-80 transition-opacity" />
                     <span className="hidden sm:inline-block px-1.5 py-0.5 rounded text-[10px] font-medium bg-muted text-muted-foreground">
                         BETA
                     </span>
