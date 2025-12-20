@@ -2,7 +2,7 @@
 
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Wallet, TrendingUp, Plus, ArrowRight, AlertCircle, ExternalLink, Layers, RefreshCw, Loader2 } from "lucide-react"
+import { Wallet, TrendingUp, Plus, ArrowRight, AlertCircle, ExternalLink, Layers, RefreshCw, Loader2, Bell } from "lucide-react"
 import {
     Tooltip,
     TooltipContent,
@@ -15,6 +15,8 @@ import { useEffect, useState } from "react"
 import { shortenAddress } from '@/lib/utils'
 import { usePortfolioData } from "@/lib/hooks/usePortfolioData"
 import { CHAIN_NAMES } from "@/lib/constants/protocols"
+import { getDepositUrl } from "@/lib/constants/urls"
+import { AlertModal } from "@/components/alerts/AlertModal"
 
 export default function PortfolioPage() {
     const { isConnected, address } = useAccount()
@@ -184,7 +186,7 @@ export default function PortfolioPage() {
                                         </div>
                                     </div>
                                     <Button variant="outline" className="border-amber-500/20 hover:bg-amber-500/10 text-amber-500 whitespace-nowrap" asChild>
-                                        <a href="/opportunities">
+                                        <a href="/#yield-table">
                                             Find Opportunities <ArrowRight className="ml-2 h-4 w-4" />
                                         </a>
                                     </Button>
@@ -208,54 +210,76 @@ export default function PortfolioPage() {
                                         </div>
                                     ) : positions.length > 0 ? (
                                         <div className="divide-y divide-border/40">
-                                            {positions.map((position) => (
-                                                <div key={position.id} className="flex flex-col md:flex-row md:items-center justify-between p-6 hover:bg-muted/20 transition-colors">
-                                                    <div className="flex items-center gap-4 mb-4 md:mb-0">
-                                                        <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-sm text-emerald-500 shrink-0">
-                                                            {position.asset}
-                                                        </div>
-                                                        <div>
-                                                            <div className="flex items-center gap-2">
-                                                                <h4 className="font-medium text-lg">{position.protocol}</h4>
-                                                                <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold bg-muted text-muted-foreground border">
-                                                                    {position.chain}
-                                                                </span>
-                                                            </div>
-                                                            <p className="text-sm text-muted-foreground">{position.poolName}</p>
-                                                        </div>
-                                                    </div>
+                                            {positions.map((position) => {
+                                                const manageUrl = getDepositUrl(position.protocolSlug, position.chain)
 
-                                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 w-full md:w-auto">
-                                                        <div>
-                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Balance</p>
-                                                            <p className="font-mono font-medium">{formatCurrency(position.balance)}</p>
+                                                return (
+                                                    <div key={position.id} className="flex flex-col md:flex-row md:items-center justify-between p-6 hover:bg-muted/20 transition-colors">
+                                                        <div className="flex items-center gap-4 mb-4 md:mb-0">
+                                                            <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-sm text-emerald-500 shrink-0">
+                                                                {position.asset}
+                                                            </div>
+                                                            <div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <h4 className="font-medium text-lg">{position.protocol}</h4>
+                                                                    <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold bg-muted text-muted-foreground border">
+                                                                        {position.chain}
+                                                                    </span>
+                                                                </div>
+                                                                <p className="text-sm text-muted-foreground">{position.poolName}</p>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">APY</p>
-                                                            <div className="flex items-center gap-1.5">
-                                                                <p className="font-mono font-medium text-emerald-500">{position.apy.toFixed(2)}%</p>
-                                                                {position.yieldSource === 'estimated' && (
-                                                                    <Tooltip>
-                                                                        <TooltipTrigger>
-                                                                            <span className="text-[10px] bg-muted px-1 rounded text-muted-foreground cursor-help">EST</span>
-                                                                        </TooltipTrigger>
-                                                                        <TooltipContent>Estimated yield</TooltipContent>
-                                                                    </Tooltip>
+
+                                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 w-full md:w-auto">
+                                                            <div>
+                                                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Balance</p>
+                                                                <p className="font-mono font-medium">{formatCurrency(position.balance)}</p>
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">APY</p>
+                                                                <div className="flex items-center gap-1.5">
+                                                                    <p className="font-mono font-medium text-emerald-500">{position.apy.toFixed(2)}%</p>
+                                                                    {position.yieldSource === 'estimated' && (
+                                                                        <Tooltip>
+                                                                            <TooltipTrigger>
+                                                                                <span className="text-[10px] bg-muted px-1 rounded text-muted-foreground cursor-help">EST</span>
+                                                                            </TooltipTrigger>
+                                                                            <TooltipContent>Estimated yield</TooltipContent>
+                                                                        </Tooltip>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Est. Monthly</p>
+                                                                <p className="font-mono font-medium text-foreground/80">{formatCurrency(position.monthlyEarnings)}</p>
+                                                            </div>
+                                                            <div className="flex items-center justify-end">
+                                                                <AlertModal
+                                                                    protocolName={position.protocol}
+                                                                    protocolSlug={position.protocolSlug}
+                                                                    chain={position.chain}
+                                                                    currentApy={position.apy || 0}
+                                                                >
+                                                                    <Button variant="ghost" size="icon" className="h-8 w-8 mr-1 text-muted-foreground hover:text-amber-500" title="Set Alert">
+                                                                        <Bell className="h-4 w-4" />
+                                                                    </Button>
+                                                                </AlertModal>
+                                                                {manageUrl ? (
+                                                                    <Button variant="ghost" size="sm" className="gap-2 h-8" asChild>
+                                                                        <a href={manageUrl} target="_blank" rel="noopener noreferrer">
+                                                                            Manage <ExternalLink className="h-3 w-3" />
+                                                                        </a>
+                                                                    </Button>
+                                                                ) : (
+                                                                    <Button variant="ghost" size="icon" className="h-8 w-8 opacity-50 hover:opacity-100" disabled>
+                                                                        <ExternalLink className="h-4 w-4" />
+                                                                    </Button>
                                                                 )}
                                                             </div>
                                                         </div>
-                                                        <div>
-                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Est. Monthly</p>
-                                                            <p className="font-mono font-medium text-foreground/80">{formatCurrency(position.monthlyEarnings)}</p>
-                                                        </div>
-                                                        <div className="flex items-center justify-end">
-                                                            <Button variant="ghost" size="icon" className="h-8 w-8 opacity-50 hover:opacity-100">
-                                                                <ExternalLink className="h-4 w-4" />
-                                                            </Button>
-                                                        </div>
                                                     </div>
-                                                </div>
-                                            ))}
+                                                )
+                                            })}
                                         </div>
                                     ) : (
                                         <div className="p-12 text-center text-muted-foreground">
@@ -293,7 +317,7 @@ export default function PortfolioPage() {
                                                             <p className="font-mono font-medium text-muted-foreground">{formatCurrency(token.balance)}</p>
                                                         </div>
                                                         <Button size="sm" variant="outline" className="gap-2" asChild>
-                                                            <a href="/opportunities">
+                                                            <a href="/#yield-table">
                                                                 Deploy <ArrowRight className="h-3 w-3" />
                                                             </a>
                                                         </Button>

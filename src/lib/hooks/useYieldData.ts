@@ -35,6 +35,8 @@ function normalizeProtocol(name: string): string {
         .replace('morphoblue', 'morpho')
         .replace('curvefinance', 'curve')
         .replace('curvedex', 'curve')
+        .replace('moonwelllending', 'moonwell')
+        .replace('yearnfinance', 'yearn')
 }
 
 // Normalize chain names for matching

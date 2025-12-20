@@ -61,6 +61,16 @@ export const AAVE_V3_POSITIONS: ProtocolPosition[] = [
         decimals: 6,
         chainId: CHAINS.BASE,
     },
+    // Polygon (agEUR)
+    {
+        protocol: "Aave V3",
+        protocolSlug: "aave-v3",
+        poolName: "agEUR Supply",
+        asset: "agEUR",
+        receiptToken: "0xeb76E693F0a558754Acc4602D941635f165949b8", // aPolAgEUR
+        decimals: 18,
+        chainId: CHAINS.POLYGON,
+    },
 ]
 
 /**
@@ -118,6 +128,40 @@ export const CURVE_POSITIONS: ProtocolPosition[] = [
 ]
 
 /**
+ * Yearn Finance Vaults
+ * Users hold yTokens (yield-bearing tokens)
+ */
+export const YEARN_POSITIONS: ProtocolPosition[] = [
+    // yvCurve-EURS-f (EURS vault) on Ethereum
+    {
+        protocol: "Yearn Finance",
+        protocolSlug: "yearn-finance",
+        poolName: "Curve EURS Factory",
+        asset: "EURS",
+        receiptToken: "0xD6A4180c819324A9E432CA07C689EcBF00088cd6",
+        decimals: 18,
+        chainId: CHAINS.MAINNET,
+    },
+]
+
+/**
+ * Moonwell Lending (Base)
+ * Users hold mTokens
+ */
+export const MOONWELL_POSITIONS: ProtocolPosition[] = [
+    // mEURC on Base
+    {
+        protocol: "Moonwell",
+        protocolSlug: "moonwell-lending",
+        poolName: "EURC Supply",
+        asset: "EURC",
+        receiptToken: "0xb682c840B5F4FC58B20769E691A6fa1305A501a2",
+        decimals: 6,
+        chainId: CHAINS.BASE,
+    },
+]
+
+/**
  * Merkl yield opportunities (usually incentivized liquidity)
  * Often these are tracked via underlying LP tokens or specific vault positions
  */
@@ -141,6 +185,8 @@ export const ALL_PROTOCOL_POSITIONS: ProtocolPosition[] = [
     ...AAVE_V3_POSITIONS,
     ...MORPHO_POSITIONS,
     ...CURVE_POSITIONS,
+    ...YEARN_POSITIONS,
+    ...MOONWELL_POSITIONS,
     // Note: Merkl positions are typically tracked differently (via underlying assets)
 ]
 
@@ -164,4 +210,5 @@ export const PROTOCOL_COLORS: Record<string, string> = {
     "curve-dex": "#FF0000",
     "merkl": "#7B3FE4",
     "yearn-finance": "#006AE3",
+    "moonwell-lending": "#e84142", // Moonwell red
 }

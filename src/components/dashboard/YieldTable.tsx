@@ -15,123 +15,16 @@ import {
     Flag,
     Download,
     TrendingUp,
-    TrendingDown
+    TrendingDown,
+    Bell
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// Deep-link URLs for protocol deposit pages
-// Keys must match protocol_slug from database exactly
-const PROTOCOL_DEPOSIT_URLS: Record<string, Record<string, string>> = {
-    // Aave V3 - multiple slug variations in DB
-    "aave-v3": {
-        "ethereum": "https://app.aave.com/",
-        "arbitrum": "https://app.aave.com/",
-        "optimism": "https://app.aave.com/",
-        "polygon": "https://app.aave.com/",
-        "base": "https://app.aave.com/",
-    },
-    "aave": {
-        "ethereum": "https://app.aave.com/",
-        "arbitrum": "https://app.aave.com/",
-        "optimism": "https://app.aave.com/",
-        "polygon": "https://app.aave.com/",
-        "base": "https://app.aave.com/",
-    },
-    "aave-arbitrum": {
-        "arbitrum": "https://app.aave.com/",
-    },
-    // Morpho Blue
-    "morpho": {
-        "ethereum": "https://app.morpho.org/",
-        "base": "https://app.morpho.org/",
-    },
-    "morpho-blue": {
-        "ethereum": "https://app.morpho.org/",
-        "base": "https://app.morpho.org/",
-    },
-    // Curve Finance
-    "curve": {
-        "ethereum": "https://curve.fi/#/ethereum/pools",
-        "arbitrum": "https://curve.fi/#/arbitrum/pools",
-        "optimism": "https://curve.fi/#/optimism/pools",
-        "polygon": "https://curve.fi/#/polygon/pools",
-        "base": "https://curve.fi/#/base/pools",
-    },
-    "curve-polygon": {
-        "polygon": "https://curve.fi/#/polygon/pools",
-    },
-    // Merkl (Angle Protocol rewards)
-    "merkl": {
-        "ethereum": "https://app.merkl.xyz/",
-        "arbitrum": "https://app.merkl.xyz/",
-        "optimism": "https://app.merkl.xyz/",
-        "polygon": "https://app.merkl.xyz/",
-        "base": "https://app.merkl.xyz/",
-    },
-    // Yearn Finance
-    "yearn-finance": {
-        "ethereum": "https://yearn.fi/vaults",
-        "arbitrum": "https://yearn.fi/vaults",
-        "optimism": "https://yearn.fi/vaults",
-        "polygon": "https://yearn.fi/vaults",
-        "base": "https://yearn.fi/vaults",
-    },
-    // Fluid Lending
-    "fluid-lending": {
-        "ethereum": "https://fluid.instadapp.io/",
-        "arbitrum": "https://fluid.instadapp.io/",
-    },
-    // Moonwell
-    "moonwell-lending": {
-        "base": "https://moonwell.fi/discover",
-        "optimism": "https://moonwell.fi/discover",
-    },
-    // Radiant V2
-    "radiant-v2": {
-        "ethereum": "https://app.radiant.capital/",
-        "arbitrum": "https://app.radiant.capital/",
-        "base": "https://app.radiant.capital/",
-    },
-    // Extra Finance
-    "extra-finance-xlend": {
-        "optimism": "https://app.extrafi.io/lend",
-        "base": "https://app.extrafi.io/lend",
-    },
-    // Harvest Finance
-    "harvest-finance": {
-        "ethereum": "https://app.harvest.finance/",
-        "arbitrum": "https://app.harvest.finance/",
-        "polygon": "https://app.harvest.finance/",
-        "base": "https://app.harvest.finance/",
-    },
-}
+import { getDepositUrl } from "@/lib/constants/urls"
+import { AlertModal } from "@/components/alerts/AlertModal"
 
-function getDepositUrl(protocolSlug: string, chain: string): string | null {
-    const slug = protocolSlug.toLowerCase()
-    const chainLower = chain.toLowerCase()
-
-    // Direct match
-    if (PROTOCOL_DEPOSIT_URLS[slug]?.[chainLower]) {
-        return PROTOCOL_DEPOSIT_URLS[slug][chainLower]
-    }
-
-    // Try common variations
-    const variations = [
-        slug,
-        slug.replace(/\s+/g, '-'),
-        slug.replace(/-/g, ''),
-        slug.replace(' v3', '-v3'),
-        slug.replace(' v2', '-v2'),
-    ]
-
-    for (const variant of variations) {
-        if (PROTOCOL_DEPOSIT_URLS[variant]?.[chainLower]) {
-            return PROTOCOL_DEPOSIT_URLS[variant][chainLower]
-        }
-    }
-
-    return null
-}
+// Removed local PROTOCOL_DEPOSIT_URLS definition
+// Removed local getDepositUrl function
 
 const PROTOCOL_LOGOS: Record<string, string> = {
     // Major protocols
@@ -401,6 +294,16 @@ export function YieldTable({ data }: YieldTableProps) {
                                 </td>
                                 <td className="px-4 py-3 text-right">
                                     <div className="flex items-center justify-end gap-1">
+                                        <AlertModal
+                                            protocolName={pool.protocol_name}
+                                            protocolSlug={pool.protocol_slug}
+                                            chain={pool.chain}
+                                            currentApy={pool.apy}
+                                        >
+                                            <Button size="icon" variant="ghost" className="h-7 w-7 text-muted-foreground hover:text-amber-500 transition-colors" title="Set Alert">
+                                                <Bell className="h-3.5 w-3.5" />
+                                            </Button>
+                                        </AlertModal>
                                         {(() => {
                                             const depositUrl = getDepositUrl(pool.protocol_slug, pool.chain)
                                             return depositUrl ? (
