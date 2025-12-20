@@ -143,12 +143,19 @@
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Container */
+/* Container - responsive padding for mobile */
 .container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   max-width: 1200px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
 }

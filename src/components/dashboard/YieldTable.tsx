@@ -170,13 +170,13 @@ export function YieldTable({ data }: YieldTableProps) {
                             Chain:
                         </span>
                     </div>
-                    <div className="flex gap-1.5">
+                    <div className="flex flex-wrap gap-2">
                         {chains.map(chain => (
                             <button
                                 key={chain}
                                 onClick={() => setSelectedChain(chain)}
                                 className={cn(
-                                    "px-2.5 py-0.5 rounded text-[11px] font-medium capitalize transition-colors border",
+                                    "px-3 py-1.5 rounded text-xs font-medium capitalize transition-colors border min-h-[36px]",
                                     selectedChain === chain
                                         ? "bg-primary/10 text-primary border-primary/20"
                                         : "bg-transparent text-muted-foreground border-transparent hover:bg-muted hover:text-foreground"

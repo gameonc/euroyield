@@ -2,7 +2,7 @@
 
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Wallet, TrendingUp, Plus, RefreshCw, Layers, Loader2 } from "lucide-react"
+import { Wallet, TrendingUp, Plus, ArrowRight, AlertCircle, ExternalLink, Layers, RefreshCw, Loader2 } from "lucide-react"
 import {
     Tooltip,
     TooltipContent,
@@ -13,7 +13,7 @@ import { ConnectWalletModal } from "@/components/modals/ConnectWalletModal"
 import { useAccount } from "wagmi"
 import { useEffect, useState } from "react"
 import { shortenAddress } from '@/lib/utils'
-import { useTokenBalances } from "@/lib/hooks/useTokenBalances"
+import { usePortfolioData } from "@/lib/hooks/usePortfolioData"
 
 const chainNames: Record<number, string> = {
     1: "Ethereum",
@@ -25,7 +25,19 @@ const chainNames: Record<number, string> = {
 
 export default function PortfolioPage() {
     const { isConnected, address } = useAccount()
-    const { balances, totalValue, isLoading } = useTokenBalances()
+    const {
+        positions,
+        rawBalances,
+        totalValue,
+        weightedApy,
+        monthlyEarnings,
+        dailyEarnings,
+        yearlyEarnings,
+        idleCapital,
+        potentialDailyGain,
+        isLoading
+    } = usePortfolioData()
+
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
@@ -35,202 +47,308 @@ export default function PortfolioPage() {
     if (!isMounted) return null
 
     const formatCurrency = (val: number) => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(val)
+    const formatPercent = (val: number) => new Intl.NumberFormat('en-US', { style: 'percent', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(val / 100)
 
     return (
         <TooltipProvider>
-        <div className="min-h-screen">
-            <section className="border-b bg-dot-pattern">
-                <div className="container py-16 md:py-20">
-                    <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-                        <div className="space-y-4">
-                            <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground font-outfit">Portfolio</h1>
-                            <p className="text-lg text-muted-foreground font-light max-w-2xl">
-                                Track your Euro stablecoin positions and yield performance.
-                            </p>
-                        </div>
-                        {!isConnected && (
-                            <ConnectWalletModal>
-                                <Button className="gap-2 w-fit h-10 px-6 rounded-lg">
-                                    <Wallet className="h-4 w-4" />
-                                    Connect Wallet
-                                </Button>
-                            </ConnectWalletModal>
-                        )}
-                        {isConnected && (
-                            <div className="flex items-center gap-3">
-                                <div className="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-mono text-sm">
-                                    {shortenAddress(address || "")}
-                                </div>
+            <div className="min-h-screen">
+                <section className="border-b bg-dot-pattern">
+                    <div className="container py-16 md:py-20">
+                        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+                            <div className="space-y-4">
+                                <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground font-outfit">Portfolio</h1>
+                                <p className="text-lg text-muted-foreground font-light max-w-2xl">
+                                    Track your Euro stablecoin positions and yield performance.
+                                </p>
                             </div>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            <div className="container py-12 space-y-8">
-                {/* NOT CONNECTED STATE */}
-                {!isConnected ? (
-                    <div className="rounded-xl border border-dashed border-border/60 bg-muted/10 p-12 text-center">
-                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted/50 mb-6">
-                            <Wallet className="h-8 w-8 text-muted-foreground" />
-                        </div>
-                        <h2 className="text-xl font-semibold mb-2 font-outfit">No Wallet Connected</h2>
-                        <p className="text-muted-foreground max-w-md mx-auto mb-8 font-light">
-                            Connect your wallet to analyze your on-chain Euro stablecoin exposure and yield efficiency.
-                            We never request permissions to move funds.
-                        </p>
-                        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                            <ConnectWalletModal>
-                                <Button variant="default" className="gap-2 h-10 px-6">
-                                    <Wallet className="h-4 w-4" />
-                                    Connect Wallet
-                                </Button>
-                            </ConnectWalletModal>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Button variant="outline" className="gap-2 h-10 px-6 opacity-60 cursor-not-allowed">
-                                        <Plus className="h-4 w-4" />
-                                        Watch Address
+                            {!isConnected && (
+                                <ConnectWalletModal>
+                                    <Button className="gap-2 w-fit h-10 px-6 rounded-lg">
+                                        <Wallet className="h-4 w-4" />
+                                        Connect Wallet
                                     </Button>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p>Coming Soon</p>
-                                </TooltipContent>
-                            </Tooltip>
+                                </ConnectWalletModal>
+                            )}
+                            {isConnected && (
+                                <div className="flex items-center gap-3">
+                                    <div className="px-4 py-2 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-mono text-sm">
+                                        {shortenAddress(address || "")}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
-                ) : (
-                    /* CONNECTED STATE */
-                    <div className="space-y-8">
-                        {/* Summary Stats */}
+                </section>
+
+                <div className="container py-12 space-y-8">
+                    {/* NOT CONNECTED STATE */}
+                    {!isConnected ? (
+                        <div className="rounded-xl border border-dashed border-border/60 bg-muted/10 p-12 text-center">
+                            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-muted/50 mb-6">
+                                <Wallet className="h-8 w-8 text-muted-foreground" />
+                            </div>
+                            <h2 className="text-xl font-semibold mb-2 font-outfit">No Wallet Connected</h2>
+                            <p className="text-muted-foreground max-w-md mx-auto mb-8 font-light">
+                                Connect your wallet to analyze your on-chain Euro stablecoin exposure and yield efficiency.
+                                We never request permissions to move funds.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                                <ConnectWalletModal>
+                                    <Button variant="default" className="gap-2 h-10 px-6">
+                                        <Wallet className="h-4 w-4" />
+                                        Connect Wallet
+                                    </Button>
+                                </ConnectWalletModal>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <Button variant="outline" className="gap-2 h-10 px-6 opacity-60 cursor-not-allowed">
+                                            <Plus className="h-4 w-4" />
+                                            Watch Address
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>Coming Soon</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
+                        </div>
+                    ) : (
+                        /* CONNECTED STATE */
+                        <div className="space-y-8">
+                            {/* Summary Stats */}
+                            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                                <Card className="bg-card/50 backdrop-blur-sm">
+                                    <CardHeader>
+                                        <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Net Worth</CardTitle>
+                                        <div className="text-3xl font-bold font-mono mt-2">
+                                            {isLoading ? "..." : formatCurrency(totalValue)}
+                                        </div>
+                                        <CardDescription>
+                                            Total Euro Assets
+                                        </CardDescription>
+                                    </CardHeader>
+                                </Card>
+                                <Card className="bg-card/50 backdrop-blur-sm">
+                                    <CardHeader>
+                                        <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Avg Yield</CardTitle>
+                                        <div className="text-3xl font-bold font-mono mt-2 text-emerald-500">
+                                            {isLoading ? "..." : formatPercent(weightedApy)}
+                                        </div>
+                                        <CardDescription>Weighted APY</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                                <Card className="bg-card/50 backdrop-blur-sm">
+                                    <CardHeader>
+                                        <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Est. Monthly</CardTitle>
+                                        <div className="text-3xl font-bold font-mono mt-2">
+                                            {isLoading ? "..." : formatCurrency(monthlyEarnings)}
+                                        </div>
+                                        <CardDescription>Passive Income</CardDescription>
+                                    </CardHeader>
+                                </Card>
+                                <Card className="bg-card/50 backdrop-blur-sm relative overflow-hidden">
+                                    {idleCapital > 0 && !isLoading && (
+                                        <div className="absolute top-0 right-0 p-2">
+                                            <span className="flex h-3 w-3 relative">
+                                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                                                <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                                            </span>
+                                        </div>
+                                    )}
+                                    <CardHeader>
+                                        <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Optimization</CardTitle>
+                                        <div className="text-3xl font-bold font-mono mt-2 text-amber-500">
+                                            {isLoading ? "..." : formatCurrency(potentialDailyGain * 30)}
+                                        </div>
+                                        <CardDescription>
+                                            Potential Monthly +
+                                        </CardDescription>
+                                    </CardHeader>
+                                </Card>
+                            </div>
+
+                            {/* Yield Optimization Alert */}
+                            {idleCapital > 50 && !isLoading && (
+                                <div className="p-4 rounded-lg bg-amber-500/10 border border-amber-500/20 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                                    <div className="flex items-start gap-4">
+                                        <div className="p-2 rounded-full bg-amber-500/20 text-amber-500 mt-1 md:mt-0">
+                                            <AlertCircle className="h-5 w-5" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-amber-500">Idle Capital Detected</h3>
+                                            <p className="text-sm text-muted-foreground">
+                                                You have <span className="font-mono font-medium text-foreground">{formatCurrency(idleCapital)}</span> sitting in your wallet not earning yield.
+                                                Deploying this could earn you an extra <span className="font-mono font-medium text-emerald-500">{formatCurrency(potentialDailyGain * 365)}</span> per year.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <Button variant="outline" className="border-amber-500/20 hover:bg-amber-500/10 text-amber-500 whitespace-nowrap" asChild>
+                                        <a href="/opportunities">
+                                            Find Opportunities <ArrowRight className="ml-2 h-4 w-4" />
+                                        </a>
+                                    </Button>
+                                </div>
+                            )}
+
+                            {/* Active Yield Positions */}
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle className="flex items-center gap-2">
+                                        <TrendingUp className="h-5 w-5 text-emerald-500" />
+                                        Yield Roles
+                                    </CardTitle>
+                                    <CardDescription>Active positions currently generating returns.</CardDescription>
+                                </CardHeader>
+                                <CardContent className="p-0">
+                                    {isLoading ? (
+                                        <div className="p-12 text-center">
+                                            <Loader2 className="h-8 w-8 animate-spin mx-auto text-muted-foreground mb-4" />
+                                            <p className="text-muted-foreground">Scanning protocols...</p>
+                                        </div>
+                                    ) : positions.length > 0 ? (
+                                        <div className="divide-y divide-border/40">
+                                            {positions.map((position) => (
+                                                <div key={position.id} className="flex flex-col md:flex-row md:items-center justify-between p-6 hover:bg-muted/20 transition-colors">
+                                                    <div className="flex items-center gap-4 mb-4 md:mb-0">
+                                                        <div className="h-12 w-12 rounded-full bg-emerald-500/10 flex items-center justify-center font-bold text-sm text-emerald-500 shrink-0">
+                                                            {position.asset}
+                                                        </div>
+                                                        <div>
+                                                            <div className="flex items-center gap-2">
+                                                                <h4 className="font-medium text-lg">{position.protocol}</h4>
+                                                                <span className="px-2 py-0.5 rounded-full text-[10px] uppercase font-bold bg-muted text-muted-foreground border">
+                                                                    {position.chain}
+                                                                </span>
+                                                            </div>
+                                                            <p className="text-sm text-muted-foreground">{position.poolName}</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-12 w-full md:w-auto">
+                                                        <div>
+                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Balance</p>
+                                                            <p className="font-mono font-medium">{formatCurrency(position.balance)}</p>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">APY</p>
+                                                            <div className="flex items-center gap-1.5">
+                                                                <p className="font-mono font-medium text-emerald-500">{position.apy.toFixed(2)}%</p>
+                                                                {position.yieldSource === 'estimated' && (
+                                                                    <Tooltip>
+                                                                        <TooltipTrigger>
+                                                                            <span className="text-[10px] bg-muted px-1 rounded text-muted-foreground cursor-help">EST</span>
+                                                                        </TooltipTrigger>
+                                                                        <TooltipContent>Estimated yield</TooltipContent>
+                                                                    </Tooltip>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Est. Monthly</p>
+                                                            <p className="font-mono font-medium text-foreground/80">{formatCurrency(position.monthlyEarnings)}</p>
+                                                        </div>
+                                                        <div className="flex items-center justify-end">
+                                                            <Button variant="ghost" size="icon" className="h-8 w-8 opacity-50 hover:opacity-100">
+                                                                <ExternalLink className="h-4 w-4" />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className="p-12 text-center text-muted-foreground">
+                                            <p>No active yield positions found.</p>
+                                        </div>
+                                    )}
+                                </CardContent>
+                            </Card>
+
+                            {/* Wallet Holdings (Idle) */}
+                            {rawBalances.length > 0 && (
+                                <Card className="border-dashed border-muted-foreground/30 bg-muted/5">
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2 text-muted-foreground">
+                                            <Wallet className="h-5 w-5" />
+                                            Wallet Holdings (Idle)
+                                        </CardTitle>
+                                        <CardDescription>Safe in your wallet, but not earning yield.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="p-0">
+                                        <div className="divide-y divide-border/40">
+                                            {rawBalances.map((token, idx) => (
+                                                <div key={`${token.symbol}-${token.chainId}-${idx}`} className="flex flex-col md:flex-row md:items-center justify-between p-6 hover:bg-muted/10">
+                                                    <div className="flex items-center gap-4 mb-4 md:mb-0">
+                                                        <div className="h-10 w-10 rounded-full bg-muted flex items-center justify-center font-bold text-xs text-muted-foreground">
+                                                            {token.symbol}
+                                                        </div>
+                                                        <div>
+                                                            <h4 className="font-medium text-muted-foreground">{token.name}</h4>
+                                                            <p className="text-xs text-muted-foreground">{chainNames[token.chainId] || "Unknown Chain"}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-8 md:justify-end w-full md:w-auto">
+                                                        <div className="text-right">
+                                                            <p className="font-mono font-medium text-muted-foreground">{formatCurrency(token.balance)}</p>
+                                                        </div>
+                                                        <Button size="sm" variant="outline" className="gap-2" asChild>
+                                                            <a href="/opportunities">
+                                                                Deploy <ArrowRight className="h-3 w-3" />
+                                                            </a>
+                                                        </Button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </CardContent>
+                                </Card>
+                            )}
+                        </div>
+                    )}
+
+
+                    {/* Features Grid (Always visible for SEO/Info) */}
+                    {!isConnected && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <Card className="bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Total Value</CardTitle>
-                                    <div className="text-3xl font-bold font-mono mt-2">
-                                        {isLoading ? "..." : formatCurrency(totalValue)}
+                                    <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
+                                        <Layers className="h-5 w-5 text-primary" />
                                     </div>
+                                    <CardTitle className="text-lg font-outfit">Exposure Analysis</CardTitle>
                                     <CardDescription>
-                                        Across {new Set(balances.map(b => b.chainId)).size} chains
+                                        Breakdown of EURC, EURS, and agEUR across chains.
                                     </CardDescription>
                                 </CardHeader>
                             </Card>
+
                             <Card className="bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Avg Yield</CardTitle>
-                                    <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <div className="text-3xl font-bold font-mono mt-2 text-emerald-500 cursor-help">
-                                                {totalValue > 0 ? "~4.2%" : "0.00%"}
-                                            </div>
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Based on current market avg. Connect positions for exact yield.</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                    <CardDescription>Weighted APY (Est)</CardDescription>
+                                    <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2">
+                                        <TrendingUp className="h-5 w-5 text-emerald-500" />
+                                    </div>
+                                    <CardTitle className="text-lg font-outfit">Yield Performance</CardTitle>
+                                    <CardDescription>
+                                        Real-time APY calculation of your deployed capital.
+                                    </CardDescription>
                                 </CardHeader>
                             </Card>
+
                             <Card className="bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
-                                    <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Monthly Income</CardTitle>
-                                    <div className="text-3xl font-bold font-mono mt-2">
-                                        {totalValue > 0 ? formatCurrency((totalValue * 0.042) / 12) : "€0.00"}
+                                    <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2">
+                                        <RefreshCw className="h-5 w-5 text-blue-500" />
                                     </div>
-                                    <CardDescription>Projected</CardDescription>
+                                    <CardTitle className="text-lg font-outfit">Rebalance Engine</CardTitle>
+                                    <CardDescription>
+                                        Signals when better yield opportunities are available.
+                                    </CardDescription>
                                 </CardHeader>
                             </Card>
                         </div>
-
-                        {/* Positions List */}
-                        {balances.length > 0 ? (
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Your Holdings</CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-0">
-                                    <div className="divide-y divide-border/40">
-                                        {balances.map((token, idx) => (
-                                            <div key={`${token.symbol}-${token.chainId}-${idx}`} className="flex items-center justify-between p-6 hover:bg-muted/20">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-xs text-primary">
-                                                        {token.symbol}
-                                                    </div>
-                                                    <div>
-                                                        <h4 className="font-medium">{token.name}</h4>
-                                                        <p className="text-xs text-muted-foreground">{chainNames[token.chainId] || "Unknown Chain"}</p>
-                                                    </div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <p className="font-mono font-medium">{formatCurrency(token.balance)}</p>
-                                                    <p className="text-xs text-emerald-500 font-medium">Yield Active</p>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        ) : (
-                            <div className="rounded-lg border border-border/50 bg-card p-12 text-center">
-                                {isLoading ? (
-                                    <div className="flex flex-col items-center gap-2">
-                                        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-                                        <p className="text-muted-foreground">Scanning blockchain...</p>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <p className="text-muted-foreground mb-4">No Euro stablecoin positions found in this wallet.</p>
-                                        <Button variant="outline" size="sm" onClick={() => window.location.reload()}>Scan Again</Button>
-                                    </>
-                                )}
-                            </div>
-                        )}
-                    </div>
-                )}
-
-
-                {/* Features Grid (Always visible for SEO/Info) */}
-                {!isConnected && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <Card className="bg-card/50 backdrop-blur-sm">
-                            <CardHeader>
-                                <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center mb-2">
-                                    <Layers className="h-5 w-5 text-primary" />
-                                </div>
-                                <CardTitle className="text-lg font-outfit">Exposure Analysis</CardTitle>
-                                <CardDescription>
-                                    Breakdown of EURC, EURS, and agEUR across chains.
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
-
-                        <Card className="bg-card/50 backdrop-blur-sm">
-                            <CardHeader>
-                                <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center mb-2">
-                                    <TrendingUp className="h-5 w-5 text-emerald-500" />
-                                </div>
-                                <CardTitle className="text-lg font-outfit">Yield Performance</CardTitle>
-                                <CardDescription>
-                                    Real-time APY calculation of your deployed capital.
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
-
-                        <Card className="bg-card/50 backdrop-blur-sm">
-                            <CardHeader>
-                                <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center mb-2">
-                                    <RefreshCw className="h-5 w-5 text-blue-500" />
-                                </div>
-                                <CardTitle className="text-lg font-outfit">Rebalance Engine</CardTitle>
-                                <CardDescription>
-                                    Signals when better yield opportunities are available.
-                                </CardDescription>
-                            </CardHeader>
-                        </Card>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
-        </div>
         </TooltipProvider>
     )
 }

@@ -21,10 +21,10 @@ export function AnnouncementBanner() {
             </div>
             <button
                 onClick={() => setIsVisible(false)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-white/20 rounded-full transition-colors"
+                className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 p-2 hover:bg-white/20 rounded-full transition-colors min-w-[44px] min-h-[44px] flex items-center justify-center"
                 aria-label="Dismiss announcement"
             >
-                <X className="h-4 w-4" />
+                <X className="h-5 w-5" />
             </button>
         </div>
     )

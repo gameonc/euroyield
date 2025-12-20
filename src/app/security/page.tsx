@@ -27,7 +27,7 @@ export default function SecurityPage() {
 
             {/* Featured block - generous whitespace */}
             <section className="container py-20 md:py-28">
-                <div className="grid md:grid-cols-2 gap-16 items-center">
+                <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
                     <div className="space-y-6">
                         <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
                             Core Principle

@@ -17,13 +17,13 @@ function CodeBlock({ code, language = "bash" }: { code: string; language?: strin
 
     return (
         <div className="relative group">
-            <pre className="bg-muted/50 border rounded-lg p-4 overflow-x-auto text-sm font-mono">
+            <pre className="bg-muted/50 border rounded-lg p-3 sm:p-4 overflow-x-auto text-xs sm:text-sm font-mono">
                 <code>{code}</code>
             </pre>
             <Button
                 variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="absolute top-2 right-2 h-10 w-10 sm:h-8 sm:w-8 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity bg-muted/80 sm:bg-transparent"
                 onClick={handleCopy}
             >
                 {copied ? <Check className="h-4 w-4 text-emerald-500" /> : <Copy className="h-4 w-4" />}

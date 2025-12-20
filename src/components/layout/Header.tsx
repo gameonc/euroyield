@@ -138,39 +138,39 @@ export function Header() {
             {/* Mobile Navigation (Simplified) */}
             {mobileMenuOpen && (
                 <div className="md:hidden border-t bg-background">
-                    <nav className="container py-4 flex flex-col gap-1">
+                    <nav className="container py-4 flex flex-col gap-2">
                         <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base">
+                                <LayoutDashboard className="h-5 w-5 text-muted-foreground" />
                                 Markets
                             </Button>
                         </Link>
                         <Link href="/reports" onClick={() => setMobileMenuOpen(false)}>
-                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                <FileText className="h-4 w-4 text-muted-foreground" />
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base">
+                                <FileText className="h-5 w-5 text-muted-foreground" />
                                 Intel & Reports
                             </Button>
                         </Link>
                         <Link href="/security" onClick={() => setMobileMenuOpen(false)}>
-                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                <Shield className="h-4 w-4 text-muted-foreground" />
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base">
+                                <Shield className="h-5 w-5 text-muted-foreground" />
                                 Security
                             </Button>
                         </Link>
                         <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
-                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                <Info className="h-4 w-4 text-muted-foreground" />
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-12 text-base">
+                                <Info className="h-5 w-5 text-muted-foreground" />
                                 About
                             </Button>
                         </Link>
-                        <div className="border-t pt-4 mt-2 flex flex-col gap-2 px-2">
+                        <div className="border-t pt-4 mt-3 flex flex-col gap-3 px-2">
                             <ConnectWalletModal>
-                                <Button variant="outline" className="w-full">
+                                <Button variant="outline" className="w-full h-12 text-base">
                                     Connect Wallet
                                 </Button>
                             </ConnectWalletModal>
                             <PricingModal>
-                                <Button className="w-full">Upgrade</Button>
+                                <Button className="w-full h-12 text-base">Upgrade</Button>
                             </PricingModal>
                         </div>
                     </nav>
