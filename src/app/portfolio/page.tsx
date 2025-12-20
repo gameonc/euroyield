@@ -24,8 +24,6 @@ export default function PortfolioPage() {
         totalValue,
         weightedApy,
         monthlyEarnings,
-        dailyEarnings,
-        yearlyEarnings,
         idleCapital,
         potentialDailyGain,
         isLoading,
@@ -34,9 +32,9 @@ export default function PortfolioPage() {
 
     const [isMounted, setIsMounted] = useState(false)
 
-    useEffect(() => {
-        setIsMounted(true)
-    }, [])
+    // Hydration guard - required for wagmi wallet state synchronization
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    useEffect(() => { setIsMounted(true) }, [])
 
     if (!isMounted) return null
 

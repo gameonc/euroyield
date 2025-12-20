@@ -52,7 +52,7 @@ export async function POST(request: Request) {
                 sendWeeklyReport({
                     to: email,
                     weekRange: "Welcome Edition",
-                    topYields: yields.map((y: any) => ({
+                    topYields: yields.map((y: { protocol_name: string; apy: number; chain: string }) => ({
                         protocol: y.protocol_name,
                         apy: y.apy,
                         chain: y.chain

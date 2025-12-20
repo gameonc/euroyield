@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Eye, Lock, ExternalLink } from "lucide-react"
+import { Eye, ExternalLink } from "lucide-react"
 
 export const metadata: Metadata = {
     title: 'Security',

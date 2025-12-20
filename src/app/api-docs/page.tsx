@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Code, Zap, Lock, Clock, Copy, Check } from "lucide-react"
 import { useState } from "react"
 
-function CodeBlock({ code, language = "bash" }: { code: string; language?: string }) {
+function CodeBlock({ code }: { code: string }) {
     const [copied, setCopied] = useState(false)
 
     const handleCopy = async () => {

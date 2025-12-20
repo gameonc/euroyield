@@ -1,6 +1,5 @@
 import { Metadata } from 'next'
 import { Card, CardContent } from "@/components/ui/card"
-import { Euro } from "lucide-react"
 
 export const metadata: Metadata = {
     title: 'About',

@@ -10,7 +10,6 @@ import { erc20Abi, formatUnits, type Address } from "viem"
 import {
     ALL_PROTOCOL_POSITIONS,
     CHAIN_NAMES,
-    type ProtocolPosition,
     type ChainId
 } from "../constants/protocols"
 

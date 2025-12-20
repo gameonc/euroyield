@@ -32,8 +32,8 @@ export function NewsletterForm() {
 
             setIsSuccess(true)
             setEmail('')
-        } catch (err: any) {
-            setError(err.message)
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'An error occurred')
         } finally {
             setIsLoading(false)
         }
