@@ -2,7 +2,13 @@
 
 import { Card, CardDescription, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Wallet, TrendingUp, Plus, RefreshCw, Layers, Loader2, DollarSign } from "lucide-react"
+import { Wallet, TrendingUp, Plus, RefreshCw, Layers, Loader2 } from "lucide-react"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { ConnectWalletModal } from "@/components/modals/ConnectWalletModal"
 import { useAccount } from "wagmi"
 import { useEffect, useState } from "react"
@@ -31,6 +37,7 @@ export default function PortfolioPage() {
     const formatCurrency = (val: number) => new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(val)
 
     return (
+        <TooltipProvider>
         <div className="min-h-screen">
             <section className="border-b bg-dot-pattern">
                 <div className="container py-16 md:py-20">
@@ -79,10 +86,17 @@ export default function PortfolioPage() {
                                     Connect Wallet
                                 </Button>
                             </ConnectWalletModal>
-                            <Button variant="outline" className="gap-2 h-10 px-6">
-                                <Plus className="h-4 w-4" />
-                                Watch Address
-                            </Button>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <Button variant="outline" className="gap-2 h-10 px-6 opacity-60 cursor-not-allowed">
+                                        <Plus className="h-4 w-4" />
+                                        Watch Address
+                                    </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Coming Soon</p>
+                                </TooltipContent>
+                            </Tooltip>
                         </div>
                     </div>
                 ) : (
@@ -104,9 +118,16 @@ export default function PortfolioPage() {
                             <Card className="bg-card/50 backdrop-blur-sm">
                                 <CardHeader>
                                     <CardTitle className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Avg Yield</CardTitle>
-                                    <div className="text-3xl font-bold font-mono mt-2 text-emerald-500">
-                                        {totalValue > 0 ? "4.2%" : "0.00%"}
-                                    </div>
+                                    <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <div className="text-3xl font-bold font-mono mt-2 text-emerald-500 cursor-help">
+                                                {totalValue > 0 ? "~4.2%" : "0.00%"}
+                                            </div>
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <p>Based on current market avg. Connect positions for exact yield.</p>
+                                        </TooltipContent>
+                                    </Tooltip>
                                     <CardDescription>Weighted APY (Est)</CardDescription>
                                 </CardHeader>
                             </Card>
@@ -210,5 +231,6 @@ export default function PortfolioPage() {
                 )}
             </div>
         </div>
+        </TooltipProvider>
     )
 }
