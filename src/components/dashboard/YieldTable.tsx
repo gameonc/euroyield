@@ -20,6 +20,7 @@ import {
 import { cn } from "@/lib/utils"
 
 const PROTOCOL_LOGOS: Record<string, string> = {
+    // Major protocols
     "aave": "/protocols/aave.svg",
     "aave v3": "/protocols/aave.svg",
     "aave-v3": "/protocols/aave.svg",
@@ -35,22 +36,29 @@ const PROTOCOL_LOGOS: Record<string, string> = {
     "angle": "/protocols/angle.svg",
     "angle protocol": "/protocols/angle.svg",
     "merkl": "/protocols/merkl.svg",
+    // Yield aggregators
     "yearn": "/protocols/yearn.svg",
     "yearn-finance": "/protocols/yearn.svg",
     "yearn finance": "/protocols/yearn.svg",
+    "harvest": "/protocols/harvest.svg",
+    "harvest-finance": "/protocols/harvest.svg",
+    "harvest finance": "/protocols/harvest.svg",
+    // Lending protocols
     "radiant": "/protocols/radiant.svg",
     "radiant-v2": "/protocols/radiant.svg",
     "radiant v2": "/protocols/radiant.svg",
     "moonwell": "/protocols/moonwell.svg",
     "moonwell-lending": "/protocols/moonwell.svg",
-    "harvest": "/protocols/harvest.svg",
-    "harvest-finance": "/protocols/harvest.svg",
-    "harvest finance": "/protocols/harvest.svg",
     "fluid": "/protocols/fluid.svg",
     "fluid-lending": "/protocols/fluid.svg",
     "extra": "/protocols/extra.svg",
     "extra-finance": "/protocols/extra.svg",
     "extra-finance-xlend": "/protocols/extra.svg",
+    // Additional protocols
+    "autofinance": "/protocols/autofinance.svg",
+    "yo": "/protocols/yo.svg",
+    "yo-protocol": "/protocols/yo.svg",
+    "yo protocol": "/protocols/yo.svg",
 }
 
 function ProtocolLogo({ name }: { name: string }) {
