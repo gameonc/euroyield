@@ -13,10 +13,10 @@ export default function SecurityPage() {
             <section className="border-b bg-dot-pattern">
                 <div className="container py-16 md:py-24">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 font-outfit">
-                        Security & Trust
+                        Verifiable Trust
                     </h1>
                     <p className="text-xl text-muted-foreground max-w-2xl font-light">
-                        We believe transparency is the foundation of DeFi. Here's how we keep you safe.
+                        Rendite is built on a simple premise: You shouldn&apos;t have to trust a dashboard. Don&apos;t trust. Verify.
                     </p>
                 </div>
             </section>
@@ -33,29 +33,29 @@ export default function SecurityPage() {
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="text-muted-foreground text-sm leading-relaxed">
-                            Rendite is a read-only dashboard. We never ask for access to your funds. We do not have smart contracts that hold user deposits. You always interact directly with the underlying protocol (e.g., Aave, Curve).
+                            We cannot touch your funds. Even if we wanted to. Rendite is a purely non-custodial interface that connects your wallet directly to established protocols like Aave and Curve.
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <Eye className="h-5 w-5 text-blue-500" />
-                                Verified Data
+                                Triple-Verified Data
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="text-muted-foreground text-sm leading-relaxed">
-                            Yield data is cross-referenced between DeFiLlama, on-chain RPC calls, and official protocol subgraphs. We flag data delays or inconsistencies immediately.
+                            We cross-reference on-chain RPCs, subgraphs, and external APIs. If the data doesn&apos;t match across all three sources, we don&apos;t show it.
                         </CardContent>
                     </Card>
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center gap-2">
                                 <ShieldCheck className="h-5 w-5 text-purple-500" />
-                                Audit Tracking
+                                Audit Surveillance
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="text-muted-foreground text-sm leading-relaxed">
-                            We track the audit status of every listed protocol. Pools from unaudited or experimental protocols are clearly marked with warning badges to minimize user risk.
+                            We don&apos;t just check for a PDF. We monitor active bug bounties, timelock delays, and governance proposals to ensure the protocol remains secure over time.
                         </CardContent>
                     </Card>
                 </div>

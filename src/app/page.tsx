@@ -63,13 +63,13 @@ export default async function HomePage() {
 
               <div className="flex items-center gap-6 pt-4 text-xs font-medium text-muted-foreground/80 lowercase tracking-wide">
                 <span className="flex items-center gap-1.5">
-                  <Shield className="h-3.5 w-3.5" /> no signup required
+                  <Shield className="h-3.5 w-3.5" /> Permissionless
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Zap className="h-3.5 w-3.5" /> no fees
+                  <Zap className="h-3.5 w-3.5" /> Free Public Good
                 </span>
                 <span className="flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5" /> just data
+                  <Lock className="h-3.5 w-3.5" /> Raw Data
                 </span>
               </div>
             </div>
@@ -136,10 +136,9 @@ export default async function HomePage() {
         {/* Footer CTA */}
         <section className="py-20 border-t flex flex-col items-center text-center space-y-8">
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold tracking-tight">Stay ahead of the market.</h2>
+            <h2 className="text-3xl font-bold tracking-tight">Never miss a yield spike.</h2>
             <p className="text-muted-foreground max-w-[600px] mx-auto">
-              Get weekly Euro DeFi yield reports delivered to your inbox. <br />
-              No noise, just signal.
+              We track the pools so you don&apos;t have to. A single weekly email with the best stablecoin rates in the Eurozone.
             </p>
           </div>
 

@@ -66,7 +66,7 @@ export function Header() {
                                                         Yield Explorer
                                                     </div>
                                                     <p className="text-sm leading-tight text-muted-foreground">
-                                                        Compare verified Euro stablecoin yields across Aave, Curve, and more.
+                                                        The only dashboard dedicated to EUR-pegged assets.
                                                     </p>
                                                 </a>
                                             </NavigationMenuLink>
@@ -88,7 +88,7 @@ export function Header() {
                                 <NavigationMenuContent>
                                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                                         <ListItem href="/reports" title="Weekly Intel">
-                                            Institutional-grade analysis and market reports.
+                                            Deep-dive market intelligence.
                                         </ListItem>
                                         <ListItem href="/blog" title="Blog">
                                             Latest updates, guides, and ecosystem news.
@@ -97,7 +97,7 @@ export function Header() {
                                             How we verify data and ensure your safety.
                                         </ListItem>
                                         <ListItem href="/about" title="About Mission">
-                                            Why we are building the Euro-first yield layer.
+                                            Our manifesto for a Euro-denominated future.
                                         </ListItem>
                                     </ul>
                                 </NavigationMenuContent>
