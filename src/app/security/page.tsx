@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { ShieldCheck, Eye, Lock, FileCode, AlertTriangle } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { ShieldCheck, Eye, Lock, FileCode, AlertTriangle, ExternalLink } from "lucide-react"
 
 export const metadata: Metadata = {
     title: 'Security',
@@ -12,10 +12,10 @@ export default function SecurityPage() {
         <div className="min-h-screen">
             <section className="border-b bg-dot-pattern">
                 <div className="container py-16 md:py-24">
-                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 font-outfit">
+                    <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-2 font-outfit">
                         Verifiable Trust
                     </h1>
-                    <p className="text-xl text-muted-foreground max-w-2xl font-light font-outfit text-2xl text-foreground mt-2">
+                    <p className="text-2xl font-outfit text-foreground mt-2">
                         Don&apos;t Trust. Verify.
                     </p>
                     <p className="text-lg text-muted-foreground max-w-2xl mt-4 font-light">
@@ -24,85 +24,102 @@ export default function SecurityPage() {
                 </div>
             </section>
 
-            <section className="container py-16 space-y-16">
+            <section className="container py-16 space-y-20">
 
-                {/* Core Principles */}
-                <div className="grid md:grid-cols-3 gap-8">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Lock className="h-5 w-5 text-emerald-500" />
-                                Non-Custodial
-                            </CardTitle>
+                {/* Featured block - Non-custodial (different layout, no card) */}
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
+                            <Lock className="h-4 w-4" />
+                            Core Principle
+                        </div>
+                        <h2 className="text-4xl font-bold font-outfit">
+                            We can&apos;t touch your funds.
+                        </h2>
+                        <p className="text-lg text-muted-foreground leading-relaxed">
+                            Rendite is a purely non-custodial interface. We have no smart contracts that hold deposits. When you interact with a pool, you&apos;re transacting directly with Aave, Curve, or the underlying protocol—never with us.
+                        </p>
+                    </div>
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-transparent rounded-3xl blur-3xl" />
+                        <div className="relative bg-card border rounded-2xl p-8 space-y-4">
+                            <div className="flex items-center justify-between text-sm">
+                                <span className="text-muted-foreground">Transaction Flow</span>
+                                <ExternalLink className="h-4 w-4 text-muted-foreground" />
+                            </div>
+                            <div className="space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-xs font-mono">You</div>
+                                    <div className="flex-1 h-px bg-border relative">
+                                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-xs text-muted-foreground bg-card px-2">→</div>
+                                    </div>
+                                    <div className="h-10 w-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center text-xs font-mono">Protocol</div>
+                                </div>
+                                <p className="text-xs text-muted-foreground text-center">Rendite is not in this flow</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Two larger cards - varied layout */}
+                <div className="grid md:grid-cols-2 gap-8">
+                    <Card className="bg-blue-500/5 border-blue-500/20">
+                        <CardHeader className="pb-4">
+                            <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
+                                <Eye className="h-6 w-6 text-blue-500" />
+                            </div>
+                            <CardTitle className="text-xl">Triple-Verified Data</CardTitle>
                         </CardHeader>
-                        <CardContent className="text-muted-foreground text-sm leading-relaxed">
-                            We cannot touch your funds. Even if we wanted to. Rendite is a purely non-custodial interface that connects your wallet directly to established protocols like Aave and Curve.
+                        <CardContent className="text-muted-foreground leading-relaxed">
+                            We cross-reference on-chain RPCs, subgraphs, and external APIs. If the data doesn&apos;t match across all three sources, we don&apos;t show it. Simple as that.
                         </CardContent>
                     </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Eye className="h-5 w-5 text-blue-500" />
-                                Triple-Verified Data
-                            </CardTitle>
+                    <Card className="bg-purple-500/5 border-purple-500/20">
+                        <CardHeader className="pb-4">
+                            <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
+                                <ShieldCheck className="h-6 w-6 text-purple-500" />
+                            </div>
+                            <CardTitle className="text-xl">Audit Surveillance</CardTitle>
                         </CardHeader>
-                        <CardContent className="text-muted-foreground text-sm leading-relaxed">
-                            We cross-reference on-chain RPCs, subgraphs, and external APIs. If the data doesn&apos;t match across all three sources, we don&apos;t show it.
-                        </CardContent>
-                    </Card>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <ShieldCheck className="h-5 w-5 text-purple-500" />
-                                Audit Surveillance
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="text-muted-foreground text-sm leading-relaxed">
+                        <CardContent className="text-muted-foreground leading-relaxed">
                             We don&apos;t just check for a PDF. We monitor active bug bounties, timelock delays, and governance proposals to ensure the protocol remains secure over time.
                         </CardContent>
                     </Card>
                 </div>
 
-                {/* Deep Dive */}
-                <div className="space-y-8 max-w-4xl">
-                    <h2 className="text-2xl font-bold font-outfit">Understanding Risk Factors</h2>
-                    <div className="grid gap-6">
-                        <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded bg-muted flex items-center justify-center shrink-0">
-                                <FileCode className="h-5 w-5" />
-                            </div>
+                {/* Risk section - compact horizontal list */}
+                <div className="space-y-8">
+                    <h2 className="text-2xl font-bold font-outfit">Understanding Risk</h2>
+                    <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
+                        <div className="flex gap-4 items-start">
+                            <FileCode className="h-5 w-5 text-muted-foreground mt-1 shrink-0" />
                             <div>
-                                <h3 className="text-lg font-semibold mb-2">Smart Contract Risk</h3>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    Even audited protocols can have bugs. When you deposit into a pool, you are relying on the code of that specific protocol. We recommend diversifying across different protocols (e.g., not properly 100% in one Aave pool) to mitigate this risk.
+                                <h3 className="font-semibold mb-1">Smart Contract Risk</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Even audited protocols can have bugs. Diversify across protocols.
                                 </p>
                             </div>
                         </div>
-                        <div className="flex gap-4">
-                            <div className="h-10 w-10 rounded bg-muted flex items-center justify-center shrink-0">
-                                <AlertTriangle className="h-5 w-5" />
-                            </div>
+                        <div className="flex gap-4 items-start">
+                            <AlertTriangle className="h-5 w-5 text-muted-foreground mt-1 shrink-0" />
                             <div>
-                                <h3 className="text-lg font-semibold mb-2">De-Peg Risk</h3>
-                                <p className="text-muted-foreground leading-relaxed">
-                                    Euro stablecoins aim to stay at €1.00, but they can fluctuate. Factors like issuer insolvency, regulatory changes, or market panic can cause a de-peg. Rendite monitors price deviations, but user discretion is advised.
+                                <h3 className="font-semibold mb-1">De-Peg Risk</h3>
+                                <p className="text-sm text-muted-foreground">
+                                    Stablecoins can fluctuate due to issuer insolvency or market panic.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* Audits Section */}
-                <div className="rounded-xl border bg-muted/30 p-8">
-                    <h2 className="text-xl font-bold mb-4">Our Data Sources</h2>
-                    <p className="text-muted-foreground mb-6">
-                        We aggregate data from the most trusted sources in the ecosystem to ensure accuracy.
-                    </p>
-                    <div className="flex flex-wrap gap-4">
-                        {["DeFiLlama", "The Graph", "Google Cloud Public Datasets", "Rpc Providers"].map(source => (
-                            <div key={source} className="px-4 py-2 bg-background border rounded-md text-sm font-medium">
+                {/* Data sources - inline badges */}
+                <div className="border-t pt-12">
+                    <p className="text-sm text-muted-foreground mb-4">Data aggregated from</p>
+                    <div className="flex flex-wrap gap-3">
+                        {["DeFiLlama", "The Graph", "Google Cloud", "RPC Providers"].map(source => (
+                            <span key={source} className="px-4 py-2 bg-muted rounded-full text-sm font-medium">
                                 {source}
-                            </div>
+                            </span>
                         ))}
                     </div>
                 </div>
