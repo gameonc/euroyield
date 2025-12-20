@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
       img-src 'self' blob: data: https://*.supabase.co https://icons.llamao.fi https://*.walletconnect.com https://*.walletconnect.org https://api.web3modal.org https://api.web3modal.com https://explorer-api.walletconnect.com;
-      font-src 'self';
+      font-src 'self' data: https://fonts.gstatic.com https://*.walletconnect.com https://*.web3modal.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
