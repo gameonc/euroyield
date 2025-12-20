@@ -20,18 +20,36 @@ const iconMap: Record<string, React.ElementType> = {
     new_protocol: Clock,
 }
 
-const descriptionMap: Record<string, string> = {
-    audited: "Smart contracts have been audited by security firms to verify safety.",
-    unaudited: "Contracts have NOT been audited. Proceed with caution.",
-    high_tvl: "High liquidity (>€1M) allows for easy entry and exit.",
-    low_tvl: "Low liquidity (<€1M). Watch out for slippage.",
-    established: "Protocol has a proven track record of security and stability.",
-    new_protocol: "New protocol (<180 days). Risk of undiscovered bugs.",
+const riskDefinitions: Record<string, { title: string; description: string }> = {
+    audited: {
+        title: "✅ Security Audit Passed",
+        description: "This protocol's code has been reviewed by third-party security experts. While audits don't guarantee 100% safety, they significantly reduce the risk of bugs and hacks.",
+    },
+    unaudited: {
+        title: "⚠️ Unaudited Protocol",
+        description: "This protocol hasn't undergone a public security audit. This increases the risk of undiscovered vulnerabilities. Proceed with caution.",
+    },
+    high_tvl: {
+        title: "💧 High Liquidity",
+        description: "This pool has over €1M in assets. High liquidity means you can likely enter and exit large positions easily without losing value to slippage.",
+    },
+    low_tvl: {
+        title: "⚠️ Low Liquidity",
+        description: "This pool has less than €1M in assets. You might experience price impact (slippage) when trading large amounts.",
+    },
+    established: {
+        title: "🏰 Established Protocol",
+        description: "This protocol has been running safely for over 6 months. Time-tested protocols are generally safer than brand new ones.",
+    },
+    new_protocol: {
+        title: "🌱 New Protocol",
+        description: "This protocol launched less than 180 days ago. Newer protocols can be innovative but carry a higher risk of undiscovered issues.",
+    },
 }
 
 export function RiskBadge({ tag }: RiskBadgeProps) {
     const Icon = iconMap[tag.type] || Info
-    const description = descriptionMap[tag.type] || tag.description || "Risk factor details unavailable."
+    const definition = riskDefinitions[tag.type]
 
     return (
         <Tooltip>
@@ -44,8 +62,19 @@ export function RiskBadge({ tag }: RiskBadgeProps) {
                     {tag.label}
                 </Badge>
             </TooltipTrigger>
-            <TooltipContent className="max-w-xs bg-popover text-popover-foreground border-border shadow-xl">
-                <p className="text-xs leading-relaxed">{description}</p>
+            <TooltipContent className="max-w-xs bg-popover text-popover-foreground border-border shadow-xl p-3">
+                {definition ? (
+                    <div className="space-y-1">
+                        <p className="subtitle-2 font-semibold flex items-center gap-1.5">
+                            {definition.title}
+                        </p>
+                        <p className="text-xs text-muted-foreground leading-relaxed">
+                            {definition.description}
+                        </p>
+                    </div>
+                ) : (
+                    <p className="text-xs leading-relaxed">{tag.description || "Risk factor details unavailable."}</p>
+                )}
             </TooltipContent>
         </Tooltip>
     )
