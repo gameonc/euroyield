@@ -15,7 +15,7 @@ export function Footer() {
                             <span className="text-lg font-bold">Rendite</span>
                         </Link>
                         <p className="text-sm text-muted-foreground mb-4">
-                            The defacto source for Euro DeFi yields.
+                            The de facto source for Euro DeFi yields.
                         </p>
                         <div className="flex gap-3">
                             <a href="https://twitter.com/renditefi" target="_blank" rel="noopener noreferrer"
