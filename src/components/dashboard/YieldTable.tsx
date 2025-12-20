@@ -20,60 +20,89 @@ import {
 import { cn } from "@/lib/utils"
 
 // Deep-link URLs for protocol deposit pages
+// Keys must match protocol_slug from database exactly
 const PROTOCOL_DEPOSIT_URLS: Record<string, Record<string, string>> = {
-    // Aave V3 - uses market-specific URLs
+    // Aave V3 - multiple slug variations in DB
     "aave-v3": {
-        "ethereum": "https://app.aave.com/?marketName=proto_mainnet_v3",
-        "arbitrum": "https://app.aave.com/?marketName=proto_arbitrum_v3",
-        "optimism": "https://app.aave.com/?marketName=proto_optimism_v3",
-        "polygon": "https://app.aave.com/?marketName=proto_polygon_v3",
-        "base": "https://app.aave.com/?marketName=proto_base_v3",
+        "ethereum": "https://app.aave.com/",
+        "arbitrum": "https://app.aave.com/",
+        "optimism": "https://app.aave.com/",
+        "polygon": "https://app.aave.com/",
+        "base": "https://app.aave.com/",
+    },
+    "aave": {
+        "ethereum": "https://app.aave.com/",
+        "arbitrum": "https://app.aave.com/",
+        "optimism": "https://app.aave.com/",
+        "polygon": "https://app.aave.com/",
+        "base": "https://app.aave.com/",
+    },
+    "aave-arbitrum": {
+        "arbitrum": "https://app.aave.com/",
     },
     // Morpho Blue
+    "morpho": {
+        "ethereum": "https://app.morpho.org/",
+        "base": "https://app.morpho.org/",
+    },
     "morpho-blue": {
-        "ethereum": "https://app.morpho.org/earn?network=mainnet",
-        "base": "https://app.morpho.org/earn?network=base",
+        "ethereum": "https://app.morpho.org/",
+        "base": "https://app.morpho.org/",
     },
     // Curve Finance
-    "curve-dex": {
+    "curve": {
         "ethereum": "https://curve.fi/#/ethereum/pools",
         "arbitrum": "https://curve.fi/#/arbitrum/pools",
         "optimism": "https://curve.fi/#/optimism/pools",
         "polygon": "https://curve.fi/#/polygon/pools",
         "base": "https://curve.fi/#/base/pools",
     },
-    // Compound V3
-    "compound-v3": {
-        "ethereum": "https://app.compound.finance/markets/usdc-mainnet",
-        "arbitrum": "https://app.compound.finance/markets/usdc-arbitrum",
-        "polygon": "https://app.compound.finance/markets/usdc-polygon",
-        "base": "https://app.compound.finance/markets/usdc-base",
+    "curve-polygon": {
+        "polygon": "https://curve.fi/#/polygon/pools",
     },
-    // Angle Protocol / Merkl
+    // Merkl (Angle Protocol rewards)
     "merkl": {
-        "ethereum": "https://app.merkl.xyz/opportunities",
-        "arbitrum": "https://app.merkl.xyz/opportunities",
-        "optimism": "https://app.merkl.xyz/opportunities",
-        "polygon": "https://app.merkl.xyz/opportunities",
-        "base": "https://app.merkl.xyz/opportunities",
+        "ethereum": "https://app.merkl.xyz/",
+        "arbitrum": "https://app.merkl.xyz/",
+        "optimism": "https://app.merkl.xyz/",
+        "polygon": "https://app.merkl.xyz/",
+        "base": "https://app.merkl.xyz/",
     },
     // Yearn Finance
     "yearn-finance": {
-        "ethereum": "https://yearn.fi/v3/1/vaults",
-        "arbitrum": "https://yearn.fi/v3/42161/vaults",
-        "optimism": "https://yearn.fi/v3/10/vaults",
-        "polygon": "https://yearn.fi/v3/137/vaults",
-        "base": "https://yearn.fi/v3/8453/vaults",
+        "ethereum": "https://yearn.fi/vaults",
+        "arbitrum": "https://yearn.fi/vaults",
+        "optimism": "https://yearn.fi/vaults",
+        "polygon": "https://yearn.fi/vaults",
+        "base": "https://yearn.fi/vaults",
     },
-    // Fluid
+    // Fluid Lending
     "fluid-lending": {
-        "ethereum": "https://fluid.instadapp.io/lending/1",
-        "arbitrum": "https://fluid.instadapp.io/lending/42161",
+        "ethereum": "https://fluid.instadapp.io/",
+        "arbitrum": "https://fluid.instadapp.io/",
     },
     // Moonwell
     "moonwell-lending": {
-        "base": "https://moonwell.fi/markets?chain=base",
-        "optimism": "https://moonwell.fi/markets?chain=optimism",
+        "base": "https://moonwell.fi/discover",
+        "optimism": "https://moonwell.fi/discover",
+    },
+    // Radiant V2
+    "radiant-v2": {
+        "ethereum": "https://app.radiant.capital/",
+        "arbitrum": "https://app.radiant.capital/",
+        "base": "https://app.radiant.capital/",
+    },
+    // Extra Finance
+    "extra-finance-xlend": {
+        "optimism": "https://app.extrafi.io/lend",
+        "base": "https://app.extrafi.io/lend",
+    },
+    // Harvest Finance
+    "harvest-finance": {
+        "ethereum": "https://app.harvest.finance/",
+        "arbitrum": "https://app.harvest.finance/",
+        "polygon": "https://app.harvest.finance/",
+        "base": "https://app.harvest.finance/",
     },
 }
 
