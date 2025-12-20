@@ -48,7 +48,7 @@ const nextConfig: NextConfig = {
       frame-ancestors 'none';
       block-all-mixed-content;
       upgrade-insecure-requests;
-      connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.walletconnect.com wss://*.walletconnect.com;
+      connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.walletconnect.com wss://*.walletconnect.com https://*.walletconnect.org wss://*.walletconnect.org https://*.web3modal.org https://*.web3modal.com https://pulse.walletconnect.org https://api.web3modal.org;
     `
 
     return [

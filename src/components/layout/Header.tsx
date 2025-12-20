@@ -128,6 +128,7 @@ export function Header() {
                         size="icon"
                         className="md:hidden h-8 w-8"
                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                     >
                         {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
                     </Button>
@@ -169,7 +170,7 @@ export function Header() {
                                 </Button>
                             </ConnectWalletModal>
                             <PricingModal>
-                                <Button className="w-full">Upgrade to Pro</Button>
+                                <Button className="w-full">Upgrade</Button>
                             </PricingModal>
                         </div>
                     </nav>
