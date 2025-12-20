@@ -15,8 +15,11 @@ export default function SecurityPage() {
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-6 font-outfit">
                         Verifiable Trust
                     </h1>
-                    <p className="text-xl text-muted-foreground max-w-2xl font-light">
-                        Rendite is built on a simple premise: You shouldn&apos;t have to trust a dashboard. Don&apos;t trust. Verify.
+                    <p className="text-xl text-muted-foreground max-w-2xl font-light font-outfit text-2xl text-foreground mt-2">
+                        Don&apos;t Trust. Verify.
+                    </p>
+                    <p className="text-lg text-muted-foreground max-w-2xl mt-4 font-light">
+                        Rendite is built on a simple premise: You shouldn&apos;t have to trust a dashboard.
                     </p>
                 </div>
             </section>
