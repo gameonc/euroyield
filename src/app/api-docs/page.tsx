@@ -125,7 +125,7 @@ export default function ApiDocsPage() {
     }
   ],
   "updated_at": "2024-12-21T12:00:00Z"
-}`} language="json" />
+}`} />
                             </div>
                         </CardContent>
                     </Card>
