@@ -19,6 +19,91 @@ import {
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
+// Deep-link URLs for protocol deposit pages
+const PROTOCOL_DEPOSIT_URLS: Record<string, Record<string, string>> = {
+    // Aave V3 - uses market-specific URLs
+    "aave-v3": {
+        "ethereum": "https://app.aave.com/?marketName=proto_mainnet_v3",
+        "arbitrum": "https://app.aave.com/?marketName=proto_arbitrum_v3",
+        "optimism": "https://app.aave.com/?marketName=proto_optimism_v3",
+        "polygon": "https://app.aave.com/?marketName=proto_polygon_v3",
+        "base": "https://app.aave.com/?marketName=proto_base_v3",
+    },
+    // Morpho Blue
+    "morpho-blue": {
+        "ethereum": "https://app.morpho.org/earn?network=mainnet",
+        "base": "https://app.morpho.org/earn?network=base",
+    },
+    // Curve Finance
+    "curve-dex": {
+        "ethereum": "https://curve.fi/#/ethereum/pools",
+        "arbitrum": "https://curve.fi/#/arbitrum/pools",
+        "optimism": "https://curve.fi/#/optimism/pools",
+        "polygon": "https://curve.fi/#/polygon/pools",
+        "base": "https://curve.fi/#/base/pools",
+    },
+    // Compound V3
+    "compound-v3": {
+        "ethereum": "https://app.compound.finance/markets/usdc-mainnet",
+        "arbitrum": "https://app.compound.finance/markets/usdc-arbitrum",
+        "polygon": "https://app.compound.finance/markets/usdc-polygon",
+        "base": "https://app.compound.finance/markets/usdc-base",
+    },
+    // Angle Protocol / Merkl
+    "merkl": {
+        "ethereum": "https://app.merkl.xyz/opportunities",
+        "arbitrum": "https://app.merkl.xyz/opportunities",
+        "optimism": "https://app.merkl.xyz/opportunities",
+        "polygon": "https://app.merkl.xyz/opportunities",
+        "base": "https://app.merkl.xyz/opportunities",
+    },
+    // Yearn Finance
+    "yearn-finance": {
+        "ethereum": "https://yearn.fi/v3/1/vaults",
+        "arbitrum": "https://yearn.fi/v3/42161/vaults",
+        "optimism": "https://yearn.fi/v3/10/vaults",
+        "polygon": "https://yearn.fi/v3/137/vaults",
+        "base": "https://yearn.fi/v3/8453/vaults",
+    },
+    // Fluid
+    "fluid-lending": {
+        "ethereum": "https://fluid.instadapp.io/lending/1",
+        "arbitrum": "https://fluid.instadapp.io/lending/42161",
+    },
+    // Moonwell
+    "moonwell-lending": {
+        "base": "https://moonwell.fi/markets?chain=base",
+        "optimism": "https://moonwell.fi/markets?chain=optimism",
+    },
+}
+
+function getDepositUrl(protocolSlug: string, chain: string): string | null {
+    const slug = protocolSlug.toLowerCase()
+    const chainLower = chain.toLowerCase()
+
+    // Direct match
+    if (PROTOCOL_DEPOSIT_URLS[slug]?.[chainLower]) {
+        return PROTOCOL_DEPOSIT_URLS[slug][chainLower]
+    }
+
+    // Try common variations
+    const variations = [
+        slug,
+        slug.replace(/\s+/g, '-'),
+        slug.replace(/-/g, ''),
+        slug.replace(' v3', '-v3'),
+        slug.replace(' v2', '-v2'),
+    ]
+
+    for (const variant of variations) {
+        if (PROTOCOL_DEPOSIT_URLS[variant]?.[chainLower]) {
+            return PROTOCOL_DEPOSIT_URLS[variant][chainLower]
+        }
+    }
+
+    return null
+}
+
 const PROTOCOL_LOGOS: Record<string, string> = {
     // Major protocols
     "aave": "/protocols/aave.svg",
@@ -286,20 +371,38 @@ export function YieldTable({ data }: YieldTableProps) {
                                     <RiskTagGroup tags={pool.risk_tags} maxVisible={2} />
                                 </td>
                                 <td className="px-4 py-3 text-right">
-                                    <div className="flex items-center justify-end gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                        <Button size="icon" variant="ghost" className="h-7 w-7" title="Report Issue" onClick={() => alert("Reporting logic coming soon")}>
-                                            <Flag className="h-3.5 w-3.5 text-muted-foreground hover:text-red-400 transition-colors" />
-                                        </Button>
-                                        <Button size="icon" variant="ghost" className="h-7 w-7" asChild>
-                                            <a
-                                                href={pool.protocol_url || "#"}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className={cn(!pool.protocol_url && "pointer-events-none opacity-50")}
-                                            >
-                                                <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
-                                            </a>
-                                        </Button>
+                                    <div className="flex items-center justify-end gap-1">
+                                        {(() => {
+                                            const depositUrl = getDepositUrl(pool.protocol_slug, pool.chain)
+                                            return depositUrl ? (
+                                                <Button size="sm" variant="outline" className="h-7 px-3 text-xs font-medium" asChild>
+                                                    <a
+                                                        href={depositUrl}
+                                                        target="_blank"
+                                                        rel="noopener noreferrer"
+                                                    >
+                                                        Deploy
+                                                        <ExternalLink className="h-3 w-3 ml-1.5" />
+                                                    </a>
+                                                </Button>
+                                            ) : (
+                                                <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                    <Button size="icon" variant="ghost" className="h-7 w-7" title="Report Issue" onClick={() => alert("Reporting logic coming soon")}>
+                                                        <Flag className="h-3.5 w-3.5 text-muted-foreground hover:text-red-400 transition-colors" />
+                                                    </Button>
+                                                    <Button size="icon" variant="ghost" className="h-7 w-7" asChild>
+                                                        <a
+                                                            href={pool.protocol_url || "#"}
+                                                            target="_blank"
+                                                            rel="noopener noreferrer"
+                                                            className={cn(!pool.protocol_url && "pointer-events-none opacity-50")}
+                                                        >
+                                                            <ExternalLink className="h-3.5 w-3.5 text-muted-foreground" />
+                                                        </a>
+                                                    </Button>
+                                                </div>
+                                            )
+                                        })()}
                                     </div>
                                 </td>
                             </tr>
