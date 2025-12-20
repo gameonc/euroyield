@@ -40,15 +40,15 @@ const nextConfig: NextConfig = {
       default-src 'self';
       script-src 'self' 'unsafe-eval' 'unsafe-inline';
       style-src 'self' 'unsafe-inline';
-      img-src 'self' blob: data: https://*.supabase.co https://icons.llamao.fi;
+      img-src 'self' blob: data: https://*.supabase.co https://icons.llamao.fi https://*.walletconnect.com https://*.walletconnect.org https://api.web3modal.org https://api.web3modal.com https://explorer-api.walletconnect.com;
       font-src 'self';
       object-src 'none';
       base-uri 'self';
       form-action 'self';
+      frame-src 'self' https://*.walletconnect.com https://*.walletconnect.org https://*.web3modal.com https://*.web3modal.org;
       frame-ancestors 'none';
-      block-all-mixed-content;
       upgrade-insecure-requests;
-      connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.walletconnect.com wss://*.walletconnect.com https://*.walletconnect.org wss://*.walletconnect.org https://*.web3modal.org https://*.web3modal.com https://pulse.walletconnect.org https://api.web3modal.org;
+      connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.walletconnect.com wss://*.walletconnect.com https://*.walletconnect.org wss://*.walletconnect.org https://*.web3modal.org https://*.web3modal.com https://pulse.walletconnect.org https://api.web3modal.org https://relay.walletconnect.org wss://relay.walletconnect.org https://explorer-api.walletconnect.com;
     `
 
     return [
