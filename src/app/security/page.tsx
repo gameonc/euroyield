@@ -1,6 +1,6 @@
 import { Metadata } from 'next'
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { ShieldCheck, Eye, Lock, FileCode, AlertTriangle, ExternalLink } from "lucide-react"
+import { Eye, Lock, ExternalLink } from "lucide-react"
 
 export const metadata: Metadata = {
     title: 'Security',
@@ -10,8 +10,9 @@ export const metadata: Metadata = {
 export default function SecurityPage() {
     return (
         <div className="min-h-screen">
+            {/* Hero - compact */}
             <section className="border-b bg-dot-pattern">
-                <div className="container py-16 md:py-24">
+                <div className="container py-12 md:py-16">
                     <h1 className="text-4xl md:text-6xl font-bold tracking-tight mb-2 font-outfit">
                         Verifiable Trust
                     </h1>
@@ -24,16 +25,14 @@ export default function SecurityPage() {
                 </div>
             </section>
 
-            <section className="container py-16 space-y-20">
-
-                {/* Featured block - Non-custodial (different layout, no card) */}
-                <div className="grid md:grid-cols-2 gap-12 items-center">
+            {/* Featured block - generous whitespace */}
+            <section className="container py-20 md:py-28">
+                <div className="grid md:grid-cols-2 gap-16 items-center">
                     <div className="space-y-6">
-                        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-medium">
-                            <Lock className="h-4 w-4" />
+                        <p className="text-sm font-medium text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
                             Core Principle
-                        </div>
-                        <h2 className="text-4xl font-bold font-outfit">
+                        </p>
+                        <h2 className="text-4xl md:text-5xl font-bold font-outfit leading-tight">
                             We can&apos;t touch your funds.
                         </h2>
                         <p className="text-lg text-muted-foreground leading-relaxed">
@@ -60,70 +59,70 @@ export default function SecurityPage() {
                         </div>
                     </div>
                 </div>
+            </section>
 
-                {/* Two larger cards - varied layout */}
-                <div className="grid md:grid-cols-2 gap-8">
+            {/* Cards - tight spacing to contrast previous section */}
+            <section className="container pb-12">
+                <div className="grid md:grid-cols-2 gap-6">
                     <Card className="bg-blue-500/5 border-blue-500/20">
-                        <CardHeader className="pb-4">
-                            <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center mb-4">
-                                <Eye className="h-6 w-6 text-blue-500" />
-                            </div>
-                            <CardTitle className="text-xl">Triple-Verified Data</CardTitle>
+                        <CardHeader className="pb-3">
+                            <CardTitle className="text-xl flex items-center gap-3">
+                                <div className="h-8 w-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                                    <Eye className="h-4 w-4 text-blue-500" />
+                                </div>
+                                Triple-Verified
+                            </CardTitle>
                         </CardHeader>
-                        <CardContent className="text-muted-foreground leading-relaxed">
-                            We cross-reference on-chain RPCs, subgraphs, and external APIs. If the data doesn&apos;t match across all three sources, we don&apos;t show it. Simple as that.
+                        <CardContent className="text-muted-foreground text-sm">
+                            On-chain RPCs + Subgraphs + External APIs. If they don&apos;t match, we don&apos;t show it.
                         </CardContent>
                     </Card>
-                    <Card className="bg-purple-500/5 border-purple-500/20">
-                        <CardHeader className="pb-4">
-                            <div className="h-12 w-12 rounded-xl bg-purple-500/10 flex items-center justify-center mb-4">
-                                <ShieldCheck className="h-6 w-6 text-purple-500" />
-                            </div>
-                            <CardTitle className="text-xl">Audit Surveillance</CardTitle>
-                        </CardHeader>
-                        <CardContent className="text-muted-foreground leading-relaxed">
-                            We don&apos;t just check for a PDF. We monitor active bug bounties, timelock delays, and governance proposals to ensure the protocol remains secure over time.
+
+                    {/* No icon on this one - just bold text */}
+                    <Card>
+                        <CardContent className="p-6">
+                            <p className="text-2xl font-bold mb-2">24/7</p>
+                            <p className="text-muted-foreground text-sm">
+                                Continuous monitoring of audits, bug bounties, and governance proposals.
+                            </p>
                         </CardContent>
                     </Card>
                 </div>
+            </section>
 
-                {/* Risk section - compact horizontal list */}
-                <div className="space-y-8">
-                    <h2 className="text-2xl font-bold font-outfit">Understanding Risk</h2>
-                    <div className="grid md:grid-cols-2 gap-x-12 gap-y-6">
-                        <div className="flex gap-4 items-start">
-                            <FileCode className="h-5 w-5 text-muted-foreground mt-1 shrink-0" />
-                            <div>
-                                <h3 className="font-semibold mb-1">Smart Contract Risk</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Even audited protocols can have bugs. Diversify across protocols.
-                                </p>
-                            </div>
+            {/* Risk - inline text, no cards */}
+            <section className="border-t">
+                <div className="container py-16 md:py-20">
+                    <h2 className="text-xl font-bold mb-8">Understanding Risk</h2>
+                    <div className="grid md:grid-cols-2 gap-8 max-w-3xl">
+                        <div>
+                            <h3 className="font-semibold mb-2">Smart Contract Risk</h3>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                Even audited protocols can have bugs. Diversify across protocols.
+                            </p>
                         </div>
-                        <div className="flex gap-4 items-start">
-                            <AlertTriangle className="h-5 w-5 text-muted-foreground mt-1 shrink-0" />
-                            <div>
-                                <h3 className="font-semibold mb-1">De-Peg Risk</h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Stablecoins can fluctuate due to issuer insolvency or market panic.
-                                </p>
-                            </div>
+                        <div>
+                            <h3 className="font-semibold mb-2">De-Peg Risk</h3>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                Stablecoins can fluctuate due to issuer insolvency or market panic.
+                            </p>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                {/* Data sources - inline badges */}
-                <div className="border-t pt-12">
-                    <p className="text-sm text-muted-foreground mb-4">Data aggregated from</p>
-                    <div className="flex flex-wrap gap-3">
-                        {["DeFiLlama", "The Graph", "Google Cloud", "RPC Providers"].map(source => (
-                            <span key={source} className="px-4 py-2 bg-muted rounded-full text-sm font-medium">
-                                {source}
-                            </span>
-                        ))}
+            {/* Data sources - ultra minimal */}
+            <section className="border-t">
+                <div className="container py-8">
+                    <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm">
+                        <span className="text-muted-foreground">Data from</span>
+                        <span className="font-medium">DeFiLlama</span>
+                        <span className="text-muted-foreground">·</span>
+                        <span className="font-medium">The Graph</span>
+                        <span className="text-muted-foreground">·</span>
+                        <span className="font-medium">RPC Providers</span>
                     </div>
                 </div>
-
             </section>
         </div>
     )
