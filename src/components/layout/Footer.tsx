@@ -1,10 +1,34 @@
+"use client"
+
 import Link from "next/link"
 import { Euro, Twitter, Mail, Shield } from "lucide-react"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+function ComingSoonLink({ children }: { children: React.ReactNode }) {
+    return (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <span className="cursor-not-allowed opacity-60 hover:opacity-80 transition-opacity">
+                    {children}
+                </span>
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>Coming Soon</p>
+            </TooltipContent>
+        </Tooltip>
+    )
+}
 
 export function Footer() {
     return (
-        <footer className="border-t bg-background">
-            <div className="container py-12">
+        <TooltipProvider>
+            <footer className="border-t bg-background">
+                <div className="container py-12">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     {/* Brand */}
                     <div className="col-span-2 md:col-span-1">
@@ -46,8 +70,8 @@ export function Footer() {
                         <ul className="space-y-2 text-sm text-muted-foreground">
                             <li><Link href="/about" className="hover:text-foreground transition-colors">About & Mission</Link></li>
                             <li><Link href="/security" className="hover:text-foreground transition-colors">Security & Trust</Link></li>
-                            <li><a href="#" className="hover:text-foreground transition-colors">API</a></li>
-                            <li><a href="#" className="hover:text-foreground transition-colors">Status</a></li>
+                            <li><ComingSoonLink>API</ComingSoonLink></li>
+                            <li><ComingSoonLink>Status</ComingSoonLink></li>
                         </ul>
                     </div>
 
@@ -55,8 +79,8 @@ export function Footer() {
                     <div>
                         <h4 className="font-semibold mb-4">Legal</h4>
                         <ul className="space-y-2 text-sm text-muted-foreground">
-                            <li><a href="#" className="hover:text-foreground transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" className="hover:text-foreground transition-colors">Terms of Service</a></li>
+                            <li><ComingSoonLink>Privacy Policy</ComingSoonLink></li>
+                            <li><ComingSoonLink>Terms of Service</ComingSoonLink></li>
                             <li><Link href="/security" className="hover:text-foreground transition-colors">Risk Disclaimer</Link></li>
                         </ul>
                     </div>
@@ -84,6 +108,7 @@ export function Footer() {
                     </p>
                 </div>
             </div>
-        </footer>
+            </footer>
+        </TooltipProvider>
     )
 }

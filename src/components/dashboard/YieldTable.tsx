@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { RiskTagGroup } from "./RiskBadge"
@@ -17,6 +18,42 @@ import {
     TrendingDown
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+
+const PROTOCOL_LOGOS: Record<string, string> = {
+    "aave": "/protocols/aave.svg",
+    "aave v3": "/protocols/aave.svg",
+    "morpho": "/protocols/morpho.svg",
+    "morpho blue": "/protocols/morpho.svg",
+    "curve": "/protocols/curve.svg",
+    "curve finance": "/protocols/curve.svg",
+    "compound": "/protocols/compound.svg",
+    "compound v3": "/protocols/compound.svg",
+    "angle": "/protocols/angle.svg",
+    "angle protocol": "/protocols/angle.svg",
+    "merkl": "/protocols/merkl.svg",
+}
+
+function ProtocolLogo({ name }: { name: string }) {
+    const logoPath = PROTOCOL_LOGOS[name.toLowerCase()]
+
+    if (logoPath) {
+        return (
+            <Image
+                src={logoPath}
+                alt={`${name} logo`}
+                width={36}
+                height={36}
+                className="rounded"
+            />
+        )
+    }
+
+    return (
+        <div className="h-9 w-9 rounded bg-muted/80 border flex items-center justify-center text-xs font-bold text-muted-foreground">
+            {name.slice(0, 1)}
+        </div>
+    )
+}
 
 interface YieldTableProps {
     data: LatestYield[]
@@ -172,9 +209,7 @@ export function YieldTable({ data }: YieldTableProps) {
                             >
                                 <td className="px-4 py-3">
                                     <div className="flex items-center gap-3">
-                                        <div className="h-9 w-9 rounded bg-muted/80 border flex items-center justify-center text-xs font-bold text-muted-foreground">
-                                            {pool.protocol_name.slice(0, 1)}
-                                        </div>
+                                        <ProtocolLogo name={pool.protocol_name} />
                                         <div className="flex flex-col">
                                             <span className="font-medium text-foreground">{pool.protocol_name}</span>
                                             <span className="text-xs text-muted-foreground font-mono">{pool.pool_name}</span>
