@@ -54,7 +54,7 @@ const DEFAULT_ESTIMATED_APY = 3.5
 
 export function usePortfolioData(): PortfolioSummary {
     const { positions, isLoading: positionsLoading, error: positionsError } = useProtocolPositions()
-    const { getPoolApy, isLoading: yieldsLoading } = useYieldData()
+    const { getPoolApy, isLoading: yieldsLoading, error: yieldsError } = useYieldData()
     const { balances: rawBalances, totalValue: totalRawValue, isLoading: balancesLoading } = useTokenBalances()
 
     const enrichedData = useMemo(() => {
@@ -123,7 +123,7 @@ export function usePortfolioData(): PortfolioSummary {
     }, [positions, getPoolApy, rawBalances, totalRawValue])
 
     const isLoading = positionsLoading || yieldsLoading || balancesLoading
-    const hasError = !!positionsError
+    const hasError = !!positionsError || !!yieldsError
 
     return {
         ...enrichedData,

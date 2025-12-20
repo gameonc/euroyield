@@ -14,14 +14,7 @@ import { useAccount } from "wagmi"
 import { useEffect, useState } from "react"
 import { shortenAddress } from '@/lib/utils'
 import { usePortfolioData } from "@/lib/hooks/usePortfolioData"
-
-const chainNames: Record<number, string> = {
-    1: "Ethereum",
-    10: "Optimism",
-    137: "Polygon",
-    42161: "Arbitrum",
-    8453: "Base"
-}
+import { CHAIN_NAMES } from "@/lib/constants/protocols"
 
 export default function PortfolioPage() {
     const { isConnected, address } = useAccount()
@@ -35,7 +28,8 @@ export default function PortfolioPage() {
         yearlyEarnings,
         idleCapital,
         potentialDailyGain,
-        isLoading
+        isLoading,
+        hasError
     } = usePortfolioData()
 
     const [isMounted, setIsMounted] = useState(false)
@@ -115,6 +109,15 @@ export default function PortfolioPage() {
                     ) : (
                         /* CONNECTED STATE */
                         <div className="space-y-8">
+                            {/* Error State */}
+                            {hasError && (
+                                <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-3">
+                                    <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
+                                    <p className="text-red-500 text-sm">
+                                        Failed to load some portfolio data. Please refresh to try again.
+                                    </p>
+                                </div>
+                            )}
                             {/* Summary Stats */}
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                                 <Card className="bg-card/50 backdrop-blur-sm">
@@ -284,7 +287,7 @@ export default function PortfolioPage() {
                                                         </div>
                                                         <div>
                                                             <h4 className="font-medium text-muted-foreground">{token.name}</h4>
-                                                            <p className="text-xs text-muted-foreground">{chainNames[token.chainId] || "Unknown Chain"}</p>
+                                                            <p className="text-xs text-muted-foreground">{CHAIN_NAMES[token.chainId as keyof typeof CHAIN_NAMES] || "Unknown Chain"}</p>
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-8 md:justify-end w-full md:w-auto">
