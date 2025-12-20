@@ -1,8 +1,18 @@
-
 "use client"
 
+import * as React from "react"
 import Link from "next/link"
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import {
+    NavigationMenu,
+    NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    NavigationMenuTrigger,
+    navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
 import {
     LayoutDashboard,
     Wallet,
@@ -12,19 +22,16 @@ import {
     Settings,
     Menu,
     X,
+    Shield,
+    Info,
+    TrendingUp,
+    Calculator
 } from "lucide-react"
 import { useState } from "react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 import { ConnectWalletModal } from "@/components/modals/ConnectWalletModal"
 import { PricingModal } from "@/components/modals/PricingModal"
-
-const navItems = [
-    { href: "/", label: "Markets", icon: LayoutDashboard },
-    { href: "/blog", label: "Blog", icon: BookOpen },
-    { href: "/portfolio", label: "Portfolio", icon: Wallet },
-    { href: "/alerts", label: "Alerts", icon: Bell },
-    { href: "/reports", label: "Intel", icon: FileText },
-]
+import { Logo } from "@/components/ui/Logo"
 
 export function Header() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -32,8 +39,8 @@ export function Header() {
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md">
             <div className="container flex h-14 items-center justify-between">
-                {/* Logo - Text Only, Heavy Typography */}
-                <Link href="/" className="flex items-center gap-2 group">
+                {/* Logo */}
+                <Link href="/" className="flex items-center gap-2 group mr-6">
                     <div className="bg-foreground text-background font-bold h-6 w-6 flex items-center justify-center rounded-sm text-xs">
                         €
                     </div>
@@ -45,19 +52,64 @@ export function Header() {
                     </span>
                 </Link>
 
-                {/* Desktop Navigation - Minimal */}
-                <nav className="hidden md:flex items-center gap-6">
-                    {navItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            href={item.href}
-                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors flex items-center gap-2"
-                        >
-                            {/* <item.icon className="h-4 w-4 opacity-50" /> */}
-                            {item.label}
-                        </Link>
-                    ))}
-                </nav>
+                {/* Desktop Navigation - Mega Menu style */}
+                <div className="hidden md:flex flex-1">
+                    <NavigationMenu>
+                        <NavigationMenuList>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                                        <li className="row-span-3">
+                                            <NavigationMenuLink asChild>
+                                                <a
+                                                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted to-muted/50 p-6 no-underline outline-none focus:shadow-md"
+                                                    href="/"
+                                                >
+                                                    <LayoutDashboard className="h-6 w-6" />
+                                                    <div className="mb-2 mt-4 text-lg font-medium">
+                                                        Yield Explorer
+                                                    </div>
+                                                    <p className="text-sm leading-tight text-muted-foreground">
+                                                        Compare verified Euro stablecoin yields across Aave, Curve, and more.
+                                                    </p>
+                                                </a>
+                                            </NavigationMenuLink>
+                                        </li>
+                                        <ListItem href="/#calculator" title="Yield Calculator">
+                                            Forecast your monthly returns with our interactive tools.
+                                        </ListItem>
+                                        <ListItem href="/alerts" title="Market Alerts">
+                                            Get notified when APYs spike or liquidity drops.
+                                        </ListItem>
+                                        <ListItem href="/portfolio" title="Portfolio Tracker">
+                                            Monitor your positions in one secure dashboard.
+                                        </ListItem>
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                            <NavigationMenuItem>
+                                <NavigationMenuTrigger>Resources</NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                        <ListItem href="/reports" title="Weekly Intel">
+                                            Institutional-grade analysis and market reports.
+                                        </ListItem>
+                                        <ListItem href="/blog" title="Blog">
+                                            Latest updates, guides, and ecosystem news.
+                                        </ListItem>
+                                        <ListItem href="/security" title="Security & Trust">
+                                            How we verify data and ensure your safety.
+                                        </ListItem>
+                                        <ListItem href="/about" title="About Mission">
+                                            Why we are building the Euro-first yield layer.
+                                        </ListItem>
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        </NavigationMenuList>
+                    </NavigationMenu>
+                </div>
 
                 {/* Right Side Actions */}
                 <div className="flex items-center gap-2">
@@ -65,7 +117,7 @@ export function Header() {
 
                     <ConnectWalletModal>
                         <Button variant="outline" size="sm" className="hidden sm:flex h-8 text-xs font-medium">
-                            Connect
+                            Connect Wallet
                         </Button>
                     </ConnectWalletModal>
 
@@ -87,29 +139,32 @@ export function Header() {
                 </div>
             </div>
 
-            {/* Mobile Navigation */}
+            {/* Mobile Navigation (Simplified) */}
             {mobileMenuOpen && (
                 <div className="md:hidden border-t bg-background">
                     <nav className="container py-4 flex flex-col gap-1">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.href}
-                                href={item.href}
-                                onClick={() => setMobileMenuOpen(false)}
-                            >
-                                <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                    <item.icon className="h-4 w-4 text-muted-foreground" />
-                                    {item.label}
-                                </Button>
-                            </Link>
-                        ))}
-                        <Link
-                            href="/settings"
-                            onClick={() => setMobileMenuOpen(false)}
-                        >
+                        <Link href="/" onClick={() => setMobileMenuOpen(false)}>
                             <Button variant="ghost" className="w-full justify-start gap-3 h-10">
-                                <Settings className="h-4 w-4 text-muted-foreground" />
-                                Settings
+                                <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
+                                Markets
+                            </Button>
+                        </Link>
+                        <Link href="/reports" onClick={() => setMobileMenuOpen(false)}>
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
+                                <FileText className="h-4 w-4 text-muted-foreground" />
+                                Intel & Reports
+                            </Button>
+                        </Link>
+                        <Link href="/security" onClick={() => setMobileMenuOpen(false)}>
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
+                                <Shield className="h-4 w-4 text-muted-foreground" />
+                                Security
+                            </Button>
+                        </Link>
+                        <Link href="/about" onClick={() => setMobileMenuOpen(false)}>
+                            <Button variant="ghost" className="w-full justify-start gap-3 h-10">
+                                <Info className="h-4 w-4 text-muted-foreground" />
+                                About
                             </Button>
                         </Link>
                         <div className="border-t pt-4 mt-2 flex flex-col gap-2 px-2">
@@ -128,3 +183,29 @@ export function Header() {
         </header>
     )
 }
+
+const ListItem = React.forwardRef<
+    React.ElementRef<"a">,
+    React.ComponentPropsWithoutRef<"a">
+>(({ className, title, children, ...props }, ref) => {
+    return (
+        <li>
+            <NavigationMenuLink asChild>
+                <a
+                    ref={ref}
+                    className={cn(
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                        className
+                    )}
+                    {...props}
+                >
+                    <div className="text-sm font-medium leading-none">{title}</div>
+                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                        {children}
+                    </p>
+                </a>
+            </NavigationMenuLink>
+        </li>
+    )
+})
+ListItem.displayName = "ListItem"
