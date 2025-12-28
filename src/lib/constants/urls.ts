@@ -131,6 +131,69 @@ export const PROTOCOL_DEPOSIT_URLS: Record<string, Record<string, string>> = {
         "polygon": `https://app.harvest.finance/?utm_source=${REFERRAL_CONFIG.utmSource}`,
         "base": `https://app.harvest.finance/?utm_source=${REFERRAL_CONFIG.utmSource}`,
     },
+    // Aerodrome Finance (Base DEX)
+    "aerodrome-slipstream": {
+        "base": `https://aerodrome.finance/deposit?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    "aerodrome-v1": {
+        "base": `https://aerodrome.finance/deposit?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    "aerodrome": {
+        "base": `https://aerodrome.finance/deposit?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Convex Finance (Curve optimizer)
+    "convex-finance": {
+        "ethereum": `https://www.convexfinance.com/stake?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    "convex": {
+        "ethereum": `https://www.convexfinance.com/stake?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Beefy Finance (Vault optimizer)
+    "beefy": {
+        "ethereum": `https://app.beefy.com/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "arbitrum": `https://app.beefy.com/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "optimism": `https://app.beefy.com/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "polygon": `https://app.beefy.com/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "base": `https://app.beefy.com/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Uniswap V3 - no referral
+    "uniswap-v3": {
+        "ethereum": "https://app.uniswap.org/pools",
+        "arbitrum": "https://app.uniswap.org/pools",
+        "optimism": "https://app.uniswap.org/pools",
+        "polygon": "https://app.uniswap.org/pools",
+        "base": "https://app.uniswap.org/pools",
+    },
+    // PancakeSwap AMM V3
+    "pancakeswap-amm-v3": {
+        "ethereum": "https://pancakeswap.finance/liquidity",
+        "arbitrum": "https://pancakeswap.finance/liquidity",
+        "base": "https://pancakeswap.finance/liquidity",
+    },
+    // Balancer V3
+    "balancer-v3": {
+        "ethereum": `https://app.balancer.fi/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "arbitrum": `https://app.balancer.fi/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "polygon": `https://app.balancer.fi/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "base": `https://app.balancer.fi/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Aura Finance (Balancer optimizer)
+    "aura": {
+        "ethereum": `https://app.aura.finance/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "arbitrum": `https://app.aura.finance/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "base": `https://app.aura.finance/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Stake DAO
+    "stake-dao": {
+        "ethereum": `https://www.stakedao.org/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
+    // Angle Protocol
+    "angle": {
+        "ethereum": `https://app.angle.money/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "arbitrum": `https://app.angle.money/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "polygon": `https://app.angle.money/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+        "base": `https://app.angle.money/?utm_source=${REFERRAL_CONFIG.utmSource}`,
+    },
 }
 
 export function getDepositUrl(protocolSlug: string, chain: string): string | null {

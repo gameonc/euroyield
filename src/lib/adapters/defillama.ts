@@ -9,8 +9,18 @@ interface LlamaPool {
     id: string
 }
 
-const TARGET_ASSETS = ["EURC", "EURS", "agEUR"]
-const TARGET_CHAINS = ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon"]
+// Euro stablecoins to track
+const TARGET_ASSETS = [
+    "EURC",   // Circle Euro (most liquid)
+    "EURS",   // Stasis Euro
+    "agEUR",  // Angle Euro (now EURA)
+    "EURA",   // Angle Euro (rebranded)
+    "EURe",   // Monerium Euro
+    "sEUR",   // Synthetix Euro
+    "JEUR",   // Jarvis Euro
+    "cEUR",   // Celo Euro
+]
+const TARGET_CHAINS = ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "Gnosis"]
 
 export class DeFiLlamaAdapter implements YieldAdapter {
     name = "DeFiLlama"
@@ -25,9 +35,9 @@ export class DeFiLlamaAdapter implements YieldAdapter {
             const payload = await response.json()
             const data = payload.data as LlamaPool[]
 
-            // Filter for Euro stablecoins
+            // Filter for Euro stablecoins (check if symbol contains any target asset)
             const euroPools = data.filter(pool =>
-                TARGET_ASSETS.includes(pool.symbol) &&
+                TARGET_ASSETS.some(asset => pool.symbol?.includes(asset)) &&
                 TARGET_CHAINS.includes(pool.chain) &&
                 pool.tvlUsd > 10000 // Filter out dust
             )

@@ -179,6 +179,92 @@ export const MERKL_POSITIONS: ProtocolPosition[] = [
 ]
 
 /**
+ * Fluid Lending (Instadapp)
+ * Users hold fTokens representing their lending position
+ */
+export const FLUID_POSITIONS: ProtocolPosition[] = [
+    // EURC lending on Base
+    {
+        protocol: "Fluid",
+        protocolSlug: "fluid-lending",
+        poolName: "EURC Lending",
+        asset: "EURC",
+        receiptToken: "0x1A996cb54bb95462040408C06122D45D6Cdb6096", // fEURC on Base
+        decimals: 6,
+        chainId: CHAINS.BASE,
+    },
+]
+
+/**
+ * Aerodrome Finance (Base DEX)
+ * Users hold veAERO or LP tokens
+ * Note: LP positions require checking gauge staking for full balance
+ */
+export const AERODROME_POSITIONS: ProtocolPosition[] = [
+    // EURC/USDC Concentrated LP on Base
+    {
+        protocol: "Aerodrome",
+        protocolSlug: "aerodrome-slipstream",
+        poolName: "EURC/USDC CL Pool",
+        asset: "EURC",
+        receiptToken: "0x0B25c51637c43decd6CC1C1e3da4518D54ddb528", // Aerodrome CL EURC-USDC
+        decimals: 18,
+        chainId: CHAINS.BASE,
+    },
+]
+
+/**
+ * Convex Finance (Curve optimizer)
+ * Users hold cvxLP tokens representing staked Curve LP
+ */
+export const CONVEX_POSITIONS: ProtocolPosition[] = [
+    // USDC-EURS pool on Ethereum
+    {
+        protocol: "Convex",
+        protocolSlug: "convex-finance",
+        poolName: "USDC-EURS",
+        asset: "EURS",
+        receiptToken: "0x19b080FE1ffA0553469D20Ca36219F17Fcf03859", // Convex USDC/EURS
+        decimals: 18,
+        chainId: CHAINS.MAINNET,
+    },
+]
+
+/**
+ * Beefy Finance (Multi-chain vault optimizer)
+ * Users hold mooTokens
+ */
+export const BEEFY_POSITIONS: ProtocolPosition[] = [
+    // Aerodrome EURC/USDC vault on Base
+    {
+        protocol: "Beefy",
+        protocolSlug: "beefy",
+        poolName: "Aerodrome EURC-USDC",
+        asset: "EURC",
+        receiptToken: "0x8F89a7bB0F0DB6c0e41C0c8b12b4c548b0f4e7D1", // mooAerodromeEURC-USDC
+        decimals: 18,
+        chainId: CHAINS.BASE,
+    },
+]
+
+/**
+ * Radiant V2 (Cross-chain lending)
+ * Users hold rTokens
+ */
+export const RADIANT_POSITIONS: ProtocolPosition[] = [
+    // EURC lending on Base
+    {
+        protocol: "Radiant",
+        protocolSlug: "radiant-v2",
+        poolName: "EURC Supply",
+        asset: "EURC",
+        receiptToken: "0x2bDB7C534E82562D872B4e42e21Ed1a75D78e633", // rEURC on Base
+        decimals: 6,
+        chainId: CHAINS.BASE,
+    },
+]
+
+/**
  * All protocol positions combined for batch queries
  */
 export const ALL_PROTOCOL_POSITIONS: ProtocolPosition[] = [
@@ -187,6 +273,11 @@ export const ALL_PROTOCOL_POSITIONS: ProtocolPosition[] = [
     ...CURVE_POSITIONS,
     ...YEARN_POSITIONS,
     ...MOONWELL_POSITIONS,
+    ...FLUID_POSITIONS,
+    ...AERODROME_POSITIONS,
+    ...CONVEX_POSITIONS,
+    ...BEEFY_POSITIONS,
+    ...RADIANT_POSITIONS,
     // Note: Merkl positions are typically tracked differently (via underlying assets)
 ]
 
@@ -207,8 +298,20 @@ export const CHAIN_NAMES: Record<ChainId, string> = {
 export const PROTOCOL_COLORS: Record<string, string> = {
     "aave-v3": "#B6509E",
     "morpho-blue": "#2470FF",
+    "morpho-v1": "#2470FF",
     "curve-dex": "#FF0000",
     "merkl": "#7B3FE4",
     "yearn-finance": "#006AE3",
-    "moonwell-lending": "#e84142", // Moonwell red
+    "moonwell-lending": "#e84142",
+    "fluid-lending": "#2775CA", // Instadapp blue
+    "aerodrome-slipstream": "#0052FF", // Aerodrome blue
+    "aerodrome-v1": "#0052FF",
+    "convex-finance": "#3A3A3A", // Convex dark
+    "beefy": "#5A8F35", // Beefy green
+    "radiant-v2": "#00BFFF", // Radiant cyan
+    "uniswap-v3": "#FF007A", // Uniswap pink
+    "pancakeswap-amm-v3": "#D1884F", // PancakeSwap orange
+    "balancer-v3": "#1E1E1E", // Balancer dark
+    "harvest-finance": "#F2A900", // Harvest gold
+    "extra-finance-xlend": "#00C4B4", // Extra teal
 }
