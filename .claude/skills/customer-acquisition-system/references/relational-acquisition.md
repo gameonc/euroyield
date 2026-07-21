@@ -1,4 +1,4 @@
-# Relational Acquisition (Phase 4)
+# Relational Acquisition (Relationship & Referral)
 
 For high-trust, high-friction, operationally complex businesses, prioritize direct,
 relationship-driven channels. They give the most control over qualification, objection

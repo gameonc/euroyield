@@ -1,4 +1,4 @@
-# AI-Augmented Workflows & Data Governance (Phase 5)
+# AI-Augmented Workflows & Data Governance (Behind the Relationship)
 
 Put AI **behind** the relationship, not instead of it. Decide what to automate with two
 questions: **How costly are errors?** and **What kind of knowledge does the task require?**

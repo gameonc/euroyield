@@ -1,4 +1,4 @@
-# Measurement Spine & Channel Economics (Phases 1–2)
+# Measurement Spine & Channel Economics (Foundation)
 
 This is the quantitative core. If it is weak, everything downstream becomes storytelling.
 

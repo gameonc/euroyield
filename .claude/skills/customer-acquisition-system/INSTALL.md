@@ -25,11 +25,19 @@ repo's sessions.
 
 ## Apply it to a new business
 
-Just describe the business and the funnel problem — the skill routes you through:
-1. CRM / data model (measurement spine)
-2. Channel economics (CAC, contribution-margin LTV, payback, marginal CAC)
-3. Relational acquisition + pricing posture (referral & partner mechanics, pricing ladder)
-4. AI-augmented workflow + data governance
+**Start by plugging in a profile** (`profiles/`) — copy `profiles/_TEMPLATE.md` to
+`profiles/<business-type>.md` and fill it (or use `profiles/brokerage.md` as a worked
+example). That pre-configures channels, cadence, compliance, KPIs, and objections for the
+business type — so you don't rebuild the wheel each time.
 
-Then translate the generic enums and the driver-recruiting example to that venture's
-real channels, supply side, ceilings, and SLAs.
+Then the skill routes you through the full funnel:
+0. **Plug in the profile** (`profiles/`) — the reusable configuration layer
+1. **Foundation** — CRM / data model + channel economics (measurement spine)
+2. **Top of funnel** — cold outreach & prospecting (+ compliance)
+3. **Mid funnel** — the follow-up engine (speed + persistence)
+4. **Bottom of funnel** — closing toolkit (discovery, qualify, objections, close)
+5. **Relationship & pricing** — referral/partner mechanics + pricing ladder
+6. **Behind it all** — AI-augmented workflow + data governance
+
+Reusable scripts for every stage live in `assets/scripts-library.md`. Keep the reference
+files generic — put the venture's real channels, ceilings, and SLAs in its profile.

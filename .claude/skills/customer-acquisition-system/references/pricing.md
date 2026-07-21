@@ -1,4 +1,4 @@
-# Pricing Posture (Phase 4, value capture)
+# Pricing Posture (Value Capture)
 
 Pricing is where willingness-to-pay is realized. The strongest evidence for aggressive
 segmentation is field-experimental: in one large **digital** setting, exercising previously
