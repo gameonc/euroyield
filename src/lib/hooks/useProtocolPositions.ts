@@ -12,6 +12,7 @@ import {
     CHAIN_NAMES,
     type ChainId
 } from "../constants/protocols"
+import { positionValueBasis, type ValueBasis } from "../positions/valueBasis"
 
 export interface DetectedPosition {
     id: string
@@ -21,9 +22,12 @@ export interface DetectedPosition {
     asset: string
     chain: string
     chainId: ChainId
-    balance: number // Formatted balance
+    balance: number // Formatted receipt-token balance (token units, not always EUR)
     rawBalance: bigint
     receiptToken: Address
+    valueBasis: ValueBasis
+    /** True only when `balance` is counted as EUR value (stable-1to1). */
+    priced: boolean
     // These will be populated when matched with yield data
     apy?: number
     dailyEarnings?: number
@@ -63,6 +67,7 @@ export function useProtocolPositions() {
     // Process results into detected positions
     const positions: DetectedPosition[] = []
     let totalValue = 0
+    let unpricedPositionCount = 0
 
     if (data && address) {
         ALL_PROTOCOL_POSITIONS.forEach((position, index) => {
@@ -75,6 +80,8 @@ export function useProtocolPositions() {
                 // Only include positions with non-zero balances
                 if (balance > 0.01) { // Filter dust
                     const positionId = `${position.protocolSlug}-${position.asset}-${position.chainId}`
+                    const valueBasis = positionValueBasis(position.protocolSlug)
+                    const priced = valueBasis === "stable-1to1"
 
                     positions.push({
                         id: positionId,
@@ -87,10 +94,18 @@ export function useProtocolPositions() {
                         balance,
                         rawBalance,
                         receiptToken: position.receiptToken,
+                        valueBasis,
+                        priced,
                     })
 
-                    // Assume 1:1 EUR value for Euro stablecoins
-                    totalValue += balance
+                    // Only count 1:1-redeemable positions as EUR value. LP /
+                    // vault-share / mToken balances (incl. USDC-paired pools) are
+                    // not euros, so counting them would overstate the total.
+                    if (priced) {
+                        totalValue += balance
+                    } else {
+                        unpricedPositionCount += 1
+                    }
                 }
             }
         })
@@ -103,6 +118,7 @@ export function useProtocolPositions() {
         positions,
         totalValue,
         positionCount: positions.length,
+        unpricedPositionCount,
         isLoading: isPending,
         error,
         refetch,

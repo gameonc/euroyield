@@ -1,4 +1,5 @@
 import { YieldAdapter, YieldData } from "./types"
+import type { RiskTag } from "@/types/database"
 
 interface LlamaPool {
     chain: string
@@ -21,6 +22,28 @@ const TARGET_ASSETS = [
     "cEUR",   // Celo Euro
 ]
 const TARGET_CHAINS = ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "Gnosis"]
+
+// Well-known audited protocols (matched case-insensitively as a substring of the
+// DeFiLlama project name). Conservative: only mark audited when we are confident.
+const AUDITED_PROTOCOLS = [
+    "aave",
+    "compound",
+    "morpho",
+    "curve",
+    "convex",
+    "yearn",
+    "balancer",
+    "uniswap",
+    "fluid",
+    "moonwell",
+    "aerodrome",
+    "beefy",
+]
+
+function isAuditedProtocol(project: string): boolean {
+    const p = project.toLowerCase()
+    return AUDITED_PROTOCOLS.some((name) => p.includes(name))
+}
 
 export class DeFiLlamaAdapter implements YieldAdapter {
     name = "DeFiLlama"
@@ -50,8 +73,9 @@ export class DeFiLlamaAdapter implements YieldAdapter {
                 asset: pool.symbol,
                 chain: pool.chain.toLowerCase(),
                 apy: pool.apy,
-                tvl: pool.tvlUsd, // Keeping as USD for now, or assume 1:1 for rough sorting
-                risk_tags: this.getRiskTags(pool.project, pool.apy)
+                tvl: pool.tvlUsd, // USD (DeFiLlama tvlUsd) — labeled as USD downstream
+                risk_tags: this.getRiskTags(pool.project, pool.tvlUsd),
+                is_audited: isAuditedProtocol(pool.project),
             }))
 
         } catch (error) {
@@ -60,11 +84,43 @@ export class DeFiLlamaAdapter implements YieldAdapter {
         }
     }
 
-    private getRiskTags(protocol: string, apy: number): string[] {
-        const tags: string[] = []
-        if (apy > 10) tags.push("High Yield")
-        if (["Aave V3", "Compound V3", "Morpho Blue"].includes(protocol)) tags.push("Audited")
-        if (protocol.includes("Uniswap")) tags.push("Impermanent Loss")
+    // Structured risk tags matching the RiskTag shape used across the app
+    // (src/types/database.ts + RiskBadge). Note: tvl is USD.
+    private getRiskTags(protocol: string, tvlUsd: number): RiskTag[] {
+        const tags: RiskTag[] = []
+
+        if (isAuditedProtocol(protocol)) {
+            tags.push({
+                type: "audited",
+                label: "Audited",
+                description: "Well-known protocol with public security audits.",
+                isPositive: true,
+            })
+        } else {
+            tags.push({
+                type: "unaudited",
+                label: "Unaudited",
+                description: "No known public audit — higher smart-contract risk.",
+                isPositive: false,
+            })
+        }
+
+        if (tvlUsd >= 10_000_000) {
+            tags.push({
+                type: "high_tvl",
+                label: "High TVL",
+                description: "Deep liquidity (TVL ≥ $10M).",
+                isPositive: true,
+            })
+        } else if (tvlUsd < 1_000_000) {
+            tags.push({
+                type: "low_tvl",
+                label: "Low TVL",
+                description: "Thin liquidity (TVL < $1M) — higher exit risk.",
+                isPositive: false,
+            })
+        }
+
         return tags
     }
 }

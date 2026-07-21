@@ -24,6 +24,7 @@ import {
 import { mainnet, optimism, polygon, arbitrum, base } from "viem/chains"
 import { EURO_TOKENS } from "@/lib/constants"
 import { ALL_PROTOCOL_POSITIONS, CHAIN_NAMES, type ChainId } from "@/lib/constants/protocols"
+import { positionValueBasis, type ValueBasis } from "./valueBasis"
 
 const CHAINS_BY_ID: Record<ChainId, Chain> = {
     1: mainnet,
@@ -68,7 +69,16 @@ export interface YieldPositionBalance {
     chain: string
     chainId: number
     receiptToken: string
+    /** Raw receipt-token balance (token units — NOT necessarily EUR). */
     balance: number
+    /** How `balance` relates to EUR value. */
+    valueBasis: ValueBasis
+    /**
+     * True only when `balance` is counted as EUR value (stable-1to1 positions).
+     * `derived` positions (LP / vault-share / mToken, incl. USDC-paired pools)
+     * are listed but excluded from EUR totals — their token balance is not euros.
+     */
+    priced: boolean
 }
 
 export interface EuroPositionsResult {
@@ -77,10 +87,17 @@ export interface EuroPositionsResult {
     yieldPositions: YieldPositionBalance[]
     /** Idle euro stablecoins sitting in the wallet (assumes 1:1 EUR peg). */
     idleValue: number
-    /** Value deployed into yield positions (assumes 1:1 EUR peg). */
+    /** EUR value deployed into yield positions — only 1:1-priceable positions. */
     deployedValue: number
-    /** idleValue + deployedValue. */
+    /** idleValue + deployedValue (priced positions only). */
     totalValue: number
+    /**
+     * Count of yield positions held but excluded from `deployedValue` because
+     * their receipt token is not 1:1 with euros (LP / vault-share / mToken).
+     */
+    unpricedPositionCount: number
+    /** Human/agent-readable caveat when unpriced positions are present. */
+    deployedValueNote?: string
 }
 
 const DUST = 0.01
@@ -164,6 +181,7 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
     // --- 2. Active yield positions (receipt tokens) ---
     const yieldPositions: YieldPositionBalance[] = []
     let deployedValue = 0
+    let unpricedPositionCount = 0
 
     for (const [chainId, positions] of groupByChain(ALL_PROTOCOL_POSITIONS)) {
         const client = getClient(chainId)
@@ -181,6 +199,8 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
             if (res.status !== "success") return
             const balance = parseFloat(formatUnits(res.result as bigint, position.decimals))
             if (balance > DUST) {
+                const valueBasis = positionValueBasis(position.protocolSlug)
+                const priced = valueBasis === "stable-1to1"
                 yieldPositions.push({
                     protocol: position.protocol,
                     protocolSlug: position.protocolSlug,
@@ -190,8 +210,17 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
                     chainId: position.chainId,
                     receiptToken: position.receiptToken,
                     balance,
+                    valueBasis,
+                    priced,
                 })
-                deployedValue += balance
+                // Only count positions whose token redeems ~1:1 for euros.
+                // LP / vault-share / mToken balances (incl. USDC-paired pools)
+                // are NOT euros, so summing them would report a wrong number.
+                if (priced) {
+                    deployedValue += balance
+                } else {
+                    unpricedPositionCount += 1
+                }
             }
         })
     }
@@ -206,5 +235,10 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
         idleValue,
         deployedValue,
         totalValue: idleValue + deployedValue,
+        unpricedPositionCount,
+        deployedValueNote:
+            unpricedPositionCount > 0
+                ? `${unpricedPositionCount} position(s) are LP / vault-share / mToken (some USDC-paired) whose token balance is not 1:1 with euros; they are listed but excluded from deployedValue/totalValue.`
+                : undefined,
     }
 }

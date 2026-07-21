@@ -63,6 +63,10 @@ async function main() {
     let newPools = 0
     let insertedYields = 0
 
+    // Guard so we update each protocol/pool at most once per run.
+    const auditedUpdated = new Set<string>()
+    const riskTagsUpdated = new Set<string>()
+
     for (const item of yields) {
         try {
             // A. Resolve Protocol
@@ -75,7 +79,7 @@ async function main() {
                     slug: slug,
                     chain: item.chain, // Schema requires chain, assuming protocol's primary deployment
                     website: "",
-                    is_audited: false
+                    is_audited: item.is_audited
                 }).select('id').single()
 
                 if (error) {
@@ -85,6 +89,13 @@ async function main() {
                 protocolId = newProtocol.id
                 protocolMap.set(item.protocol.toLowerCase(), protocolId)
                 newProtocols++
+            } else if (item.is_audited && !auditedUpdated.has(protocolId)) {
+                // Promote existing protocol to audited (never downgrade).
+                auditedUpdated.add(protocolId)
+                const { error } = await supabase.from('protocols')
+                    .update({ is_audited: true })
+                    .eq('id', protocolId)
+                if (error) console.error(`Error updating audit flag for ${item.protocol}:`, error.message)
             }
 
             // B. Resolve Pool
@@ -99,7 +110,7 @@ async function main() {
                     pool_name: item.pool, // e.g. "EURC"
                     chain: item.chain,
                     stablecoin: item.asset, // "EURC"
-                    risk_tags: [], // Using empty tags for now as structure mismatch
+                    risk_tags: item.risk_tags,
                     freshness_tier: 'warm',
                     is_active: true
                 }).select('id').single()
@@ -111,6 +122,13 @@ async function main() {
                 poolId = newPool.id
                 poolMap.set(poolKey, poolId)
                 newPools++
+            } else if (item.risk_tags.length > 0 && !riskTagsUpdated.has(poolId)) {
+                // Refresh risk tags on existing pools (previously left empty).
+                riskTagsUpdated.add(poolId)
+                const { error } = await supabase.from('pools')
+                    .update({ risk_tags: item.risk_tags })
+                    .eq('id', poolId)
+                if (error) console.error(`Error updating risk tags for ${item.pool}:`, error.message)
             }
 
             // C. Insert Yield History

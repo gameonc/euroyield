@@ -33,6 +33,10 @@ export interface PortfolioSummary {
     // Combined totals
     totalValue: number
 
+    // Positions held but not valued in EUR (LP / vault-share / mToken, incl.
+    // USDC-paired pools) — listed but excluded from value/earnings math.
+    unpricedPositionCount: number
+
     // Yield metrics
     weightedApy: number
     dailyEarnings: number
@@ -53,7 +57,7 @@ export interface PortfolioSummary {
 const DEFAULT_ESTIMATED_APY = 3.5
 
 export function usePortfolioData(): PortfolioSummary {
-    const { positions, isLoading: positionsLoading, error: positionsError } = useProtocolPositions()
+    const { positions, unpricedPositionCount, isLoading: positionsLoading, error: positionsError } = useProtocolPositions()
     const { getPoolApy, isLoading: yieldsLoading, error: yieldsError } = useYieldData()
     const { balances: rawBalances, totalValue: totalRawValue, isLoading: balancesLoading } = useTokenBalances()
 
@@ -65,8 +69,11 @@ export function usePortfolioData(): PortfolioSummary {
             const apy = matchedApy ?? DEFAULT_ESTIMATED_APY
             const yieldSource = matchedApy !== null ? 'matched' : 'estimated'
 
-            // Calculate earnings
-            const yearlyEarnings = position.balance * (apy / 100)
+            // Only positions whose token is ~1:1 with euros contribute EUR value
+            // and earnings. LP / vault-share / mToken balances are not euros, so
+            // treat their EUR value (and euro earnings) as 0 rather than wrong.
+            const eurValue = position.priced ? position.balance : 0
+            const yearlyEarnings = eurValue * (apy / 100)
             const monthlyEarnings = yearlyEarnings / 12
             const weeklyEarnings = yearlyEarnings / 52
             const dailyEarnings = yearlyEarnings / 365
@@ -82,14 +89,15 @@ export function usePortfolioData(): PortfolioSummary {
             }
         })
 
-        // Calculate totals
-        const totalPositionValue = enrichedPositions.reduce((sum, p) => sum + p.balance, 0)
+        // Calculate totals (priced positions only — see eurValue above)
+        const pricedValue = (p: EnrichedPosition) => (p.priced ? p.balance : 0)
+        const totalPositionValue = enrichedPositions.reduce((sum, p) => sum + pricedValue(p), 0)
         const totalValue = totalPositionValue + totalRawValue
 
-        // Weighted APY calculation
+        // Weighted APY calculation (weighted by priced EUR value)
         let weightedApy = 0
         if (totalPositionValue > 0) {
-            const weightedSum = enrichedPositions.reduce((sum, p) => sum + (p.apy * p.balance), 0)
+            const weightedSum = enrichedPositions.reduce((sum, p) => sum + (p.apy * pricedValue(p)), 0)
             weightedApy = weightedSum / totalPositionValue
         }
 
@@ -109,6 +117,7 @@ export function usePortfolioData(): PortfolioSummary {
             positions: enrichedPositions,
             positionCount: enrichedPositions.length,
             totalPositionValue,
+            unpricedPositionCount,
             rawBalances,
             totalRawValue,
             totalValue,
@@ -120,7 +129,7 @@ export function usePortfolioData(): PortfolioSummary {
             idleCapital,
             potentialDailyGain,
         }
-    }, [positions, getPoolApy, rawBalances, totalRawValue])
+    }, [positions, unpricedPositionCount, getPoolApy, rawBalances, totalRawValue])
 
     const isLoading = positionsLoading || yieldsLoading || balancesLoading
     const hasError = !!positionsError || !!yieldsError

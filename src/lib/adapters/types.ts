@@ -1,3 +1,5 @@
+import type { RiskTag } from "@/types/database"
+
 export interface YieldData {
     protocol: string
     pool: string
@@ -5,7 +7,9 @@ export interface YieldData {
     chain: string
     apy: number
     tvl: number
-    risk_tags: string[]
+    risk_tags: RiskTag[]
+    /** Whether the protocol is a well-known audited protocol. */
+    is_audited: boolean
 }
 
 export interface YieldAdapter {

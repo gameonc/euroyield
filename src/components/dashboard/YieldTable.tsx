@@ -143,11 +143,12 @@ export function YieldTable({ data }: YieldTableProps) {
         return sortDirection === "asc" ? comparison : -comparison
     })
 
+    // TVL from DeFiLlama is denominated in USD (tvlUsd), not EUR — label honestly.
     const formatTVL = (tvl: number) => {
         if (tvl >= 1000000) {
-            return `€${(tvl / 1000000).toFixed(2)}M`
+            return `$${(tvl / 1000000).toFixed(2)}M`
         }
-        return `€${(tvl / 1000).toFixed(0)}K`
+        return `$${(tvl / 1000).toFixed(0)}K`
     }
 
     const handleExport = () => {
@@ -222,7 +223,7 @@ export function YieldTable({ data }: YieldTableProps) {
                             </th>
                             <th className="px-4 py-3 text-right">
                                 <button onClick={() => toggleSort("tvl")} className="flex items-center justify-end w-full hover:text-foreground group">
-                                    TVL (EUR)
+                                    TVL (USD)
                                     <SortIcon field="tvl" currentField={sortField} direction={sortDirection} />
                                 </button>
                             </th>
