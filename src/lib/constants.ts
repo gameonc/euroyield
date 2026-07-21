@@ -17,6 +17,45 @@ export const CHAINS = {
     BASE: 8453,
 } as const
 
+// USD stablecoins — the larger agent-treasury market. Native deployments.
+export const USD_TOKENS: TokenConfig[] = [
+    {
+        symbol: "USDC",
+        name: "USD Coin",
+        decimals: 6,
+        addresses: {
+            [CHAINS.MAINNET]: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            [CHAINS.OPTIMISM]: "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+            [CHAINS.POLYGON]: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+            [CHAINS.ARBITRUM]: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+            [CHAINS.BASE]: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        },
+    },
+    {
+        symbol: "USDT",
+        name: "Tether USD",
+        decimals: 6,
+        addresses: {
+            [CHAINS.MAINNET]: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+            [CHAINS.OPTIMISM]: "0x94b008aA00579c1307B0EF2c499aD98a8ce58e58",
+            [CHAINS.POLYGON]: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+            [CHAINS.ARBITRUM]: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+        },
+    },
+    {
+        symbol: "DAI",
+        name: "Dai Stablecoin",
+        decimals: 18,
+        addresses: {
+            [CHAINS.MAINNET]: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            [CHAINS.OPTIMISM]: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+            [CHAINS.POLYGON]: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+            [CHAINS.ARBITRUM]: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+            [CHAINS.BASE]: "0x50c5725949A6F0c72E6C4a641F24049A917DB0Cb",
+        },
+    },
+]
+
 export const EURO_TOKENS: TokenConfig[] = [
     {
         symbol: "EURC",
@@ -52,3 +91,11 @@ export const EURO_TOKENS: TokenConfig[] = [
         }
     }
 ]
+
+/** All tracked stablecoins (USD + EUR) for idle-balance reads. */
+export const STABLE_TOKENS: TokenConfig[] = [...USD_TOKENS, ...EURO_TOKENS]
+
+/** Currency ("USD" | "EUR") for a wallet-token symbol. */
+export function tokenCurrency(symbol: string): "USD" | "EUR" {
+    return EURO_TOKENS.some((t) => t.symbol === symbol) ? "EUR" : "USD"
+}

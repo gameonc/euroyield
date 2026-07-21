@@ -11,7 +11,7 @@ interface LlamaPool {
 }
 
 // Euro stablecoins to track
-const TARGET_ASSETS = [
+const EUR_ASSETS = [
     "EURC",   // Circle Euro (most liquid)
     "EURS",   // Stasis Euro
     "agEUR",  // Angle Euro (now EURA)
@@ -21,7 +21,36 @@ const TARGET_ASSETS = [
     "JEUR",   // Jarvis Euro
     "cEUR",   // Celo Euro
 ]
+
+// USD stablecoins to track (the larger agent-treasury market)
+const USD_ASSETS = [
+    "USDC",
+    "USDT",
+    "DAI",
+    "USDS",   // Sky (ex-MakerDAO)
+    "sDAI",   // Savings DAI
+    "PYUSD",  // PayPal USD
+    "GHO",    // Aave USD
+    "crvUSD", // Curve USD
+    "FRAX",
+    "USDe",   // Ethena
+]
+
+const TARGET_ASSETS = [...EUR_ASSETS, ...USD_ASSETS]
 const TARGET_CHAINS = ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "Gnosis"]
+
+/**
+ * Classify a pool symbol's fiat denomination. Euro takes precedence when a
+ * symbol contains both (e.g. an EURC/USDC LP is treated as euro-side exposure).
+ */
+function detectCurrency(symbol: string): "USD" | "EUR" {
+    return EUR_ASSETS.some((a) => symbol.includes(a)) ? "EUR" : "USD"
+}
+
+/** The specific tracked stablecoin symbol present in a pool symbol. */
+function detectStablecoin(symbol: string): string {
+    return TARGET_ASSETS.find((a) => symbol.includes(a)) ?? symbol
+}
 
 // Well-known audited protocols (matched case-insensitively as a substring of the
 // DeFiLlama project name). Conservative: only mark audited when we are confident.
@@ -58,19 +87,20 @@ export class DeFiLlamaAdapter implements YieldAdapter {
             const payload = await response.json()
             const data = payload.data as LlamaPool[]
 
-            // Filter for Euro stablecoins (check if symbol contains any target asset)
-            const euroPools = data.filter(pool =>
+            // Filter for tracked stablecoins (USD + EUR) on target chains.
+            const matchedPools = data.filter(pool =>
                 TARGET_ASSETS.some(asset => pool.symbol?.includes(asset)) &&
                 TARGET_CHAINS.includes(pool.chain) &&
                 pool.tvlUsd > 10000 // Filter out dust
             )
 
-            console.log(`Found ${euroPools.length} Euro pools. Mapping to standard format...`)
+            console.log(`Found ${matchedPools.length} stablecoin pools. Mapping to standard format...`)
 
-            return euroPools.map(pool => ({
+            return matchedPools.map(pool => ({
                 protocol: pool.project,
-                pool: pool.symbol, // Use symbol as pool name for simplicity, or project specific
-                asset: pool.symbol,
+                pool: pool.symbol, // Full symbol as pool name (e.g. "USDC-DAI")
+                asset: detectStablecoin(pool.symbol), // The specific tracked coin
+                currency: detectCurrency(pool.symbol),
                 chain: pool.chain.toLowerCase(),
                 apy: pool.apy,
                 tvl: pool.tvlUsd, // USD (DeFiLlama tvlUsd) — labeled as USD downstream

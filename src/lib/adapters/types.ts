@@ -1,9 +1,11 @@
-import type { RiskTag } from "@/types/database"
+import type { RiskTag, Currency } from "@/types/database"
 
 export interface YieldData {
     protocol: string
     pool: string
     asset: string
+    /** Fiat denomination of the stablecoin (USD or EUR). */
+    currency: Currency
     chain: string
     apy: number
     tvl: number

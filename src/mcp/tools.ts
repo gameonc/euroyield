@@ -19,7 +19,8 @@ import {
     summarizeRisk,
     type YieldFilter,
 } from "@/lib/yields/calculations"
-import { readEuroPositions } from "@/lib/positions/readPositions"
+import { recommendAllocation, type RiskPolicy } from "@/lib/yields/allocate"
+import { readStablecoinPositions } from "@/lib/positions/readPositions"
 import type { LatestYield } from "@/types/database"
 
 /** Wrap a JSON-serializable value as an MCP text tool result. */
@@ -43,6 +44,7 @@ function toPoolSummary(pool: LatestYield) {
         pool_id: pool.pool_id,
         protocol: pool.protocol_name,
         stablecoin: pool.stablecoin,
+        currency: pool.currency,
         chain: pool.chain,
         apy: pool.apy,
         tvl_usd: pool.tvl,
@@ -54,10 +56,14 @@ function toPoolSummary(pool: LatestYield) {
 
 // Shared filter shape reused by several tools.
 const filterShape = {
+    currency: z
+        .enum(["USD", "EUR"])
+        .optional()
+        .describe("Fiat denomination to match: USD or EUR."),
     stablecoin: z
         .string()
         .optional()
-        .describe("Euro stablecoin symbol to match, e.g. EURC, EURS, agEUR."),
+        .describe("Stablecoin symbol to match, e.g. USDC, USDT, DAI, EURC."),
     chain: z
         .string()
         .optional()
@@ -76,6 +82,7 @@ const filterShape = {
 
 function toFilter(input: Record<string, unknown>): YieldFilter {
     return {
+        currency: input.currency as string | undefined,
         stablecoin: input.stablecoin as string | undefined,
         chain: input.chain as string | undefined,
         protocol: input.protocol as string | undefined,
@@ -89,15 +96,16 @@ function toFilter(input: Record<string, unknown>): YieldFilter {
  * Register all Rendite yield tools onto an MCP server instance.
  */
 export function registerRenditeTools(server: McpServer): void {
-    // ---- get_best_euro_yield ----
+    // ---- get_best_yield ----
     server.registerTool(
-        "get_best_euro_yield",
+        "get_best_yield",
         {
-            title: "Get best euro-stablecoin yield",
+            title: "Get best stablecoin yield",
             description:
-                "Return the highest-APY euro-stablecoin yield opportunities right now, " +
-                "optionally filtered by stablecoin, chain, protocol, or audited-only. " +
-                "Use this to answer 'where should idle euros earn the most yield?'.",
+                "Return the highest-APY stablecoin yield opportunities right now (USD and " +
+                "EUR), optionally filtered by currency, stablecoin, chain, protocol, or " +
+                "audited-only. Use this to answer 'where should idle stablecoins earn the " +
+                "most yield?'.",
             inputSchema: {
                 ...filterShape,
                 limit: z
@@ -124,15 +132,15 @@ export function registerRenditeTools(server: McpServer): void {
         }
     )
 
-    // ---- compare_euro_yields ----
+    // ---- compare_yields ----
     server.registerTool(
-        "compare_euro_yields",
+        "compare_yields",
         {
-            title: "Compare euro-stablecoin yields",
+            title: "Compare stablecoin yields",
             description:
-                "Return the full set of euro-stablecoin yield pools matching the given " +
-                "filters, sorted by APY (highest first). Use this to build a comparison " +
-                "table across protocols, chains, and stablecoins.",
+                "Return the full set of stablecoin yield pools matching the given filters " +
+                "(USD and EUR), sorted by APY (highest first). Use this to build a " +
+                "comparison table across protocols, chains, and stablecoins.",
             inputSchema: filterShape,
         },
         async (input) => {
@@ -153,11 +161,11 @@ export function registerRenditeTools(server: McpServer): void {
     server.registerTool(
         "get_protocol_risk",
         {
-            title: "Get plain-English risk for euro-yield pools",
+            title: "Get plain-English risk for yield pools",
             description:
                 "Return a plain-English risk summary (audit status, liquidity depth, " +
-                "APY sustainability, and flags) for the euro-yield pools matching the " +
-                "filters. Use this before recommending a pool to a user.",
+                "APY sustainability, and flags) for the stablecoin yield pools matching " +
+                "the filters. Use this before recommending a pool to a user.",
             inputSchema: filterShape,
         },
         async (input) => {
@@ -177,17 +185,17 @@ export function registerRenditeTools(server: McpServer): void {
         }
     )
 
-    // ---- simulate_euro_yield ----
+    // ---- simulate_yield ----
     server.registerTool(
-        "simulate_euro_yield",
+        "simulate_yield",
         {
-            title: "Simulate euro-stablecoin yield earnings",
+            title: "Simulate stablecoin yield earnings",
             description:
-                "Project daily / monthly / yearly earnings for a euro deposit. Provide an " +
-                "explicit `apy`, or let the tool use the best available APY matching the " +
+                "Project daily / monthly / yearly earnings for a stablecoin deposit. Provide " +
+                "an explicit `apy`, or let the tool use the best available APY matching the " +
                 "given filters. Non-compounding, illustrative only.",
             inputSchema: {
-                amount: z.number().positive().describe("Deposit amount in EUR."),
+                amount: z.number().positive().describe("Deposit amount (in the pool's currency)."),
                 apy: z
                     .number()
                     .optional()
@@ -227,13 +235,13 @@ export function registerRenditeTools(server: McpServer): void {
         }
     )
 
-    // ---- read_euro_positions ----
+    // ---- read_stablecoin_positions ----
     server.registerTool(
-        "read_euro_positions",
+        "read_stablecoin_positions",
         {
-            title: "Read on-chain euro positions for an address",
+            title: "Read on-chain stablecoin positions for an address",
             description:
-                "Read-only lookup of an EVM address's euro-stablecoin holdings across " +
+                "Read-only lookup of an EVM address's stablecoin holdings (USD + EUR) across " +
                 "supported chains: idle wallet balances (the 'float' sitting still) and " +
                 "active yield positions. Never signs or moves funds.",
             inputSchema: {
@@ -244,8 +252,67 @@ export function registerRenditeTools(server: McpServer): void {
         },
         async (input) => {
             try {
-                const result = await readEuroPositions(input.address)
+                const result = await readStablecoinPositions(input.address)
                 return json(result)
+            } catch (err) {
+                return fail(err instanceof Error ? err.message : String(err))
+            }
+        }
+    )
+
+    // ---- recommend_treasury_allocation (the decision layer) ----
+    server.registerTool(
+        "recommend_treasury_allocation",
+        {
+            title: "Recommend a non-custodial treasury allocation",
+            description:
+                "The decision layer: given an amount of idle stablecoin and a risk policy, " +
+                "return a risk-scored, diversified allocation across the best pools — as a " +
+                "non-custodial intent the agent executes from its own wallet. Rendite holds " +
+                "no funds and signs nothing.",
+            inputSchema: {
+                amount: z.number().positive().describe("Idle amount to allocate."),
+                currency: z
+                    .enum(["USD", "EUR"])
+                    .default("USD")
+                    .describe("Denomination to allocate within (USD or EUR)."),
+                requireAudited: z
+                    .boolean()
+                    .optional()
+                    .describe("Only allocate to audited protocols."),
+                minTvlUsd: z.number().optional().describe("Minimum pool TVL in USD."),
+                chains: z
+                    .array(z.string())
+                    .optional()
+                    .describe("Allowed chains (e.g. ['base','arbitrum']). Omit for all."),
+                maxPositions: z
+                    .number()
+                    .int()
+                    .min(1)
+                    .max(10)
+                    .optional()
+                    .describe("Max pools to spread across (default 3)."),
+                maxAllocationFraction: z
+                    .number()
+                    .min(0.1)
+                    .max(1)
+                    .optional()
+                    .describe("Max fraction of the total in any one pool (default 0.5)."),
+            },
+        },
+        async (input) => {
+            try {
+                const all = await fetchLatestYields()
+                const currency = input.currency ?? "USD"
+                const pools = filterYields(all, { currency })
+                const policy: RiskPolicy = {
+                    requireAudited: input.requireAudited,
+                    minTvlUsd: input.minTvlUsd,
+                    chains: input.chains,
+                    maxPositions: input.maxPositions,
+                    maxAllocationFraction: input.maxAllocationFraction,
+                }
+                return json(recommendAllocation(pools, { amount: input.amount, currency, policy }))
             } catch (err) {
                 return fail(err instanceof Error ? err.message : String(err))
             }

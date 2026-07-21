@@ -25,6 +25,7 @@ function makePool(overrides: Partial<LatestYield> = {}): LatestYield {
         source: "defillama",
         pool_name: "EURC",
         stablecoin: "EURC",
+        currency: "EUR",
         chain: "base",
         risk_tags: [],
         protocol_name: "Aave V3",
@@ -75,6 +76,16 @@ test("filterYields matches on stablecoin, chain, protocol and thresholds", () =>
     assert.equal(filterYields(pools, { auditedOnly: true }).length, 2)
     // combined
     assert.equal(filterYields(pools, { stablecoin: "EURC", minApy: 7 }).length, 1)
+})
+
+test("filterYields matches on currency", () => {
+    const pools = [
+        makePool({ currency: "USD", stablecoin: "USDC" }),
+        makePool({ currency: "EUR", stablecoin: "EURC" }),
+    ]
+    assert.equal(filterYields(pools, { currency: "USD" }).length, 1)
+    assert.equal(filterYields(pools, { currency: "usd" }).length, 1)
+    assert.equal(filterYields(pools, { currency: "EUR" })[0].stablecoin, "EURC")
 })
 
 test("summarizeRisk flags unaudited, thin liquidity and high apy", () => {

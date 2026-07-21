@@ -50,13 +50,14 @@ async function main() {
 
     // 4. Pre-fetch existing protocols and pools to minimize queries
     const { data: protocols } = await supabase.from('protocols').select('id, name, slug')
-    const { data: pools } = await supabase.from('pools').select('id, protocol_id, chain, stablecoin')
+    const { data: pools } = await supabase.from('pools').select('id, protocol_id, chain, pool_name')
 
     type ProtocolRow = { id: string; name: string; slug: string }
-    type PoolRow = { id: string; protocol_id: string; chain: string; stablecoin: string }
+    type PoolRow = { id: string; protocol_id: string; chain: string; pool_name: string }
 
     const protocolMap = new Map(((protocols ?? []) as ProtocolRow[]).map(p => [p.name.toLowerCase(), p.id])) // Name -> ID
-    const poolMap = new Map(((pools ?? []) as PoolRow[]).map(p => [`${p.protocol_id}-${p.chain}-${p.stablecoin}`, p.id])) // Key -> ID
+    // Key on pool_name (full DeFiLlama symbol) so distinct pools sharing a coin stay separate.
+    const poolMap = new Map(((pools ?? []) as PoolRow[]).map(p => [`${p.protocol_id}-${p.chain}-${p.pool_name}`, p.id])) // Key -> ID
 
     // 5. Sync Loop
     let newProtocols = 0
@@ -99,17 +100,18 @@ async function main() {
             }
 
             // B. Resolve Pool
-            // Key: ProtocolID + Chain + Symbol
-            const poolKey = `${protocolId}-${item.chain}-${item.asset}`
+            // Key: ProtocolID + Chain + full pool symbol (keeps pools distinct)
+            const poolKey = `${protocolId}-${item.chain}-${item.pool}`
             let poolId = poolMap.get(poolKey)
 
             if (!poolId) {
                 // Insert new pool
                 const { data: newPool, error } = await supabase.from('pools').insert({
                     protocol_id: protocolId,
-                    pool_name: item.pool, // e.g. "EURC"
+                    pool_name: item.pool, // e.g. "USDC-DAI"
                     chain: item.chain,
-                    stablecoin: item.asset, // "EURC"
+                    stablecoin: item.asset, // "USDC"
+                    currency: item.currency, // "USD" | "EUR"
                     risk_tags: item.risk_tags,
                     freshness_tier: 'warm',
                     is_active: true

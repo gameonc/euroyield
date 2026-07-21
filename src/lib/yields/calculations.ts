@@ -59,7 +59,9 @@ export function topYields<T extends { apy: number }>(pools: T[], n = 3): T[] {
 // ============================================
 
 export interface YieldFilter {
-    /** Case-insensitive euro stablecoin symbol, e.g. "EURC". */
+    /** Fiat denomination filter: "USD" or "EUR". */
+    currency?: string
+    /** Case-insensitive stablecoin symbol, e.g. "USDC" or "EURC". */
     stablecoin?: string
     /** Case-insensitive chain name, e.g. "base". */
     chain?: string
@@ -78,11 +80,13 @@ export interface YieldFilter {
  * ignored. Comparisons on text fields are case-insensitive.
  */
 export function filterYields(pools: LatestYield[], filter: YieldFilter = {}): LatestYield[] {
+    const currency = filter.currency?.trim().toUpperCase()
     const stablecoin = filter.stablecoin?.trim().toLowerCase()
     const chain = filter.chain?.trim().toLowerCase()
     const protocol = filter.protocol?.trim().toLowerCase()
 
     return pools.filter((pool) => {
+        if (currency && (pool.currency ?? "").toUpperCase() !== currency) return false
         if (stablecoin && pool.stablecoin.toLowerCase() !== stablecoin) return false
         if (chain && pool.chain.toLowerCase() !== chain) return false
         if (protocol && !pool.protocol_name.toLowerCase().includes(protocol)) return false

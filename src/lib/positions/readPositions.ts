@@ -22,7 +22,7 @@ import {
     type PublicClient,
 } from "viem"
 import { mainnet, optimism, polygon, arbitrum, base } from "viem/chains"
-import { EURO_TOKENS } from "@/lib/constants"
+import { STABLE_TOKENS, tokenCurrency } from "@/lib/constants"
 import { ALL_PROTOCOL_POSITIONS, CHAIN_NAMES, type ChainId } from "@/lib/constants/protocols"
 import { positionValueBasis, type ValueBasis } from "./valueBasis"
 
@@ -55,6 +55,7 @@ function getClient(chainId: ChainId): PublicClient {
 export interface WalletBalance {
     symbol: string
     name: string
+    currency: "USD" | "EUR"
     chain: string
     chainId: number
     tokenAddress: string
@@ -66,12 +67,13 @@ export interface YieldPositionBalance {
     protocolSlug: string
     poolName: string
     asset: string
+    currency: "USD" | "EUR"
     chain: string
     chainId: number
     receiptToken: string
-    /** Raw receipt-token balance (token units — NOT necessarily EUR). */
+    /** Raw receipt-token balance (token units — NOT necessarily face value). */
     balance: number
-    /** How `balance` relates to EUR value. */
+    /** How `balance` relates to face value. */
     valueBasis: ValueBasis
     /**
      * True only when `balance` is counted as EUR value (stable-1to1 positions).
@@ -81,15 +83,15 @@ export interface YieldPositionBalance {
     priced: boolean
 }
 
-export interface EuroPositionsResult {
+export interface StablecoinPositionsResult {
     address: string
     walletBalances: WalletBalance[]
     yieldPositions: YieldPositionBalance[]
-    /** Idle euro stablecoins sitting in the wallet (assumes 1:1 EUR peg). */
+    /** Idle stablecoins in the wallet (mixed USD/EUR units, ~1 face value each). */
     idleValue: number
-    /** EUR value deployed into yield positions — only 1:1-priceable positions. */
+    /** Face value deployed into yield positions — only 1:1-priceable positions. */
     deployedValue: number
-    /** idleValue + deployedValue (priced positions only). */
+    /** idleValue + deployedValue (priced positions only; mixed USD/EUR units). */
     totalValue: number
     /**
      * Count of yield positions held but excluded from `deployedValue` because
@@ -117,13 +119,13 @@ function groupByChain<T extends { chainId: ChainId }>(items: T[]): Map<ChainId, 
  * Read idle wallet balances and active yield positions for `address`.
  * Purely read-only: builds balanceOf multicalls per chain.
  */
-export async function readEuroPositions(address: string): Promise<EuroPositionsResult> {
+export async function readStablecoinPositions(address: string): Promise<StablecoinPositionsResult> {
     if (!isAddress(address)) {
         throw new Error(`Invalid EVM address: ${address}`)
     }
     const owner = getAddress(address)
 
-    // --- 1. Idle wallet balances (flatten EURO_TOKENS into per-chain entries) ---
+    // --- 1. Idle wallet balances (flatten STABLE_TOKENS into per-chain entries) ---
     interface TokenEntry {
         symbol: string
         name: string
@@ -132,7 +134,7 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
         tokenAddress: Address
     }
     const tokenEntries: TokenEntry[] = []
-    for (const token of EURO_TOKENS) {
+    for (const token of STABLE_TOKENS) {
         for (const [chainIdStr, tokenAddress] of Object.entries(token.addresses)) {
             const chainId = Number(chainIdStr) as ChainId
             if (!CHAINS_BY_ID[chainId]) continue
@@ -168,6 +170,7 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
                 walletBalances.push({
                     symbol: entry.symbol,
                     name: entry.name,
+                    currency: tokenCurrency(entry.symbol),
                     chain: CHAIN_NAMES[entry.chainId],
                     chainId: entry.chainId,
                     tokenAddress: entry.tokenAddress,
@@ -206,6 +209,7 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
                     protocolSlug: position.protocolSlug,
                     poolName: position.poolName,
                     asset: position.asset,
+                    currency: tokenCurrency(position.asset),
                     chain: CHAIN_NAMES[position.chainId],
                     chainId: position.chainId,
                     receiptToken: position.receiptToken,
@@ -213,9 +217,9 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
                     valueBasis,
                     priced,
                 })
-                // Only count positions whose token redeems ~1:1 for euros.
-                // LP / vault-share / mToken balances (incl. USDC-paired pools)
-                // are NOT euros, so summing them would report a wrong number.
+                // Only count positions whose token redeems ~1:1 for face value.
+                // LP / vault-share / mToken balances are NOT 1:1, so summing them
+                // would report a wrong number.
                 if (priced) {
                     deployedValue += balance
                 } else {
@@ -238,7 +242,12 @@ export async function readEuroPositions(address: string): Promise<EuroPositionsR
         unpricedPositionCount,
         deployedValueNote:
             unpricedPositionCount > 0
-                ? `${unpricedPositionCount} position(s) are LP / vault-share / mToken (some USDC-paired) whose token balance is not 1:1 with euros; they are listed but excluded from deployedValue/totalValue.`
+                ? `${unpricedPositionCount} position(s) are LP / vault-share / mToken whose token balance is not 1:1 with face value; they are listed but excluded from deployedValue/totalValue. Totals mix USD/EUR units (no FX conversion).`
                 : undefined,
     }
 }
+
+/** @deprecated euro-only name. Use `readStablecoinPositions`. */
+export const readEuroPositions = readStablecoinPositions
+/** @deprecated euro-only name. Use `StablecoinPositionsResult`. */
+export type EuroPositionsResult = StablecoinPositionsResult

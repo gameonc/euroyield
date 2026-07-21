@@ -87,7 +87,12 @@ export type UpdateTables<T extends keyof Database['public']['Tables']> =
 // ============================================
 
 export type Chain = "ethereum" | "arbitrum" | "optimism" | "polygon" | "base"
+/** Fiat currency a stablecoin tracks. */
+export type Currency = "USD" | "EUR"
+/** @deprecated euro-only; kept for back-compat. Use `Stablecoin` (string). */
 export type EuroStablecoin = "EURC" | "EURS" | "eEUR" | "agEUR" | "cEUR"
+/** Any tracked stablecoin symbol (USD or EUR), e.g. "USDC", "EURC", "DAI". */
+export type Stablecoin = string
 export type SubscriptionTier = "free" | "pro" | "analyst" | "institutional"
 export type AlertType = "apy_above" | "apy_below" | "tvl_drop"
 export type AlertChannel = "email" | "telegram"
@@ -143,7 +148,8 @@ export interface Protocol {
 export interface Pool {
     id: string
     protocol_id: string
-    stablecoin: EuroStablecoin
+    stablecoin: Stablecoin
+    currency: Currency
     pool_name: string
     pool_address: string | null
     chain: Chain
@@ -208,7 +214,8 @@ export interface LatestYield {
     timestamp: string
     source: string
     pool_name: string
-    stablecoin: EuroStablecoin
+    stablecoin: Stablecoin
+    currency: Currency
     chain: Chain
     risk_tags: RiskTag[]
     protocol_name: string

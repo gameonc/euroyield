@@ -23,8 +23,8 @@ loadEnv({ path: ".env.local", override: false })
 
 async function main() {
     const server = new McpServer({
-        name: "rendite-euro-yield",
-        version: "0.1.0",
+        name: "rendite-treasury-yield",
+        version: "0.2.0",
     })
 
     registerRenditeTools(server)
