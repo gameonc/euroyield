@@ -38,6 +38,14 @@ number or a folk statistic into a hard recommendation.
 - **Channel-share survey** (industry survey): in-person 37.7%, outbound 35.5%, website 30.7%,
   social 25.9%, referrals/partners 25.8%, marketplaces 5.6% reporting 20%+ growth. → Directional
   market context ONLY; methodology undisclosed. *Low.*
+- **Speed-to-lead** (MIT/InsideSales *Lead Response Management*; HBR *The Short Life of Online
+  Sales Leads*, 2011): contact/qualify odds collapse from minutes to hours (~100× contact / ~21×
+  qualify at 5 vs 30 min; ~7× qualify within 1 hr). → Basis for the speed-to-lead principle in
+  the follow-up engine. *High (observational, not RCT; core data ~2011, directionally replicated).*
+- **Follow-up persistence** (Velocify *Ultimate Contact Strategy*, ~3.5M leads): ~93% of
+  conversions reached by the 6th call; interleaving emails lifts contact ~16% / conversion ~53%.
+  → Basis for the ~6-attempt cadence and channel interleaving. *Medium–high for the principle.*
+  See `follow-up.md` for the full evidence table.
 
 ## Do NOT present these as fact (unverified folk statistics)
 
@@ -46,6 +54,12 @@ Mark **unverified** and keep out of core recommendations unless tied to a docume
 - "Poor data quality causes a 15–25% revenue loss."
 - "68% of consumers feel exploited by dynamic pricing."
 - Generic sales-turnover percentages presented with no study design.
+- "80% of sales require 5 follow-ups" (Marketing Donut) and "44% of reps give up after one
+  follow-up" (Scripted) — undisclosed methodology, circular citation. Use Velocify's 6-call
+  finding instead (see `follow-up.md`).
+- Multi-channel "429% higher conversion" / "3× response" style figures — vendor blog numbers.
+- Lead-nurture stats ("50% not ready to buy," "+47% purchase size," "50% more leads at 33% lower
+  cost") — directional only; old and aggregator-sourced, not primary research.
 
 ## The one-line executive position
 

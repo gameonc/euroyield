@@ -10,11 +10,23 @@ Two levers dominate everything else: **speed** (how fast the first touch happens
 **persistence** (how many quality touches happen before the lead is abandoned). Both are
 routinely under-invested because they feel like grunt work. They are the grunt work that pays.
 
+> **Evidence note.** The two load-bearing principles below — speed and persistence — are the
+> best-evidenced claims in the whole system. The folk statistics usually cited for follow-up
+> ("80% of sales need 5 follow-ups," "44% of reps quit after one") are **not**; they are
+> poorly-sourced and excluded here. See "Evidence base" at the end of this file for the real
+> studies and their confidence levels.
+
 ## Principle 1 — Speed-to-lead
 
 The probability of ever connecting with an inbound lead collapses as the first-response time
-grows from minutes to hours. The first business to respond, with something useful to say, wins
-a disproportionate share. So:
+grows from minutes to hours — this is the strongest finding in the follow-up literature. The
+MIT/InsideSales *Lead Response Management* study (≈15,000 leads, ≈100,000 call attempts, 6
+companies, 3 years) found the odds of **contacting** a lead drop ~100× when the first call
+comes at 30 minutes instead of 5, and the odds of **qualifying** drop ~21×. The HBR study
+*The Short Life of Online Sales Leads* (2,241 U.S. companies) found firms responding within an
+hour were ~7× more likely to qualify a lead than those an hour slower, and 60× more than those
+waiting 24h+. The first business to respond, with something useful to say, wins a
+disproportionate share. So:
 
 - **Target first touch within ~5 minutes** for inbound/hot leads during working hours; define an
   explicit out-of-hours rule (auto-acknowledge + first human touch at open).
@@ -24,13 +36,23 @@ a disproportionate share. So:
 ## Principle 2 — Persistence (the cadence)
 
 Meaningful conversations routinely require **many** touches, and most reps stop far too early.
-Do not trust folk numbers for "how many touches it takes" — instrument **touches-to-first-response**
-and **touches-to-close** from your own data (see `evidence-base.md` on avoiding unverified stats).
-Design for persistence, then let your data tune the depth. The rule: **the cadence decides when
-to quit, not the rep's mood on a given afternoon.**
+The credible anchor here is Velocify's *Ultimate Contact Strategy* (~3.5M leads): **~93% of
+converted leads are reached by the 6th call attempt**, leads needing more than 7 calls are ~45%
+less likely to convert, and the best observed cadence was roughly **6 calls interleaved with ~5
+emails**. That is real data for "persist to about six attempts before giving up" — and it is a
+far better basis than the widely-repeated but poorly-sourced "80% of sales need 5 follow-ups"
+and "44% of reps quit after one" figures, which you should not cite as fact.
+
+Still, don't hard-code someone else's number: instrument **touches-to-first-response** and
+**touches-to-close** from your own data and let it tune the depth (see `evidence-base.md`). The
+rule: **the cadence decides when to quit, not the rep's mood on a given afternoon.**
 
 Rotate channels — call, text, email, voicemail, and where appropriate social/DM. Different
 people answer on different channels, and rotation reads as persistence rather than nagging.
+There is real (if vendor-sourced) support for interleaving: in the Velocify data, sending
+emails between call attempts raised phone-contact rates ~16% and conversion ~53% with the right
+timing. Treat the larger multi-channel/SMS lift figures floating around the web as directional
+only — they are mostly vendor blog numbers.
 
 ### Default cadence tracks
 
@@ -129,3 +151,20 @@ These extend the Phase-1 schema in `measurement.md`:
 
 `attempt_count`, `last_contact_at`, and rotting-pipeline flags should be **computed** from the
 activity log, not hand-maintained — the same discipline that keeps the economics auditable.
+
+## Evidence base (what's proven vs. folklore)
+
+Follow-up advice is drowning in circular, unsourced statistics. Here is where each principle
+actually stands, so you can defend the strong parts and not repeat the weak ones.
+
+| Claim | Verdict | Strongest source(s) | Confidence |
+|---|---|---|---|
+| Speed-to-lead: contact/qualify odds collapse from minutes → hours | **Well supported** | MIT/InsideSales *Lead Response Management* (≈15k leads, ≈100k calls, 6 firms, 3 yrs): ~100× contact / ~21× qualify at 5 vs 30 min. HBR *The Short Life of Online Sales Leads* (2011, 2,241 firms): ~7× qualify within 1 hr, 60× vs 24h+. Velocify (~3.5M leads): call within 1 min → +391% conversion | **High** (consistent across 3 large datasets; observational, not RCT; core data ~2011 but directionally replicated) |
+| Persist to ~6 attempts; most reps quit too early | **Principle supported; common numbers are not** | Velocify *Ultimate Contact Strategy* (~3.5M leads): 93% of conversions reached by 6th call; >7 calls → 45% less likely. **NOT** "80% need 5 follow-ups" (Marketing Donut) or "44% quit after one" (Scripted) — undisclosed methodology | **Medium–high** for the principle; **Low** for the folk numbers |
+| Multi-channel/interleaving beats single-channel | **Directionally supported** | Velocify: emails between calls → +16% contact, +53% conversion with right timing. Larger multi-channel/SMS lift figures are vendor blog numbers | **Medium** (principle) / **Low** (specific percentages) |
+| Nurture "not now" leads; ~half of leads aren't ready to buy | **Plausible, weakly sourced** | Gleanster "50% qualified but not ready," Annuitas "nurtured leads +47% purchase size," Forrester "50% more sales-ready leads at 33% lower cost" — all old (~2010–2014), aggregator-sourced | **Low–medium** (consistent with referral/CLV logic; specific numbers unverified) |
+| "Value on every touch" beats generic check-ins; SMS timing effects | **Heuristic, not data-backed** | No rigorous source found; strong practitioner consensus | **Low** — apply as best practice, label as such |
+
+**Takeaway:** the two pillars this engine leans on hardest — *speed* and *persistence* — are the
+best-evidenced. The weakest links are exactly the folk stats deliberately kept out. When in
+doubt, instrument your own funnel and trust that over any borrowed number.
