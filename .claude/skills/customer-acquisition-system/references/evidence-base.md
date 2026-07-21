@@ -50,6 +50,11 @@ number or a folk statistic into a hard recommendation.
   and expansion compound revenue without new-logo cost, and multi-line/multi-product customers
   retain better than single-product ones. → Basis for the Keep & Grow module. *Medium — the
   direction and metrics are well-established; the famous multipliers (below) are not.*
+- **Attribution is inherently imperfect** (methodological caveat, not a stat): last-touch models
+  over-credit the final click, multi-touch models embed assumptions, and offline/word-of-mouth
+  influence is invisible. The Lead Engine (`lead-engine.md`) uses attribution to *inform* the
+  scale/reduce decision, never to claim false precision — read it alongside the attribution-
+  uncertainty marginal-CAC risk in `measurement.md`. *Treat all attribution outputs as directional.*
 
 ## Do NOT present these as fact (unverified folk statistics)
 

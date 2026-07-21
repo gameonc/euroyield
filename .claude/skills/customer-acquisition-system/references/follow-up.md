@@ -80,6 +80,11 @@ inbound intent spike to capitalize on.
 indefinitely — useful content, a relevant trigger event, a check-in tied to *their* timeline —
 until they re-engage or opt out. "Not now" is a scheduling problem, not a lost deal.
 
+> A concrete, automated instance of these tracks — the Day 0 → Day 30+ nurture sequence with
+> confirmation, education, proof, FAQ, offer, and reminder touches — is specified in
+> `lead-engine.md` (Phase 4), with copy in `assets/scripts-library.md`. This file is the *mechanics*
+> (speed, persistence, tracks); the Lead Engine wires a specific sequence onto them.
+
 **Reactivation track — dead / aged closed-lost:** a scheduled campaign (e.g. quarterly) with a
 genuinely new reason to talk: new offer, price change, capacity opening, a trigger event on
 their side. Your old closed-lost pile is the cheapest pipeline you own.

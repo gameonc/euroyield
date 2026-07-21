@@ -12,8 +12,10 @@ description: >-
   marginal-CAC economics, deciding whether to scale or cut a channel, designing a referral or
   partner/driver-recruiting program, choosing a pricing posture (uniform → segmented →
   negotiated → personalized), improving retention / expansion / win-back and the post-sale lifecycle
-  (churn, renewals, cross-sell, account rounding, NRR, reactivating lost customers), setting up
-  sales operations (rep roles, commission/comp plans, quotas, activity metrics, sales tech stack),
+  (churn, renewals, cross-sell, account rounding, NRR, reactivating lost customers), instrumenting
+  the funnel with lead capture, UTM/attribution tracking, lead scoring, marketing automation, and
+  dashboards (cost per lead, CPA, appointment rate, close rate, revenue by source, ROAS, LTV:CAC),
+  setting up sales operations (rep roles, commission/comp plans, quotas, activity metrics, sales tech stack),
   or standing up the go-to-market for a new venture or a specific industry — including a freight,
   real estate, insurance, or other brokerage. Trigger it even when the user doesn't say "acquisition"
   or "CAC" — phrases like "how do I close more leads," "build a cold outreach system," "write me a
@@ -71,6 +73,13 @@ The economics are only as trustworthy as the data underneath them. Set up the CR
 (controlled source/stage/lost-reason fields; computed margin/cycle) and the channel economics —
 **channel CAC, contribution-margin LTV, CAC payback, and marginal CAC** (marginal CAC reveals the
 acquisition-cost curve that blended CAC hides). Includes the scale/reduce rules and reporting cadence.
+
+### Instrument & automate the funnel — the Lead Engine → `references/lead-engine.md`
+The closed loop that keeps the data honest: capture every lead with full attribution (UTM/click IDs
+surviving ad → landing page → CRM), enrich it, respond within ~5 minutes automatically, run the
+Day 0→30+ nurture sequence, then trace every closed deal back to its ad/campaign/keyword/rep and let
+the dashboards (CPL, CPA, appointment rate, close rate, revenue by source, LTV:CAC) drive the
+scale/reduce decisions. Automation-friendly (CRM + n8n/Zapier), always gated on consent + compliance.
 
 ### Top of funnel — cold outreach & prospecting → `references/cold-outreach.md`
 For outbound-heavy businesses (brokerage, agencies, B2B services), this is where leads are

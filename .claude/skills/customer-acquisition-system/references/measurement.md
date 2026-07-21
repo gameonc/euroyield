@@ -51,6 +51,35 @@ service-capacity planning trustworthy.
 `no_contact_reason`, `reactivation_eligible_at`, and `do_not_contact`. See `follow-up.md` — a
 CRM without these can't run a real follow-up pipeline.
 
+**Capture & attribution fields:** the Lead Engine (`lead-engine.md`) captures these on every
+inbound lead so attribution survives from ad click to closed deal. Without them you can't answer
+"which ad created this customer" or build the dashboards.
+
+| Field name | Type | Notes |
+|---|---|---|
+| utm_source | string | e.g. google, facebook |
+| utm_medium | string | e.g. cpc, organic, referral |
+| utm_campaign | string | Campaign tag from the ad URL |
+| utm_term | string | Keyword (paid search) |
+| utm_content | string | Ad creative / variant |
+| ad_creative | string | Specific creative/asset identifier |
+| keyword | string | Search keyword that triggered the click |
+| landing_page | string | URL the lead landed on |
+| click_id | string | Platform click ID (gclid/fbclid) — preserve end to end |
+| device | enum | Mobile, desktop, tablet |
+| language | enum | Lead's language |
+| consent_status | enum | Opted-in, not-consented, opted-out — the legal basis for follow-up |
+| lead_score | integer | Fit + intent score at capture (computed) |
+| geo_zip | string | ZIP/postal (captured or enriched) |
+| geo_city | string | City/region (enriched from ZIP) |
+| estimated_service_value | decimal(12,2) | Estimated deal value for prioritization (enriched) |
+| distance_to_service_area | decimal(8,2) | Distance/route from service area (enriched; local services) |
+| returning_customer | boolean | Matched to an existing customer (enriched) |
+| is_duplicate | enum | Clean, likely-duplicate, confirmed-duplicate (enriched) |
+
+The local-service fields (`estimated_service_value`, `distance_to_service_area`) are
+profile-configurable — swap for the equivalent qualifying signal in non-local verticals.
+
 ## Phase 2 — Channel-level economics
 
 ### The four formulas
@@ -143,6 +172,10 @@ flowchart TD
   touches-to-close, nurture reactivation rate, closed-lost-with-too-few-attempts rate.
 - **Quarterly — slow truths:** cohort LTV, pricing realization, channel saturation, concentration
   risk, service-capacity constraints, customer-capital investment by venture.
+
+The standing **dashboard set** that surfaces these — lead volume, cost per lead, CPA/CAC,
+appointment rate, close rate, revenue by source, LTV, and the LTV:CAC ratio — is specified in
+`lead-engine.md` (Outputs). Wire every tile off computed CRM fields, never hand-maintained.
 
 ### 90-day rollout shape (adapt dates to the engagement)
 

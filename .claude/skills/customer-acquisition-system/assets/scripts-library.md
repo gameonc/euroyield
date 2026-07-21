@@ -111,6 +111,41 @@ specific result · `[PROOF]` a name/number/case · `[CTA]` the one ask.
 
 ---
 
+## Automated nurture sequence (Day 0 → 30+, from lead-engine.md Phase 4)
+
+New inbound leads enter this automatically. Keep each short, value-first, one idea per touch; obey
+consent/compliance. `[X]` = swap for the business specifics.
+
+**Day 0 — Confirmation** (send within minutes; pairs with speed-to-lead)
+- Subject: `Got your request, [NAME] — here's what's next`
+> Hi [NAME], thanks for reaching out about [SERVICE/PRODUCT]. [YOU] from [COMPANY] here — I'll be
+> in touch within [timeframe]. In the meantime, [one helpful link/next step]. Talk soon.
+
+**Day 1 — Educational content**
+> Hi [NAME], quick one while you're considering [PROBLEM/SERVICE]: [one genuinely useful tip or
+> resource — how to choose, what to avoid, what it should cost]. No pitch — just want you to decide
+> well. Questions? Just reply.
+
+**Day 3 — Testimonial / proof**
+> Hi [NAME], thought this might help: [CLIENT] had [similar situation] and [OUTCOME/RESULT]. Happy
+> to share more examples like it — want me to?
+
+**Day 5 — FAQ (remove friction)**
+> Hi [NAME], the questions we hear most about [SERVICE]: [Q1 → short answer], [Q2 → short answer],
+> [Q3 → short answer]. Anything on your mind I can clear up?
+
+**Day 7 — Special offer (a reason to act now)**
+> Hi [NAME], if the timing's right, [OFFER — limited spot / seasonal rate / bonus] is available
+> through [DATE]. Want me to hold it for you? [CTA]
+
+**Day 14 — Reminder (for the not-yet-ready)**
+> Hi [NAME], still here whenever [PROBLEM] is ready to solve. Want me to check back at a better
+> time, or is now good for a quick call?
+
+**Day 30+ — Long-term nurture (recurring, every 3–4 weeks)**
+> Hi [NAME], [seasonal/relevant value touch — tip, update, trigger event]. When [SERVICE] is on
+> your radar again, I'm one reply away.
+
 ## Warm follow-up & lifecycle
 
 **Referral ask (at a positive moment — see relational-acquisition.md)**
