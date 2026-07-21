@@ -15,7 +15,9 @@ description: >-
   (churn, renewals, cross-sell, account rounding, NRR, reactivating lost customers), instrumenting
   the funnel with lead capture, UTM/attribution tracking, lead scoring, marketing automation, and
   dashboards (cost per lead, CPA, appointment rate, close rate, revenue by source, ROAS, LTV:CAC),
-  setting up sales operations (rep roles, commission/comp plans, quotas, activity metrics, sales tech stack),
+  writing conversion copy (offers, ad copy, headlines/hooks, landing pages, opt-in forms, lead
+  magnets, email/SMS copy, VSL/video scripts, creative briefs), setting up sales operations (rep
+  roles, commission/comp plans, quotas, activity metrics, sales tech stack),
   or standing up the go-to-market for a new venture or a specific industry — including a freight,
   real estate, insurance, or other brokerage. Trigger it even when the user doesn't say "acquisition"
   or "CAC" — phrases like "how do I close more leads," "build a cold outreach system," "write me a
@@ -52,6 +54,23 @@ The muscle that actually converts the pipeline is **follow-up**. Measurement and
 economics fill the pipeline; speed and persistence in follow-up are where most revenue is
 won or lost. A CRM without a follow-up engine is a graveyard. Give this its own weight — it
 is a first-class stage, not an afterthought (see `references/follow-up.md`).
+
+## Works across business models (sales-led ↔ marketing-led/self-serve)
+
+This runs anywhere you need to get clientele — local services, brokerages, B2B, **e-commerce/DTC**,
+SaaS, marketplaces. The funnel backbone is the same everywhere (capture → attribution → nurture →
+retention → dashboards); what changes is **who closes** and which stages dominate:
+
+- **Sales-led** (brokerages, high-ticket, B2B, services): a human closes. The cold-outreach, closing,
+  and follow-up stages carry the most weight.
+- **Marketing-led / self-serve** (e-commerce, low-ticket, high-volume): **the funnel closes, not a
+  rep.** The closing toolkit is largely replaced by store/landing-page CRO + automated email/SMS
+  flows; the Lead Engine, lifecycle (retention/repeat/win-back), and pricing carry the most weight.
+  Speed-to-lead becomes cart-abandonment/welcome-flow timing. See `profiles/ecommerce.md`.
+
+Most businesses are a blend — tune the mix to **ticket size and consideration** (higher ticket → more
+human closing; lower ticket/higher volume → more automation). The profile you plug in sets that mix;
+the modules themselves don't change.
 
 ## How to apply it (the workflow)
 
@@ -122,6 +141,14 @@ enablement/QA/coaching/forecasting, and a lean tech-stack map. Keep it minimal f
 Copy-paste scaffolds for cold email/call, voicemail, LinkedIn, SMS, discovery questions, objection
 responses, and referral/reactivation/handoff templates. Use these so no one rewrites the wheel —
 swap the `[BRACKETS]`, keep it human, run it past `compliance.md`.
+
+### Write the money copy — the Copywriting Engine → `references/copywriting.md`
+This skill writes the actual conversion copy: offers, ads, landing pages, opt-in forms, lead magnets,
+email/SMS, VSL/video scripts, and creative briefs. Start with the **offer** (the biggest lever), write
+in the customer's own words, hook hard, prove it, remove the risk. Ground every piece in the
+business's `profiles/` entry (offer, ICP, voice), generate variants, and test one variable at a time
+against the Lead Engine metrics. Every claim is human-checked and compliant (`compliance.md`) — copy
+is where ad accounts get banned and lawsuits start.
 
 ## Non-negotiable operating rule (state it when advising on scaling)
 
