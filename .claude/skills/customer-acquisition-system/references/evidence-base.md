@@ -1,0 +1,54 @@
+# Evidence Base & Confidence Discipline
+
+This system's credibility depends on not overstating it. Weight sources by inferential value
+and carry a source's confidence with any figure you cite. Never launder a low-confidence survey
+number or a folk statistic into a hard recommendation.
+
+## Evidence hierarchy (reporting standard)
+
+| Level | What belongs | Why it ranks here | Confidence default |
+|---|---|---|---|
+| Peer-reviewed academic research | Journal articles, formally peer-reviewed | Best method transparency + durable scrutiny | High |
+| Working papers / controlled field experiments | RCTs, working papers, official academic briefs | Often most current & strongest on causal ID, not yet fully filtered | High–medium |
+| Business-school cases / executive frameworks | HBS cases, HBR frameworks | Strong for managerial framing, weak for universal causal claims | Medium |
+| Industry surveys / practitioner methods | Trade surveys, vendor frameworks, playbooks | Directional signal & applied workflow; limited by disclosure/incentives | Medium–low |
+
+## Load-bearing findings and their confidence
+
+- **Acquisition as customer capital** (working paper): sales-and-marketing intensity is
+  associated with higher customer-related intangible value; large, persistent cross-industry
+  differences, highest in platforms, online sales, high-tech manufacturing. → Foundation for
+  treating acquisition as capital allocation. *High–medium.*
+- **Personalized pricing** (peer-reviewed field experiment): unused market power +55% profit;
+  personalization +19% over optimized uniform, +86% over baseline; >60% of consumers benefited
+  though aggregate surplus fell. → Basis for the pricing ladder, with generalizability caveats.
+  *High (internal validity); uncertain external validity.*
+- **Referral economics** (peer-reviewed, ~10k customers, ~3 years): referred customers had higher
+  margins, higher retention, ≥16% greater value. → Basis for retention-weighted referral design.
+  *High.*
+- **CAC measurement boundary** (business-school case): formalizes the attribution/boundary problem.
+  → Basis for rejecting blended CAC as the operating center. *Medium.*
+- **Gen-AI deployment** (executive framework): assign tasks by error cost × knowledge type.
+  → Basis for the AI/human split. *Medium–high.*
+- **AI governance** (official framework): roles, inventory, oversight, monitoring, privacy/security,
+  provenance, red-teaming. → Basis for CRM-hygiene controls. *High.*
+- **Adoption needs support, not just tech** (working paper / field experiment): a technology offer
+  alone was insufficient; customer-success-style support improved adoption. → Basis for the
+  capacity-first operating rule. *Medium–high.*
+- **Channel-share survey** (industry survey): in-person 37.7%, outbound 35.5%, website 30.7%,
+  social 25.9%, referrals/partners 25.8%, marketplaces 5.6% reporting 20%+ growth. → Directional
+  market context ONLY; methodology undisclosed. *Low.*
+
+## Do NOT present these as fact (unverified folk statistics)
+
+Mark **unverified** and keep out of core recommendations unless tied to a documented primary source:
+- "Acquisition is always 5–25× more expensive than retention."
+- "Poor data quality causes a 15–25% revenue loss."
+- "68% of consumers feel exploited by dynamic pricing."
+- Generic sales-turnover percentages presented with no study design.
+
+## The one-line executive position
+
+Customer acquisition is a **capital-allocation** function; pricing is a **value-capture**
+function; revenue operations is the **control system** that determines whether customer capital
+compounds or evaporates.
