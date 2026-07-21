@@ -11,13 +11,18 @@ description: >-
   closing scripts, setting up or fixing a CRM or pipeline, defining CAC / LTV / payback /
   marginal-CAC economics, deciding whether to scale or cut a channel, designing a referral or
   partner/driver-recruiting program, choosing a pricing posture (uniform → segmented →
-  negotiated → personalized), or standing up the go-to-market for a new venture or a specific
-  industry (e.g. a brokerage). Trigger it even when the user doesn't say "acquisition" or "CAC" —
-  phrases like "how do I close more leads," "build a cold outreach system," "write me a cold call
-  script," "our leads keep going cold," "nobody's calling people back," "set up my sales funnel,"
-  "what should I pay for referrals," "build the sales system for my brokerage," or "we keep
-  winning customers we can't service" all belong here. This is a portfolio-grade, plug-in playbook
-  with per-industry profiles, meant to be re-applied across multiple businesses.
+  negotiated → personalized), improving retention / expansion / win-back and the post-sale lifecycle
+  (churn, renewals, cross-sell, account rounding, NRR, reactivating lost customers), setting up
+  sales operations (rep roles, commission/comp plans, quotas, activity metrics, sales tech stack),
+  or standing up the go-to-market for a new venture or a specific industry — including a freight,
+  real estate, insurance, or other brokerage. Trigger it even when the user doesn't say "acquisition"
+  or "CAC" — phrases like "how do I close more leads," "build a cold outreach system," "write me a
+  cold call script," "our leads keep going cold," "how should I pay my sales reps," "our customers
+  keep churning," "win back old clients," "set up my sales funnel," "what should I pay for referrals,"
+  "build the sales system for my freight/real estate/insurance brokerage," or "we keep winning
+  customers we can't service" all belong here. This is a portfolio-grade, plug-in playbook with
+  per-industry profiles (including a base + per-vertical brokerage family), meant to be re-applied
+  across multiple businesses.
 ---
 
 # Customer Acquisition & Revenue Operating System
@@ -56,8 +61,10 @@ Each stage has a dedicated file with the detail, tables, formulas, and scripts.
 This is what makes the system a reusable wheel instead of a rebuild each time. Select or create a
 profile in `profiles/` that pre-configures channels, cadence, offer angles, **compliance regime**,
 KPIs, tech, and objections for the business type. `profiles/_TEMPLATE.md` is the blank; copy it to
-`profiles/<type>.md` and fill it. `profiles/brokerage.md` is a worked, cold-outreach-heavy example.
-The profile sets the presets for every stage below.
+`profiles/<type>.md` and fill it. For families of related businesses, use a **base + overlay**
+structure: `profiles/brokerage/base.md` holds shared DNA and the vertical overlays
+(`freight.md`, `real-estate.md`, `insurance.md`) state only what differs — so multiple brokerages
+run off one engine. The profile sets the presets for every stage below.
 
 ### Foundation — measurement spine + economics → `references/measurement.md`
 The economics are only as trustworthy as the data underneath them. Set up the CRM/data model
@@ -86,10 +93,21 @@ Prioritize relationship-driven channels for trust-heavy businesses; design a ret
 referral program and a partner/recruiting pipeline; then pick a pricing posture deliberately
 (uniform → segmented → negotiated → personalized).
 
+### Keep & grow — retention, expansion, win-back → `references/lifecycle.md`
+The lifecycle is where the money compounds. Engineer retention (onboarding/first-value, renewal
+management, health scores, QBRs), drive expansion (cross-sell/account-rounding — the cheapest
+revenue there is), and run win-back on lapsed customers and dead leads. Scoreboard: net revenue
+retention. For brokerages this repeat/renewal/referral loop is the actual profit engine, not a nicety.
+
 ### Behind the relationship — AI & governance → `references/ai-governance.md`
 Automate explicit-knowledge, low-error-cost work; keep tacit-knowledge, high-stakes, trust-sensitive
 work human. Wrap it in real data-governance controls — no generative tool writes to production CRM
 without validation, human review on exceptions, logging, and rollback.
+
+### Run the machine — sales operations → `references/sales-ops.md`
+How you staff, pay, measure, and run the sellers: full-cycle vs SDR/AE roles, comp designed to drive
+the right behavior (pay the renewal/margin, not just the logo), activity metrics + funnel benchmarks,
+enablement/QA/coaching/forecasting, and a lean tech-stack map. Keep it minimal for a small team.
 
 ### Reusable assets (use across every stage) → `assets/scripts-library.md`
 Copy-paste scaffolds for cold email/call, voicemail, LinkedIn, SMS, discovery questions, objection

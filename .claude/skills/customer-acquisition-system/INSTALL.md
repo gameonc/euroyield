@@ -26,9 +26,10 @@ repo's sessions.
 ## Apply it to a new business
 
 **Start by plugging in a profile** (`profiles/`) — copy `profiles/_TEMPLATE.md` to
-`profiles/<business-type>.md` and fill it (or use `profiles/brokerage.md` as a worked
-example). That pre-configures channels, cadence, compliance, KPIs, and objections for the
-business type — so you don't rebuild the wheel each time.
+`profiles/<business-type>.md` and fill it. For a family of related businesses, use a base +
+overlay (see `profiles/brokerage/base.md` with `freight.md` / `real-estate.md` / `insurance.md`
+as a worked example). That pre-configures channels, cadence, compliance, KPIs, and objections for
+the business type — so you don't rebuild the wheel each time.
 
 Then the skill routes you through the full funnel:
 0. **Plug in the profile** (`profiles/`) — the reusable configuration layer
@@ -37,7 +38,9 @@ Then the skill routes you through the full funnel:
 3. **Mid funnel** — the follow-up engine (speed + persistence)
 4. **Bottom of funnel** — closing toolkit (discovery, qualify, objections, close)
 5. **Relationship & pricing** — referral/partner mechanics + pricing ladder
-6. **Behind it all** — AI-augmented workflow + data governance
+6. **Keep & grow** — retention, expansion & win-back (lifecycle)
+7. **Run the machine** — sales ops (roles, comp, metrics, tech stack)
+8. **Behind it all** — AI-augmented workflow + data governance
 
 Reusable scripts for every stage live in `assets/scripts-library.md`. Keep the reference
 files generic — put the venture's real channels, ceilings, and SLAs in its profile.

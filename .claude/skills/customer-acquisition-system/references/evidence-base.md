@@ -46,6 +46,10 @@ number or a folk statistic into a hard recommendation.
   conversions reached by the 6th call; interleaving emails lifts contact ~16% / conversion ~53%.
   → Basis for the ~6-attempt cadence and channel interleaving. *Medium–high for the principle.*
   See `follow-up.md` for the full evidence table.
+- **Retention/lifecycle economics** (established practice; NRR/GRR as standard metrics): retention
+  and expansion compound revenue without new-logo cost, and multi-line/multi-product customers
+  retain better than single-product ones. → Basis for the Keep & Grow module. *Medium — the
+  direction and metrics are well-established; the famous multipliers (below) are not.*
 
 ## Do NOT present these as fact (unverified folk statistics)
 
@@ -60,6 +64,10 @@ Mark **unverified** and keep out of core recommendations unless tied to a docume
 - Multi-channel "429% higher conversion" / "3× response" style figures — vendor blog numbers.
 - Lead-nurture stats ("50% not ready to buy," "+47% purchase size," "50% more leads at 33% lower
   cost") — directional only; old and aggregator-sourced, not primary research.
+- "A 5% increase in retention raises profits 25–95%" (Reichheld/Bain, *The Loyalty Effect*) — a
+  model-dependent range, not a measured constant. Retention matters, but don't cite the number.
+- "60–70% chance of selling to an existing customer vs. 5–20% to a new prospect" (*Marketing
+  Metrics* textbook) — illustrative, not a controlled study. Use as a directional point only.
 
 ## The one-line executive position
 

@@ -5,6 +5,12 @@
 > `profiles/<business-type>.md`, fill every section from the venture's reality, and then work the
 > funnel in `SKILL.md` using these presets. Everything here is a **starting configuration** to
 > adapt, not a constraint. Revisit it as you learn from real data.
+>
+> **Families of related businesses → use a base + overlay.** When you'll run several variants that
+> share DNA but differ on specifics (like a portfolio of brokerages), don't copy this whole template
+> per variant. Instead put the shared config in a `base.md` and make each variant a thin **overlay**
+> that only states what differs. See `profiles/brokerage/` — `base.md` plus `freight.md`,
+> `real-estate.md`, `insurance.md`. Add a new variant by copying one overlay.
 
 ## 1. Snapshot
 - **Business type:** [e.g. freight brokerage]

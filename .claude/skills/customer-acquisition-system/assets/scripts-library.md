@@ -124,3 +124,18 @@ specific result · `[PROOF]` a name/number/case · `[CTA]` the one ask.
 **Post-close handoff (to the customer)**
 > [NAME], excited to get started. Here's what happens next: [step 1 by date], [step 2], and your
 > point of contact is [OWNER]. First milestone we're aiming for: [first value] by [date].
+
+**Renewal / anniversary outreach (proactive — reach out BEFORE the date)**
+> Hi [NAME], your [policy/contract/agreement] renews on [DATE]. Before it does, I want to make sure
+> you're still getting the best [coverage/rate/terms] — a lot can change in a year. Do you have 15
+> minutes this week to review? *(Insurance: re-shop at rate hikes. Freight: confirm lanes/volume.
+> Real estate: tie to the next life-event window.)*
+
+**Quarterly business review (QBR) request (larger accounts)**
+> Hi [NAME], we're coming up on [quarter/milestone]. I'd like to walk you through the results so far
+> — [metric/outcome] — and map out [next period]. Worth 30 minutes? I'll send a short agenda.
+
+**Cross-sell / account rounding (expansion — from a position of trust)**
+> [NAME], since we're already handling [current product/line], I noticed [gap/opportunity, e.g. "you
+> don't have [X] with us"]. Clients who combine [A] and [B] usually [benefit — better rate/retention/
+> coverage/coverage of more lanes]. Want me to put together a quick look?
