@@ -3,6 +3,7 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import type { LatestYield } from "@/types/database"
+import { topYields } from "@/lib/yields/calculations"
 import { ArrowRight, Activity } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -11,8 +12,8 @@ interface BestYieldTodayProps {
 }
 
 export function BestYieldToday({ data }: BestYieldTodayProps) {
-    // Sort by APY desc and take top 3
-    const topYields = [...data].sort((a, b) => b.apy - a.apy).slice(0, 3)
+    // Sort by APY desc and take top 3 (shared with the MCP agent tools)
+    const topYieldPools = topYields(data, 3)
 
     return (
         <Card className="h-full border-border/60 bg-card/80 backdrop-blur-md">
@@ -35,7 +36,7 @@ export function BestYieldToday({ data }: BestYieldTodayProps) {
                 </div>
             </CardHeader>
             <CardContent className="space-y-0 p-0">
-                {topYields.map((pool, index) => (
+                {topYieldPools.map((pool, index) => (
                     <div
                         key={pool.id}
                         className="flex items-center justify-between p-4 border-b border-border/40 last:border-0 hover:bg-muted/40 transition-colors"

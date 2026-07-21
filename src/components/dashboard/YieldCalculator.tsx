@@ -7,6 +7,7 @@ import { Slider } from "@/components/ui/slider"
 import { Input } from "@/components/ui/input"
 import { Calculator } from "lucide-react"
 import { useTokenBalances } from "@/lib/hooks/useTokenBalances"
+import { projectYield } from "@/lib/yields/calculations"
 
 interface YieldCalculatorProps {
     /** Current best APY to use for calculation */
@@ -19,14 +20,10 @@ export function YieldCalculator({
     const { totalValue } = useTokenBalances()
     const [deposit, setDeposit] = useState(10000)
 
-    const earnings = useMemo(() => {
-        const yearlyEarnings = deposit * (currentApy / 100)
-        const monthlyEarnings = yearlyEarnings / 12
-        return {
-            monthly: monthlyEarnings,
-            yearly: yearlyEarnings,
-        }
-    }, [deposit, currentApy])
+    const earnings = useMemo(
+        () => projectYield(deposit, currentApy),
+        [deposit, currentApy]
+    )
 
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat("de-DE", {
