@@ -46,6 +46,11 @@ requirement to inventory systems, assign accountability, and monitor over time.
 This is the only reliable way to make channel CAC, marginal CAC, referral economics, and
 service-capacity planning trustworthy.
 
+**Follow-up fields:** the follow-up engine (Phase 3) extends this schema with `cadence_track`,
+`cadence_step`, `attempt_count`, `last_contact_at`, `last_contact_channel`, `last_response_at`,
+`no_contact_reason`, `reactivation_eligible_at`, and `do_not_contact`. See `follow-up.md` — a
+CRM without these can't run a real follow-up pipeline.
+
 ## Phase 2 — Channel-level economics
 
 ### The four formulas
@@ -130,10 +135,12 @@ flowchart TD
 
 ### Reporting cadence (decide faster than the data decays)
 
-- **Weekly — pipeline motion:** new leads, speed-to-first-contact, qualified opportunities,
-  proposals/quotes, wins, pipeline value, next-action compliance, duplicate/incomplete-record rate.
-- **Monthly — economics:** channel CAC, marginal CAC, CAC payback, win rate, contribution margin,
-  new-customer retention, referral rate, lost reasons, repeat revenue.
+- **Weekly — pipeline motion & follow-up:** new leads, speed-to-first-contact, attempts-per-lead,
+  contact/connect rate, follow-up SLA compliance, rotting-pipeline rate, qualified opportunities,
+  proposals/quotes, wins, pipeline value, duplicate/incomplete-record rate.
+- **Monthly — economics & follow-up depth:** channel CAC, marginal CAC, CAC payback, win rate,
+  contribution margin, new-customer retention, referral rate, lost reasons, repeat revenue,
+  touches-to-close, nurture reactivation rate, closed-lost-with-too-few-attempts rate.
 - **Quarterly — slow truths:** cohort LTV, pricing realization, channel saturation, concentration
   risk, service-capacity constraints, customer-capital investment by venture.
 
