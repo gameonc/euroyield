@@ -132,6 +132,18 @@ swap the `[BRACKETS]`, keep it human, run it past `compliance.md`.
 > paired with a capacity plan. Where data quality is incomplete, attribution is unstable, or
 > marginal-CAC evidence is inconclusive, the default posture is controlled testing, not scale.
 
+## When it's not working — diagnosis & Plan B → `references/troubleshooting.md`
+
+The system above describes the happy path; real funnels break, especially early. Before scaling,
+run the **Definition of Ready** checklist, and whenever something underperforms, diagnose the
+*earliest* broken funnel stage rather than the loudest symptom. Every major bet needs a pre-armed
+Plan B — single-channel/platform dependence, ad-account bans, deliverability collapse, key-person
+dependence, CRM-adoption failure, compliance incidents, cash-flow squeeze, a non-converting offer,
+demand shocks. And set **test budget + kill criteria before you spend**, not after.
+→ Read `references/troubleshooting.md` for the symptom→cause→fix table, the edge cases (cold-start,
+junk-lead floods, committee cycles, referral gaming), the failure-mode contingencies, and the
+Definition-of-Ready pre-flight.
+
 ## Evidence discipline (how to talk about the numbers)
 
 This system is built on a prioritized evidence base, and its credibility depends on **not**

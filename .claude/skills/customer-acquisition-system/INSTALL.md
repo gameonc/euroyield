@@ -44,3 +44,7 @@ Then the skill routes you through the full funnel:
 
 Reusable scripts for every stage live in `assets/scripts-library.md`. Keep the reference
 files generic — put the venture's real channels, ceilings, and SLAs in its profile.
+
+When something isn't working — or before you launch — use `references/troubleshooting.md`:
+a symptom→cause→fix table, edge cases (cold-start, junk leads, committee cycles), a Plan B
+for each major failure mode, and a Definition-of-Ready pre-flight checklist.

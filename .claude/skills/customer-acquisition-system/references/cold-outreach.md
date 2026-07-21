@@ -44,6 +44,10 @@ Cold outreach fails on weak offers far more than weak copy. Before writing a wor
 - **Lower risk:** a low-commitment first ask (15-min call, a free teardown/quote, a benchmark)
   converts better than "buy." Risk-reversal and proof (names, numbers, cases) raise trust.
 - **One idea, one call to action.** Cold messages that ask for two things get zero.
+- **Cold start (no proof yet)?** If you're brand new with no cases/reviews/referrals, lead with a
+  stronger risk-reversal/guarantee, manufacture proof with a few free or discounted jobs, borrow
+  trust (credentials, partners), and stay hyper-targeted and manual before buying scale. See the
+  cold-start edge case in `troubleshooting.md` — don't pour spend behind an unproven offer.
 
 ## Step 3 — Cold email (infrastructure first, then copy)
 

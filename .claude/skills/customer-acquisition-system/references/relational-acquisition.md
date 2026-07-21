@@ -38,6 +38,11 @@ Four design components:
    customer proves durable.
 4. **Tag every referral by source** so cohort quality is measurable over time.
 
+**Guard against gaming:** because referrals pay out, they attract fraud and low-quality volume. Pay
+on **retention thresholds, not sign-ups** (the schedule below does this), cap payouts, verify the
+referral is real and arms-length, and throttle any source whose referred cohort churns fast rather
+than rewarding it. See the referral-gaming edge case in `troubleshooting.md`.
+
 ### Recommended payout logic (a design, tune to the venture)
 
 | Milestone | Advocate reward | New-customer reward | Release condition |
