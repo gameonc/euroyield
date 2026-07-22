@@ -2,13 +2,13 @@
 name: customer-acquisition-system
 description: >-
   A research-grounded system for getting and closing customers in ANY business — the
-  acquire → close → retain funnel. Use it to build a sales funnel; run cold outreach (email,
-  calling, SMS, sequences, TCPA/CAN-SPAM/10DLC compliance); design follow-up cadences (speed-to-lead,
+  acquire → close → retain funnel. Use it to define your ideal customer / target market, build a
+  sales funnel, run cold outreach (email, calling, SMS, sequences, compliance); design follow-up cadences (speed-to-lead,
   nurture, reactivation); write discovery/objection/closing scripts; set up a CRM and
-  CAC/LTV/payback economics; design referral programs; set pricing; improve retention/expansion/
+  CAC/LTV/payback economics; referral programs; set pricing; improve retention/expansion/
   win-back (churn, renewals, cross-sell, NRR); instrument lead capture, attribution, scoring, and
-  dashboards (CPL, CPA, ROAS, LTV:CAC); write conversion copy (offers, ads, landing pages, VSLs); or
-  set up sales ops (roles, comp, quotas). Works across sales-led and self-serve models with plug-in
+  dashboards (CPL, CPA, ROAS, LTV:CAC); write conversion copy (ads, landing pages, VSLs); or
+  set up sales ops (roles, comp). Works across sales-led and self-serve models with plug-in
   per-industry profiles (brokerage, e-commerce, home services, car sales, more). Trigger it even
   without "acquisition" or "CAC" — e.g. "build my sales funnel," "leads keep going cold," "write me
   an ad or cold-call script," "win back old clients," "sales system for my brokerage."
@@ -71,6 +71,13 @@ KPIs, tech, and objections for the business type. `profiles/_TEMPLATE.md` is the
 structure: `profiles/brokerage/base.md` holds shared DNA and the vertical overlays
 (`freight.md`, `real-estate.md`, `insurance.md`) state only what differs — so multiple brokerages
 run off one engine. The profile sets the presets for every stage below.
+
+### Step Zero — Know your clientele (the customer avatar) → `references/icp-avatar.md`
+Before channels, copy, or spend: define **exactly who the customer is, where they are, and where
+they hang out.** Everything downstream — which channels you run, the words you use, the offer, who
+you target — is decided here. A sharp one-page avatar beats a broad audience. This fills the ICP,
+objections, and channel sections of the business's profile, and it's the first Definition-of-Ready
+check. Refine it over time with what the Lead Engine data shows actually converts.
 
 ### Foundation — measurement spine + economics → `references/measurement.md`
 The economics are only as trustworthy as the data underneath them. Set up the CRM/data model
