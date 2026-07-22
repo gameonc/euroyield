@@ -23,6 +23,23 @@ acquisition/closing/revenue-ops part of a funnel (see the `description` in `SKIL
 Keep it (or copy it) under that project's `.claude/skills/` and it loads for that
 repo's sessions.
 
+## Install it in your OTHER projects (two routes)
+
+Skill discovery is **automatic**: wherever this skill lives, Claude reads its `description` and
+pulls it up on its own whenever a task matches — you never wire a project to it manually.
+
+**Route 1 — Everywhere at once (one-click).** Use the packaged `.skill` file: tap **"Save skill"**
+on the file card and it installs to your profile, becoming available across all your Claude
+projects. Re-package anytime with:
+`python -m scripts.package_skill <path>/customer-acquisition-system` (skill-creator).
+
+**Route 2 — Per project (committed to a repo).** Copy the whole
+`customer-acquisition-system/` folder into that repo's `.claude/skills/` directory and commit it.
+Shortcut: in a Claude session on that project, just say *"install my customer-acquisition-system
+skill"* and have it recreate the folder there.
+
+Note: the description must stay **under 1024 characters** to package/install — keep it lean if you edit it.
+
 ## Apply it to a new business
 
 **Start by plugging in a profile** (`profiles/`) — copy `profiles/_TEMPLATE.md` to

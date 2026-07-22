@@ -1,32 +1,17 @@
 ---
 name: customer-acquisition-system
 description: >-
-  A research-grounded operating system for building the acquisition, closing, and
-  revenue-operations part of the funnel for ANY business. Use this whenever the user
-  is designing or improving how a business gets and closes customers — building a
-  sales/lead-closing process, running cold outreach or prospecting (cold email, cold calling,
-  SMS/DM, list-building, ICP targeting, sales sequences, outreach compliance like TCPA/DNC/
-  CAN-SPAM/10DLC), designing a follow-up pipeline or cadence (speed-to-lead, multi-touch
-  sequences, nurture, dead-lead reactivation), writing discovery/qualification/objection-handling/
-  closing scripts, setting up or fixing a CRM or pipeline, defining CAC / LTV / payback /
-  marginal-CAC economics, deciding whether to scale or cut a channel, designing a referral or
-  partner/driver-recruiting program, choosing a pricing posture (uniform → segmented →
-  negotiated → personalized), improving retention / expansion / win-back and the post-sale lifecycle
-  (churn, renewals, cross-sell, account rounding, NRR, reactivating lost customers), instrumenting
-  the funnel with lead capture, UTM/attribution tracking, lead scoring, marketing automation, and
-  dashboards (cost per lead, CPA, appointment rate, close rate, revenue by source, ROAS, LTV:CAC),
-  writing conversion copy (offers, ad copy, headlines/hooks, landing pages, opt-in forms, lead
-  magnets, email/SMS copy, VSL/video scripts, creative briefs), setting up sales operations (rep
-  roles, commission/comp plans, quotas, activity metrics, sales tech stack),
-  or standing up the go-to-market for a new venture or a specific industry — including a freight,
-  real estate, insurance, or other brokerage. Trigger it even when the user doesn't say "acquisition"
-  or "CAC" — phrases like "how do I close more leads," "build a cold outreach system," "write me a
-  cold call script," "our leads keep going cold," "how should I pay my sales reps," "our customers
-  keep churning," "win back old clients," "set up my sales funnel," "what should I pay for referrals,"
-  "build the sales system for my freight/real estate/insurance brokerage," or "we keep winning
-  customers we can't service" all belong here. This is a portfolio-grade, plug-in playbook with
-  per-industry profiles (including a base + per-vertical brokerage family), meant to be re-applied
-  across multiple businesses.
+  A research-grounded system for getting and closing customers in ANY business — the
+  acquire → close → retain funnel. Use it to build a sales funnel; run cold outreach (email,
+  calling, SMS, sequences, TCPA/CAN-SPAM/10DLC compliance); design follow-up cadences (speed-to-lead,
+  nurture, reactivation); write discovery/objection/closing scripts; set up a CRM and
+  CAC/LTV/payback economics; design referral programs; set pricing; improve retention/expansion/
+  win-back (churn, renewals, cross-sell, NRR); instrument lead capture, attribution, scoring, and
+  dashboards (CPL, CPA, ROAS, LTV:CAC); write conversion copy (offers, ads, landing pages, VSLs); or
+  set up sales ops (roles, comp, quotas). Works across sales-led and self-serve models with plug-in
+  per-industry profiles (brokerage, e-commerce, home services, car sales, more). Trigger it even
+  without "acquisition" or "CAC" — e.g. "build my sales funnel," "leads keep going cold," "write me
+  an ad or cold-call script," "win back old clients," "sales system for my brokerage."
 ---
 
 # Customer Acquisition & Revenue Operating System
