@@ -100,6 +100,39 @@ test("maxAllocationFraction caps concentration", () => {
     }
 })
 
+test("EU jurisdiction excludes unaudited pools and surfaces MiCA advisory", () => {
+    const pools = [
+        makePool({ pool_id: "risky", apy: 30, is_audited: false, protocol_slug: "degen", tvl: 40_000_000 }),
+        makePool({ pool_id: "safe", apy: 5, is_audited: true, protocol_slug: "aave-v3", tvl: 40_000_000 }),
+    ]
+    const r = recommendAllocation(pools, {
+        amount: 10_000,
+        currency: "EUR",
+        policy: { jurisdiction: "EU" },
+    })
+    assert.equal(r.jurisdiction, "EU")
+    // EU defaults requireAudited=true, so the unaudited pool is dropped.
+    assert.equal(r.allocations.length, 1)
+    assert.equal(r.allocations[0].pool_id, "safe")
+    assert.match(r.advisory, /MiCA/)
+    assert.ok(r.allocations[0].compliance.length > 0)
+})
+
+test("regulatedVenuesOnly drops non-allowlisted venues (counted as jurisdiction exclusion)", () => {
+    const pools = [
+        makePool({ pool_id: "beefy", apy: 12, is_audited: true, protocol_slug: "beefy", tvl: 40_000_000 }),
+        makePool({ pool_id: "aave", apy: 6, is_audited: true, protocol_slug: "aave-v3", tvl: 40_000_000 }),
+    ]
+    const r = recommendAllocation(pools, {
+        amount: 1_000,
+        currency: "USD",
+        policy: { jurisdiction: "UAE", regulatedVenuesOnly: true },
+    })
+    assert.equal(r.allocations.length, 1)
+    assert.equal(r.allocations[0].pool_id, "aave")
+    assert.equal(r.excluded_by_jurisdiction, 1)
+})
+
 test("no eligible pools returns a warning, not a crash", () => {
     const pools = [makePool({ is_audited: false })]
     const r = recommendAllocation(pools, {

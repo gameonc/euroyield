@@ -88,7 +88,7 @@ export type UpdateTables<T extends keyof Database['public']['Tables']> =
 
 export type Chain = "ethereum" | "arbitrum" | "optimism" | "polygon" | "base"
 /** Fiat currency a stablecoin tracks. */
-export type Currency = "USD" | "EUR"
+export type Currency = "USD" | "EUR" | "AED"
 /** @deprecated euro-only; kept for back-compat. Use `Stablecoin` (string). */
 export type EuroStablecoin = "EURC" | "EURS" | "eEUR" | "agEUR" | "cEUR"
 /** Any tracked stablecoin symbol (USD or EUR), e.g. "USDC", "EURC", "DAI". */

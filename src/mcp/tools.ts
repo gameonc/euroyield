@@ -57,9 +57,9 @@ function toPoolSummary(pool: LatestYield) {
 // Shared filter shape reused by several tools.
 const filterShape = {
     currency: z
-        .enum(["USD", "EUR"])
+        .enum(["USD", "EUR", "AED"])
         .optional()
-        .describe("Fiat denomination to match: USD or EUR."),
+        .describe("Fiat denomination to match: USD, EUR, or AED."),
     stablecoin: z
         .string()
         .optional()
@@ -273,13 +273,24 @@ export function registerRenditeTools(server: McpServer): void {
             inputSchema: {
                 amount: z.number().positive().describe("Idle amount to allocate."),
                 currency: z
-                    .enum(["USD", "EUR"])
+                    .enum(["USD", "EUR", "AED"])
                     .default("USD")
-                    .describe("Denomination to allocate within (USD or EUR)."),
+                    .describe("Denomination to allocate within (USD, EUR, or AED)."),
+                jurisdiction: z
+                    .enum(["EU", "UAE", "US", "GLOBAL"])
+                    .default("GLOBAL")
+                    .describe(
+                        "Regulatory jurisdiction whose compliance rules apply (EU=MiCA, " +
+                        "UAE=VARA/ADGM, US, or GLOBAL). Sets audit defaults + advisory."
+                    ),
+                regulatedVenuesOnly: z
+                    .boolean()
+                    .optional()
+                    .describe("Restrict to the jurisdiction's regulated-venue allowlist."),
                 requireAudited: z
                     .boolean()
                     .optional()
-                    .describe("Only allocate to audited protocols."),
+                    .describe("Only allocate to audited protocols (defaults per jurisdiction)."),
                 minTvlUsd: z.number().optional().describe("Minimum pool TVL in USD."),
                 chains: z
                     .array(z.string())
@@ -306,6 +317,8 @@ export function registerRenditeTools(server: McpServer): void {
                 const currency = input.currency ?? "USD"
                 const pools = filterYields(all, { currency })
                 const policy: RiskPolicy = {
+                    jurisdiction: input.jurisdiction ?? "GLOBAL",
+                    regulatedVenuesOnly: input.regulatedVenuesOnly,
                     requireAudited: input.requireAudited,
                     minTvlUsd: input.minTvlUsd,
                     chains: input.chains,

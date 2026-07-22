@@ -36,15 +36,22 @@ const USD_ASSETS = [
     "USDe",   // Ethena
 ]
 
-const TARGET_ASSETS = [...EUR_ASSETS, ...USD_ASSETS]
+// AED stablecoins (Gulf / UAE), e.g. Zand AED. On-chain AED yield venues are
+// nascent in 2026, so coverage is forward-looking — the dimension is ready when
+// the market is. (USDU, the UAE-approved USD-backed token, is treated as USD.)
+const AED_ASSETS = ["ZAED", "AED"]
+
+const TARGET_ASSETS = [...EUR_ASSETS, ...USD_ASSETS, ...AED_ASSETS]
 const TARGET_CHAINS = ["Ethereum", "Arbitrum", "Optimism", "Base", "Polygon", "Gnosis"]
 
 /**
- * Classify a pool symbol's fiat denomination. Euro takes precedence when a
- * symbol contains both (e.g. an EURC/USDC LP is treated as euro-side exposure).
+ * Classify a pool symbol's fiat denomination. Euro takes precedence, then AED,
+ * else USD (e.g. an EURC/USDC LP is treated as euro-side exposure).
  */
-function detectCurrency(symbol: string): "USD" | "EUR" {
-    return EUR_ASSETS.some((a) => symbol.includes(a)) ? "EUR" : "USD"
+function detectCurrency(symbol: string): "USD" | "EUR" | "AED" {
+    if (EUR_ASSETS.some((a) => symbol.includes(a))) return "EUR"
+    if (AED_ASSETS.some((a) => symbol.includes(a))) return "AED"
+    return "USD"
 }
 
 /** The specific tracked stablecoin symbol present in a pool symbol. */

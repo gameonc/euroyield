@@ -10,9 +10,10 @@
 
 import type { LatestYield } from "@/types/database"
 import { summarizeRisk } from "./calculations"
+import { JURISDICTIONS, jurisdictionEligibility, type Jurisdiction } from "./jurisdiction"
 
 export interface RiskPolicy {
-    /** Only allocate to audited protocols. */
+    /** Only allocate to audited protocols. Defaults to the jurisdiction's rule. */
     requireAudited?: boolean
     /** Minimum pool TVL in USD. */
     minTvlUsd?: number
@@ -22,6 +23,10 @@ export interface RiskPolicy {
     maxAllocationFraction?: number
     /** Max number of pools to spread across. Default 3. */
     maxPositions?: number
+    /** Regulatory jurisdiction whose compliance rules apply. Default GLOBAL. */
+    jurisdiction?: Jurisdiction
+    /** Restrict to the jurisdiction's regulated-venue allowlist. */
+    regulatedVenuesOnly?: boolean
 }
 
 export interface AllocationLeg {
@@ -39,6 +44,8 @@ export interface AllocationLeg {
     /** Simple (non-compounding) projected yearly yield on this leg. */
     expected_yearly: number
     risk: ReturnType<typeof summarizeRisk>
+    /** Why this venue is acceptable under the active jurisdiction. */
+    compliance: string[]
     /** Non-custodial: the agent deposits here itself. */
     action: "deposit"
 }
@@ -52,6 +59,12 @@ export interface AllocationResult {
     /** Simple projected yearly yield across all legs. */
     expected_yearly_total: number
     policy_applied: RiskPolicy
+    /** Jurisdiction whose compliance rules were applied. */
+    jurisdiction: Jurisdiction
+    /** Regulator + disclaimer for that jurisdiction (not legal advice). */
+    advisory: string
+    /** Count of pools excluded specifically by the jurisdiction filter. */
+    excluded_by_jurisdiction: number
     note: string
     /** Present when no pool passed the policy. */
     warning?: string
@@ -122,12 +135,37 @@ export function recommendAllocation(
     params: { amount: number; currency: string; policy?: RiskPolicy }
 ): AllocationResult {
     const policy = params.policy ?? {}
+    const jurisdiction: Jurisdiction = policy.jurisdiction ?? "GLOBAL"
+    const rule = JURISDICTIONS[jurisdiction]
     const maxFraction = policy.maxAllocationFraction ?? 0.5
     const maxPositions = Math.max(1, policy.maxPositions ?? 3)
 
-    const eligible = pools
-        .filter((p) => passesPolicy(p, policy))
-        .map((p) => ({ pool: p, score: poolScore(p) }))
+    // Jurisdiction supplies the default audit requirement unless the caller set one.
+    const effectivePolicy: RiskPolicy = {
+        ...policy,
+        requireAudited: policy.requireAudited ?? rule.defaultRequireAudited,
+    }
+
+    // Base (risk) filter, then jurisdiction (compliance) filter — track how many
+    // pools the jurisdiction specifically knocked out, for transparency.
+    const passedBase = pools.filter((p) => passesPolicy(p, effectivePolicy))
+    let excludedByJurisdiction = 0
+    const compliant = passedBase.filter((p) => {
+        const e = jurisdictionEligibility(p, jurisdiction, {
+            regulatedVenuesOnly: policy.regulatedVenuesOnly,
+        })
+        if (!e.eligible) excludedByJurisdiction += 1
+        return e.eligible
+    })
+
+    const eligible = compliant
+        .map((p) => ({
+            pool: p,
+            score: poolScore(p),
+            compliance: jurisdictionEligibility(p, jurisdiction, {
+                regulatedVenuesOnly: policy.regulatedVenuesOnly,
+            }).reasons,
+        }))
         .filter((x) => x.score > 0)
         .sort((a, b) => b.score - a.score)
         .slice(0, maxPositions)
@@ -139,9 +177,14 @@ export function recommendAllocation(
             allocations: [],
             blended_apy: 0,
             expected_yearly_total: 0,
-            policy_applied: policy,
-            note: "No pool matched the risk policy.",
-            warning: "No eligible pools — relax the policy (lower minTvlUsd, allow unaudited, or add chains).",
+            policy_applied: effectivePolicy,
+            jurisdiction,
+            advisory: rule.advisory,
+            excluded_by_jurisdiction: excludedByJurisdiction,
+            note: `No pool matched the risk + ${jurisdiction} compliance policy.`,
+            warning:
+                "No eligible pools — relax the policy (lower minTvlUsd, allow unaudited, " +
+                "widen chains, or turn off regulatedVenuesOnly).",
         }
     }
 
@@ -163,6 +206,7 @@ export function recommendAllocation(
             amount,
             expected_yearly: amount * (x.pool.apy / 100),
             risk: summarizeRisk(x.pool),
+            compliance: x.compliance,
             action: "deposit",
         }
     })
@@ -175,7 +219,10 @@ export function recommendAllocation(
         allocations,
         blended_apy: blendedApy,
         expected_yearly_total: params.amount * (blendedApy / 100),
-        policy_applied: { ...policy, maxAllocationFraction: maxFraction, maxPositions },
+        policy_applied: { ...effectivePolicy, maxAllocationFraction: maxFraction, maxPositions },
+        jurisdiction,
+        advisory: rule.advisory,
+        excluded_by_jurisdiction: excludedByJurisdiction,
         note:
             "Non-custodial recommendation. Rendite holds no funds and signs nothing — " +
             "the agent executes each deposit from its own wallet. Projections are simple " +
