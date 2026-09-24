@@ -1,9 +1,9 @@
 /**
- * Rendite MCP tools — the euro-stablecoin yield brain, exposed to AI agents.
+ * Rendite MCP tools — the stablecoin treasury yield brain, exposed to AI agents.
  *
- * These handlers are transport-agnostic: `registerRenditeTools` attaches them
- * to any McpServer instance, so the same logic backs the stdio server today
- * and a hosted HTTP transport in Phase 2 (metered / x402).
+ * The tool logic lives in `@/lib/agent/handlers` (the single source of truth shared
+ * with the paid HTTP API at `/api/agent/*`); these registrations just declare the
+ * MCP schemas and wrap the shared handlers' results in MCP content.
  *
  * Every tool is READ-ONLY. Rendite holds no funds, signs nothing, and requests
  * no token approvals — consistent with the product's non-custodial stance.
@@ -11,17 +11,7 @@
 
 import { z } from "zod"
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js"
-import { fetchLatestYields } from "@/lib/yields/data"
-import {
-    topYields,
-    filterYields,
-    projectYield,
-    summarizeRisk,
-    type YieldFilter,
-} from "@/lib/yields/calculations"
-import { recommendAllocation, type RiskPolicy } from "@/lib/yields/allocate"
-import { readStablecoinPositions } from "@/lib/positions/readPositions"
-import type { LatestYield } from "@/types/database"
+import * as handlers from "@/lib/agent/handlers"
 
 /** Wrap a JSON-serializable value as an MCP text tool result. */
 function json(value: unknown) {
@@ -38,19 +28,12 @@ function fail(message: string) {
     }
 }
 
-/** Project a raw view row into a compact, agent-friendly shape. */
-function toPoolSummary(pool: LatestYield) {
-    return {
-        pool_id: pool.pool_id,
-        protocol: pool.protocol_name,
-        stablecoin: pool.stablecoin,
-        currency: pool.currency,
-        chain: pool.chain,
-        apy: pool.apy,
-        tvl_usd: pool.tvl,
-        audited: pool.is_audited,
-        risk_tags: (pool.risk_tags ?? []).map((t) => t.label),
-        updated_at: pool.timestamp,
+/** Run a shared handler and wrap success/error into MCP content. */
+async function run(fn: () => Promise<unknown>) {
+    try {
+        return json(await fn())
+    } catch (err) {
+        return fail(err instanceof Error ? err.message : String(err))
     }
 }
 
@@ -80,18 +63,6 @@ const filterShape = {
         .describe("If true, only include pools whose protocol is audited."),
 }
 
-function toFilter(input: Record<string, unknown>): YieldFilter {
-    return {
-        currency: input.currency as string | undefined,
-        stablecoin: input.stablecoin as string | undefined,
-        chain: input.chain as string | undefined,
-        protocol: input.protocol as string | undefined,
-        minApy: input.minApy as number | undefined,
-        minTvl: input.minTvl as number | undefined,
-        auditedOnly: input.auditedOnly as boolean | undefined,
-    }
-}
-
 /**
  * Register all Rendite yield tools onto an MCP server instance.
  */
@@ -102,8 +73,8 @@ export function registerRenditeTools(server: McpServer): void {
         {
             title: "Get best stablecoin yield",
             description:
-                "Return the highest-APY stablecoin yield opportunities right now (USD and " +
-                "EUR), optionally filtered by currency, stablecoin, chain, protocol, or " +
+                "Return the highest-APY stablecoin yield opportunities right now (USD, EUR, " +
+                "AED), optionally filtered by currency, stablecoin, chain, protocol, or " +
                 "audited-only. Use this to answer 'where should idle stablecoins earn the " +
                 "most yield?'.",
             inputSchema: {
@@ -117,19 +88,7 @@ export function registerRenditeTools(server: McpServer): void {
                     .describe("How many top pools to return (default 3)."),
             },
         },
-        async (input) => {
-            try {
-                const all = await fetchLatestYields()
-                const filtered = filterYields(all, toFilter(input))
-                const best = topYields(filtered, input.limit ?? 3)
-                return json({
-                    count: best.length,
-                    pools: best.map(toPoolSummary),
-                })
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.getBestYield(input))
     )
 
     // ---- compare_yields ----
@@ -138,23 +97,12 @@ export function registerRenditeTools(server: McpServer): void {
         {
             title: "Compare stablecoin yields",
             description:
-                "Return the full set of stablecoin yield pools matching the given filters " +
-                "(USD and EUR), sorted by APY (highest first). Use this to build a " +
-                "comparison table across protocols, chains, and stablecoins.",
+                "Return the full set of stablecoin yield pools matching the given filters, " +
+                "sorted by APY (highest first). Use this to build a comparison table across " +
+                "protocols, chains, and stablecoins.",
             inputSchema: filterShape,
         },
-        async (input) => {
-            try {
-                const all = await fetchLatestYields()
-                const filtered = filterYields(all, toFilter(input))
-                return json({
-                    count: filtered.length,
-                    pools: filtered.map(toPoolSummary),
-                })
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.compareYields(input))
     )
 
     // ---- get_protocol_risk ----
@@ -168,21 +116,7 @@ export function registerRenditeTools(server: McpServer): void {
                 "the filters. Use this before recommending a pool to a user.",
             inputSchema: filterShape,
         },
-        async (input) => {
-            try {
-                const all = await fetchLatestYields()
-                const filtered = filterYields(all, toFilter(input))
-                return json({
-                    count: filtered.length,
-                    pools: filtered.map((pool) => ({
-                        ...toPoolSummary(pool),
-                        risk: summarizeRisk(pool),
-                    })),
-                })
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.getProtocolRisk(input))
     )
 
     // ---- simulate_yield ----
@@ -199,40 +133,11 @@ export function registerRenditeTools(server: McpServer): void {
                 apy: z
                     .number()
                     .optional()
-                    .describe(
-                        "APY in percent. If omitted, the best matching pool's APY is used."
-                    ),
+                    .describe("APY in percent. If omitted, the best matching pool's APY is used."),
                 ...filterShape,
             },
         },
-        async (input) => {
-            try {
-                let apy = input.apy
-                let sourcePool: LatestYield | undefined
-
-                if (apy == null) {
-                    const all = await fetchLatestYields()
-                    const filtered = filterYields(all, toFilter(input))
-                    sourcePool = topYields(filtered, 1)[0]
-                    if (!sourcePool) {
-                        return fail(
-                            "No pool matches the given filters and no explicit apy was provided."
-                        )
-                    }
-                    apy = sourcePool.apy
-                }
-
-                return json({
-                    amount: input.amount,
-                    apy,
-                    apy_source: sourcePool ? toPoolSummary(sourcePool) : "explicit",
-                    projection: projectYield(input.amount, apy),
-                    note: "Non-compounding, illustrative projection. Returns are not guaranteed.",
-                })
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.simulateYield(input))
     )
 
     // ---- read_stablecoin_positions ----
@@ -250,14 +155,7 @@ export function registerRenditeTools(server: McpServer): void {
                     .describe("EVM address (0x...) to inspect. Read-only; never signed."),
             },
         },
-        async (input) => {
-            try {
-                const result = await readStablecoinPositions(input.address)
-                return json(result)
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.readPositions(input.address))
     )
 
     // ---- recommend_treasury_allocation (the decision layer) ----
@@ -311,24 +209,6 @@ export function registerRenditeTools(server: McpServer): void {
                     .describe("Max fraction of the total in any one pool (default 0.5)."),
             },
         },
-        async (input) => {
-            try {
-                const all = await fetchLatestYields()
-                const currency = input.currency ?? "USD"
-                const pools = filterYields(all, { currency })
-                const policy: RiskPolicy = {
-                    jurisdiction: input.jurisdiction ?? "GLOBAL",
-                    regulatedVenuesOnly: input.regulatedVenuesOnly,
-                    requireAudited: input.requireAudited,
-                    minTvlUsd: input.minTvlUsd,
-                    chains: input.chains,
-                    maxPositions: input.maxPositions,
-                    maxAllocationFraction: input.maxAllocationFraction,
-                }
-                return json(recommendAllocation(pools, { amount: input.amount, currency, policy }))
-            } catch (err) {
-                return fail(err instanceof Error ? err.message : String(err))
-            }
-        }
+        async (input) => run(() => handlers.recommendTreasuryAllocation(input))
     )
 }
