@@ -5,6 +5,8 @@
  */
 
 import { NextResponse, type NextRequest } from "next/server"
+import { bearerToken } from "./apikey"
+import { chargeApiKey } from "./auth"
 
 /** Coerce a raw query-string value: numbers and booleans via JSON, else string. */
 function coerce(key: string, value: string): unknown {
@@ -50,3 +52,22 @@ export async function handle(fn: () => Promise<unknown>) {
         return bad(err instanceof Error ? err.message : String(err), 500)
     }
 }
+
+/**
+ * Wrapper for PAID routes. Two ways to pay, both settling to the owner:
+ *  - `Authorization: Bearer <key>` → consume one prepaid (PayRam-funded) credit.
+ *  - No key → the x402 middleware already collected payment before we ran.
+ * A key that is present but invalid/empty of credits is rejected here.
+ */
+export async function paidHandle(req: NextRequest, route: string, fn: () => Promise<unknown>) {
+    const key = bearerToken(req.headers.get("authorization"))
+    if (key) {
+        const charge = await chargeApiKey(key, route)
+        if (!charge.ok) return bad(charge.error ?? "Payment required.", charge.status)
+        const res = await handle(fn)
+        res.headers.set("X-Credits-Remaining", String(charge.creditsRemaining ?? ""))
+        return res
+    }
+    return handle(fn)
+}
+

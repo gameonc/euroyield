@@ -53,6 +53,21 @@ export type Database = {
                 Insert: Omit<Subscriber, 'id' | 'created_at' | 'updated_at'>
                 Update: Partial<Omit<Subscriber, 'id'>>
             }
+            api_keys: {
+                Row: ApiKey
+                Insert: Omit<ApiKey, 'id' | 'created_at' | 'updated_at'> & { id?: string; created_at?: string; updated_at?: string }
+                Update: Partial<Omit<ApiKey, 'id'>>
+            }
+            api_usage: {
+                Row: ApiUsage
+                Insert: Omit<ApiUsage, 'id' | 'created_at'> & { id?: string; created_at?: string }
+                Update: Partial<Omit<ApiUsage, 'id'>>
+            }
+            payments: {
+                Row: Payment
+                Insert: Omit<Payment, 'id' | 'created_at' | 'updated_at'> & { id?: string; created_at?: string; updated_at?: string }
+                Update: Partial<Omit<Payment, 'id'>>
+            }
         }
         Views: {
             latest_yields: {
@@ -60,7 +75,10 @@ export type Database = {
             }
         }
         Functions: {
-            [_ in never]: never
+            consume_api_credit: {
+                Args: { p_key_hash: string; p_route: string }
+                Returns: number
+            }
         }
         Enums: {
             chain: Chain
@@ -199,6 +217,40 @@ export interface Subscriber {
     created_at: string
     updated_at: string
     source: string | null
+}
+
+export interface ApiKey {
+    id: string
+    key_hash: string
+    owner_email: string | null
+    plan: string
+    credits_remaining: number
+    is_active: boolean
+    created_at: string
+    updated_at: string
+}
+
+export interface ApiUsage {
+    id: string
+    key_id: string
+    route: string
+    cost: number
+    created_at: string
+}
+
+export interface Payment {
+    id: string
+    payram_reference_id: string
+    key_id: string | null
+    customer_id: string | null
+    owner_email: string | null
+    amount_usd: number | null
+    currency: string | null
+    tx_hash: string | null
+    credits_granted: number
+    status: "pending" | "confirmed" | "failed"
+    created_at: string
+    updated_at: string
 }
 
 // ============================================

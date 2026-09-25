@@ -48,9 +48,11 @@ const x402 = PAY_TO ? paymentMiddleware(PAY_TO, paidRoutes, facilitator) : null
 export async function middleware(request: NextRequest) {
     const path = request.nextUrl.pathname
 
-    // Agent API: gate paid routes via x402 (when configured); never touch Supabase session.
+    // Agent API: paid routes accept EITHER a prepaid key (Authorization: Bearer,
+    // validated + charged in the route) OR an x402 per-call payment. If a key is
+    // presented, skip x402 and let the route enforce credits; otherwise x402 gates.
     if (path.startsWith("/api/agent/")) {
-        if (x402) return x402(request)
+        if (x402 && !request.headers.get("authorization")) return x402(request)
         return NextResponse.next()
     }
 
