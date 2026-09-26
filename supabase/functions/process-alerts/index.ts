@@ -8,6 +8,7 @@
  * 4. Update last_sent_at to prevent spam
  *
  * Environment Variables Required:
+ * - CRON_SECRET: Required dedicated bearer secret for the scheduler
  * - RESEND_API_KEY: Your Resend API key (get one at https://resend.com)
  * - SUPABASE_URL: Auto-provided by Supabase
  * - SUPABASE_SERVICE_ROLE_KEY: Auto-provided by Supabase
@@ -58,11 +59,8 @@ async function sendAlertEmail(
     // TODO: Add your Resend API key to Supabase secrets:
     // supabase secrets set RESEND_API_KEY=re_xxxxxxxxxxxxx
     if (!RESEND_API_KEY) {
-        console.log(`[MOCK EMAIL] Would send to ${to}:`)
-        console.log(`  Protocol: ${protocolName} (${chain})`)
-        console.log(`  Current APY: ${currentApy.toFixed(2)}%`)
-        console.log(`  Threshold: ${condition} ${threshold}%`)
-        return true // Mock success for testing
+        console.error("Email delivery unavailable: missing configuration")
+        return false
     }
 
     const subject = condition === 'BELOW'
@@ -132,15 +130,14 @@ async function sendAlertEmail(
         })
 
         if (!response.ok) {
-            const error = await response.text()
-            console.error(`Failed to send email to ${to}:`, error)
+            console.error("Email provider rejected delivery", response.status)
             return false
         }
 
-        console.log(`✓ Sent alert email to ${to}`)
+        console.log("Alert email sent")
         return true
     } catch (error) {
-        console.error(`Error sending email to ${to}:`, error)
+        console.error("Email delivery failed")
         return false
     }
 }
@@ -148,13 +145,16 @@ async function sendAlertEmail(
 // Main handler
 Deno.serve(async (req) => {
     try {
-        // Verify request (optional: add auth header check for cron jobs)
-        const authHeader = req.headers.get("Authorization")
+        // Reject before accessing the database or sending any email.
+        if (req.method !== "POST") {
+            return new Response("Method not allowed", { status: 405, headers: { Allow: "POST" } })
+        }
         const cronSecret = Deno.env.get("CRON_SECRET")
-
-        if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
-            // Allow manual invocation without secret for testing
-            console.log("Note: Running without CRON_SECRET verification")
+        if (!cronSecret || !cronSecret.trim()) {
+            return new Response("Service unavailable", { status: 503 })
+        }
+        if (req.headers.get("Authorization") !== `Bearer ${cronSecret}`) {
+            return new Response("Unauthorized", { status: 401 })
         }
 
         // Initialize Supabase client with service role
@@ -268,9 +268,9 @@ Deno.serve(async (req) => {
         })
 
     } catch (error) {
-        console.error("Error processing alerts:", error)
+        console.error("Alert processing failed")
         return new Response(JSON.stringify({
-            error: error instanceof Error ? error.message : "Unknown error",
+            error: "Alert processing failed",
         }), {
             status: 500,
             headers: { "Content-Type": "application/json" },
