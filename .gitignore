@@ -32,8 +32,11 @@ yarn-error.log*
 
 # env files (allow .env.example for documentation)
 .env
-.env.local
-.env.*.local
+.env.*
+!.env.example
+*.key
+*.p12
+*.pfx
 
 # vercel
 .vercel
